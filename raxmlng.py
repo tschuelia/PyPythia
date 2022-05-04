@@ -107,11 +107,7 @@ class RAxMLNG:
         """
         self._run_rfdist(trees_file, **kwargs)
         log_file = trees_file + ".raxml.log"
-        num_topos = get_raxmlng_num_unique_topos(log_file)
-        rel_rfdist = get_raxmlng_rel_rf_distance(log_file)
-        abs_rfdist = get_raxmlng_abs_rf_distance(log_file)
-
-        return num_topos, rel_rfdist, abs_rfdist
+        return get_raxmlng_rfdist_results(log_file)
 
     def get_patterns_gaps_invariant(
         self, msa_file: FilePath, model: Model

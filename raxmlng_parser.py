@@ -43,34 +43,40 @@ def get_patterns_gaps_invariant(log_file: FilePath) -> Tuple[int, float, float]:
 
 
 def get_raxmlng_rfdist_results(log_file: FilePath) -> Tuple[float, float, float]:
-        """Method that parses the number of unique topologies, relative RF-Distance, and absolute RF-Distance in the given log file.
+    """Method that parses the number of unique topologies, relative RF-Distance, and absolute RF-Distance in the given log file.
 
-        Args:
-            log_file (str): Filepath of a RAxML-NG log file.
+    Args:
+        log_file (str): Filepath of a RAxML-NG log file.
 
-        Returns:
-            num_topos (int): Number of unique topologies of the given set of trees.
-            rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
-            abs_rfdist (float): Absolute RF-Distance of the given set of trees.
+    Returns:
+        num_topos (int): Number of unique topologies of the given set of trees.
+        rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
+        abs_rfdist (float): Absolute RF-Distance of the given set of trees.
 
-        Raises:
-            ValueError: If the given log file does not contain the unique topologies, relative RF-Distance, or absolute RF-Distance.
-        """
-        abs_rfdist = None
-        rel_rfdist = None
-        num_topos = None
+    Raises:
+        ValueError: If the given log file does not contain the unique topologies, relative RF-Distance, or absolute RF-Distance.
+    """
+    abs_rfdist = None
+    rel_rfdist = None
+    num_topos = None
 
-        for line in open(log_file).readlines():
-            line = line.strip()
+    for line in open(log_file).readlines():
+        line = line.strip()
 
-            if "Average absolute RF distance in this tree set:" in line:
-                abs_rfdist = get_value_from_line(line, "Average absolute RF distance in this tree set:")
-            elif "Average relative RF distance in this tree set:" in line:
-                rel_rfdist = get_value_from_line(line, "Average relative RF distance in this tree set:")
-            elif "Number of unique topologies in this tree set:" in line:
-                num_topos = get_value_from_line(line, "Number of unique topologies in this tree set:")
+        if "Average absolute RF distance in this tree set:" in line:
+            abs_rfdist = get_value_from_line(
+                line, "Average absolute RF distance in this tree set:"
+            )
+        elif "Average relative RF distance in this tree set:" in line:
+            rel_rfdist = get_value_from_line(
+                line, "Average relative RF distance in this tree set:"
+            )
+        elif "Number of unique topologies in this tree set:" in line:
+            num_topos = get_value_from_line(
+                line, "Number of unique topologies in this tree set:"
+            )
 
-        if abs_rfdist is None or rel_rfdist is None or num_topos is None:
-            raise ValueError("Error parsing raxml-ng log.")
+    if abs_rfdist is None or rel_rfdist is None or num_topos is None:
+        raise ValueError("Error parsing raxml-ng log.")
 
-        return num_topos, rel_rfdist, abs_rfdist
+    return num_topos, rel_rfdist, abs_rfdist
