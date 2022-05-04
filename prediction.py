@@ -23,8 +23,8 @@ def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str) -> Dict:
         msa_file = msa.msa_file
         patterns, gaps, invariant = raxmlng.get_patterns_gaps_invariant(msa_file, model)
 
-        ntaxa = msa.get_number_of_taxa()
-        nsites = msa.get_number_of_sites()
+        ntaxa = msa.number_of_taxa()
+        nsites = msa.number_of_sites()
 
         trees = raxmlng.infer_parsimony_trees(msa_file, model, tmpdir, redo=None, seed=0)
         _, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
@@ -37,7 +37,7 @@ def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str) -> Dict:
             "num_sites/num_taxa": nsites / ntaxa,
             "proportion_gaps": gaps,
             "proportion_invariant": invariant,
-            "entropy": msa.get_avg_entropy(),
+            "entropy": msa.entropy(),
             "bollback": msa.bollback_multinomial(),
             "avg_rfdist_parsimony": rel_rfdist,
         }

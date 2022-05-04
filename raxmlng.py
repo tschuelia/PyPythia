@@ -46,18 +46,19 @@ class RAxMLNG:
         cmd = self._base_cmd(msa_file, model, prefix, parse=None, **kwargs)
         run_cmd(cmd)
 
-    def _run_rfdist(self, trees_file: FilePath, **kwargs) -> None:
+    def _run_rfdist(self, trees_file: FilePath, prefix:str, **kwargs) -> None:
         additional_settings = []
         for key, value in kwargs.items():
             if value is None:
                 additional_settings += [f"--{key}"]
             else:
                 additional_settings += [f"--{key}", str(value)]
-
         cmd = [
             self.exe_path,
             "--rfdist",
             trees_file,
+            "--prefix",
+            prefix,
             *additional_settings,
         ]
         run_cmd(cmd)
@@ -105,9 +106,10 @@ class RAxMLNG:
             rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
             abs_rfdist (float): Absolute RF-Distance of the given set of trees.
         """
-        self._run_rfdist(trees_file, **kwargs)
-        log_file = trees_file + ".raxml.log"
-        return get_raxmlng_rfdist_results(log_file)
+        with TemporaryDirectory() as prefix:
+            self._run_rfdist(trees_file, prefix, **kwargs)
+            log_file = prefix + ".raxml.log"
+            return get_raxmlng_rfdist_results(log_file)
 
     def get_patterns_gaps_invariant(
         self, msa_file: FilePath, model: Model

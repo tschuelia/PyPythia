@@ -139,7 +139,7 @@ class MSA:
         else:
             return "AA"
 
-    def get_number_of_taxa(self) -> int:
+    def number_of_taxa(self) -> int:
         """Returns the number of taxa of the MSA.
 
         Returns:
@@ -147,7 +147,7 @@ class MSA:
         """
         return len(self.msa)
 
-    def get_number_of_sites(self) -> int:
+    def number_of_sites(self) -> int:
         """Returns the number of sites of the MSA.
 
         Returns:
@@ -155,7 +155,7 @@ class MSA:
         """
         return self.msa.get_alignment_length()
 
-    def get_column_entropies(self) -> list[float]:
+    def column_entropies(self) -> list[float]:
         """Returns the shannon entropy (in bits) for each site in the MSA.
 
         Returns:
@@ -191,13 +191,13 @@ class MSA:
             entropies.append(entropy)
         return entropies
 
-    def get_avg_entropy(self) -> float:
+    def entropy(self) -> float:
         """Returns the shannon entropy (in bits) of the MSA.
 
         Returns:
             entropy (float): Shannon entropy of the MSA. The entropy is >= 0.
         """
-        return statistics.mean(self.get_column_entropies())
+        return statistics.mean(self.column_entropies())
 
     def bollback_multinomial(self) -> float:
         """Returns the bollback multinomial statistic of the MSA.
@@ -207,7 +207,7 @@ class MSA:
         Returns:
             bollback (float): The bollback multionomial statistic of the MSA. The bollback multinomial statistic is <= 0.
         """
-        msa_length = self.get_number_of_sites()
+        msa_length = self.number_of_sites()
 
         sites = []
         for i in range(msa_length):
@@ -228,8 +228,8 @@ class MSA:
         is computationally very expensive.
         So for large MSAs, we rather compute the distance matrix on a subsample of at most num_samples sequences
         """
-        if self.get_number_of_taxa() > num_samples:
-            sample_population = range(self.get_number_of_taxa())
+        if self.number_of_taxa() > num_samples:
+            sample_population = range(self.number_of_taxa())
             selection = sorted(random.sample(sample_population, num_samples))
             _msa = MultipleSeqAlignment([self.msa[el] for el in selection])
         else:
@@ -255,8 +255,9 @@ class MSA:
 
         Returns:
             treelikeness (float): Treelikeness of the MSA. The treelikeness is in the value range [0.0, 1.0].
+                The lower the treelikeness the stronger the phylogenetic signal of the MSA.
         """
-        num_samples = min(self.get_number_of_taxa(), num_samples)
+        num_samples = min(self.number_of_taxa(), num_samples)
         dm = self._get_distance_matrix(num_samples)
 
         options = list(range(len(dm)))
