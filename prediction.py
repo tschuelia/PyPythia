@@ -9,9 +9,16 @@ import argparse
 from tempfile import TemporaryDirectory
 
 
-def get_all_features(
-    raxmlng: RAxMLNG, msa: MSA, model: str
-) -> Dict:
+def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str) -> Dict:
+    """Helper function to collect all features required for predicting the difficulty of the MSA.
+
+    Args:
+        raxmlng (RAxMLNG): Initialized RAxMLNG object.
+        msa (MSA): MSA object corresponding to the MSA file to compute the features for.
+        model (str): String representation of the substitution model to use. Needs to be a valid RAxML-NG model. For example "GTR+G" for DNA data or "LG+G" for protein data.
+    Returns:
+        all_features (Dict): Dictionary containing all features required for predicting the difficulty of the MSA. The keys correspond to the feature names the predictor was trained with.
+    """
     with TemporaryDirectory() as tmpdir:
         msa_file = msa.msa_file
         patterns, gaps, invariant = raxmlng.get_patterns_gaps_invariant(msa_file, model)
@@ -19,9 +26,7 @@ def get_all_features(
         ntaxa = msa.get_number_of_taxa()
         nsites = msa.get_number_of_sites()
 
-        raxmlng.infer_parsimony_trees(msa_file, model, tmpdir, redo=None, seed=0)
-        trees = tmpdir + ".raxml.startTree"
-
+        trees = raxmlng.infer_parsimony_trees(msa_file, model, tmpdir, redo=None, seed=0)
         _, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
 
         return {
@@ -53,15 +58,15 @@ if __name__ == "__main__":
         "--model",
         type=str,
         required=False,
-        help="Model to use for the prediction. This can be either a model string (e.g. GTR+G) or a path to a partition file."\
-             "If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs and to LG+G for Protein MSAs.",
+        help="Model to use for the prediction. This can be either a model string (e.g. GTR+G) or a path to a partition file."
+        "If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs and to LG+G for Protein MSAs.",
     )
 
     parser.add_argument(
         "--raxmlng",
         type=str,
         required=True,
-        help="Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng."
+        help="Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng.",
     )
 
     parser.add_argument(
@@ -89,4 +94,6 @@ if __name__ == "__main__":
 
     msa_features = get_all_features(raxmlng, msa, model)
     difficulty = predictor.predict(msa_features)
-    print(f"The predicted difficulty for MSA {msa_file} is: {round(100 * difficulty, 2)}%.")
+    print(
+        f"The predicted difficulty for MSA {msa_file} is: {round(100 * difficulty, 2)}%."
+    )

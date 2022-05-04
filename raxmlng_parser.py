@@ -1,8 +1,21 @@
 from custom_types import *
-from utils import get_single_value_from_file
+from utils import get_value_from_line
 
 
 def get_patterns_gaps_invariant(log_file: FilePath) -> Tuple[int, float, float]:
+    """Method that parses the number of patterns, proportion of gaps, and proportion of invariant sites in the given log_file.
+
+    Args:
+        log_file (str): Filepath of a RAxML-NG log file.
+
+    Returns:
+        n_patterns (int): Number of unique patterns in the given MSA.
+        prop_gaps (float): Proportion of gaps in the given MSA.
+        prop_inv (float): Proportion of invariant sites in the given MSA.
+
+    Raises:
+        ValueError: If the given log file does not contain the number of patterns, proportion of gaps or proportion of invariant sites.
+    """
     patterns = None
     gaps = None
     invariant = None
@@ -29,16 +42,35 @@ def get_patterns_gaps_invariant(log_file: FilePath) -> Tuple[int, float, float]:
     return patterns, gaps, invariant
 
 
-def get_raxmlng_abs_rf_distance(log_file: FilePath) -> float:
-    STR = "Average absolute RF distance in this tree set:"
-    return get_single_value_from_file(log_file, STR)
+def get_raxmlng_rfdist_results(log_file: FilePath) -> Tuple[float, float, float]:
+        """Method that parses the number of unique topologies, relative RF-Distance, and absolute RF-Distance in the given log file.
 
+        Args:
+            log_file (str): Filepath of a RAxML-NG log file.
 
-def get_raxmlng_rel_rf_distance(log_file: FilePath) -> float:
-    STR = "Average relative RF distance in this tree set:"
-    return get_single_value_from_file(log_file, STR)
+        Returns:
+            num_topos (int): Number of unique topologies of the given set of trees.
+            rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
+            abs_rfdist (float): Absolute RF-Distance of the given set of trees.
 
+        Raises:
+            ValueError: If the given log file does not contain the unique topologies, relative RF-Distance, or absolute RF-Distance.
+        """
+        abs_rfdist = None
+        rel_rfdist = None
+        num_topos = None
 
-def get_raxmlng_num_unique_topos(log_file: FilePath) -> int:
-    STR = "Number of unique topologies in this tree set:"
-    return int(get_single_value_from_file(log_file, STR))
+        for line in open(log_file).readlines():
+            line = line.strip()
+
+            if "Average absolute RF distance in this tree set:" in line:
+                abs_rfdist = get_value_from_line(line, "Average absolute RF distance in this tree set:")
+            elif "Average relative RF distance in this tree set:" in line:
+                rel_rfdist = get_value_from_line(line, "Average relative RF distance in this tree set:")
+            elif "Number of unique topologies in this tree set:" in line:
+                num_topos = get_value_from_line(line, "Number of unique topologies in this tree set:")
+
+        if abs_rfdist is None or rel_rfdist is None or num_topos is None:
+            raise ValueError("Error parsing raxml-ng log.")
+
+        return num_topos, rel_rfdist, abs_rfdist
