@@ -38,8 +38,9 @@ class TestMSAFeatures:
         assert entropy == pytest.approx(0.19863, abs=0.01)
 
     def test_bollback_multinomial(self, small_msa):
-        # TODO
-        pass
+        bollback = small_msa.bollback_multinomial()
+        
+        assert bollback == pytest.approx(-365.70127, abs=0.001)
 
     def test_treelikeness_score(self, dna_phylip_msa):
         return
