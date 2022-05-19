@@ -10,6 +10,11 @@ class TestMSAFeatures:
         ff = dna_fasta_msa._get_file_format()
         assert ff == "fasta"
 
+    def test_get_msa_file_format_raises_value_error(self,
+                                                    raxmlng_inference_log):
+        with pytest.raises(ValueError):
+            MSA(raxmlng_inference_log)._get_file_format()
+
     def test_guess_msa_file_data_type(self):
         cwd = os.getcwd()
         for true_type in ["DNA", "AA"]:
