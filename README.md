@@ -22,8 +22,9 @@ This library can be used in two ways: either directly as command line tool, or t
 ### Command Line Tool
 If you only want to predict the difficulty for a single MSA, you can query the predictor using the command line interface, for example like this:
 ```commandline
-python prediction.py --msa examples/prim.phy --raxmlng /path/to/raxml-ng
+python prediction.py --msa examples/exmple.phy --raxmlng /path/to/raxml-ng
 ```
+The output will be something like `The predicted difficulty for MSA examples/example.phy is: 4.05%.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.
 
 The following options are available:
 ```commandline
@@ -65,7 +66,7 @@ from PyPhyPred.msa import MSA
 
 predictor = DifficultyPredictor("predictor.pckl")
 raxmlng = RAxMLNG("/path/to/raxml-ng")
-msa = MSA("examples/prim.phy")
+msa = MSA("examples/example.phy")
 model = "GTR+G"
 
 msa_features = get_all_features(raxmlng, msa, model)
