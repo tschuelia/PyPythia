@@ -1,21 +1,22 @@
-import os.path
-
-from raxmlng import RAxMLNG
-from msa import MSA
-from custom_types import *
-from predictor import DifficultyPredictor
-
 import argparse
+import os.path
+import shutil
 from tempfile import TemporaryDirectory
 
+from custom_types import *
+from msa import MSA
+from predictor import DifficultyPredictor
+from raxmlng import RAxMLNG
 
-def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str) -> Dict:
+
+def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str, store_trees: bool = False) -> Dict:
     """Helper function to collect all features required for predicting the difficulty of the MSA.
 
     Args:
         raxmlng (RAxMLNG): Initialized RAxMLNG object.
         msa (MSA): MSA object corresponding to the MSA file to compute the features for.
         model (str): String representation of the substitution model to use. Needs to be a valid RAxML-NG model. For example "GTR+G" for DNA data or "LG+G" for protein data.
+        store_trees (bool): If True, store the inferred parsimony trees as "{msa_name}.parsimony.trees" file in the current workdir.
     Returns:
         all_features (Dict): Dictionary containing all features required for predicting the difficulty of the MSA. The keys correspond to the feature names the predictor was trained with.
     """
@@ -29,6 +30,9 @@ def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str) -> Dict:
         n_pars_trees = 100
         trees = raxmlng.infer_parsimony_trees(msa_file, model, tmpdir, redo=None, seed=0, n_trees=n_pars_trees)
         num_topos, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
+
+        if store_trees:
+            shutil.copy(trees, f"{msa.msa_name}.parsimony.trees")
 
         return {
             "num_taxa": ntaxa,
@@ -79,6 +83,18 @@ if __name__ == "__main__":
         help="Filepath of the predictor to use. If not set, assume it is 'predictor.pckl' in the project directory.",
     )
 
+    parser.add_argument(
+        "--storeTrees",
+        help="If set, stores the parsimony trees as '{msa_name}.parsimony.trees' file",
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "--verbose",
+        help="If set, prints the MSA features",
+        action="store_true",
+    )
+
     args = parser.parse_args()
 
     raxmlng_executable = args.raxmlng
@@ -94,7 +110,18 @@ if __name__ == "__main__":
 
     predictor = DifficultyPredictor(args.predictor)
 
-    msa_features = get_all_features(raxmlng, msa, model)
+    msa_features = get_all_features(raxmlng, msa, model, args.storeTrees)
+
+    if args.verbose:
+        print("FEATURES: ")
+        for feat, val in msa_features.items():
+            print(f"{feat}: {round(val, 2)}")
+        print("---------")
+
+    if args.storeTrees:
+        print(f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees")
+        print("---------")
+
     difficulty = predictor.predict(msa_features)
     print(
         f"The predicted difficulty for MSA {msa_file} is: {round(100 * difficulty, 2)}%."

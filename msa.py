@@ -25,6 +25,7 @@ class MSA:
 
     Attributes:
         msa_file (str): Path to the corresponding MSA file.
+        msa_name (str): Name of the MSA. Can be either set or is inferred automatically based on the msa_file.
         data_type (str): Data type of the MSA. Can be either "DNA" for DNA data or "AA" for protein data.
         msa (MultipleSeqAlignment): Biopython MultipleSeqAlignment object for the given msa_file.
 
@@ -33,9 +34,15 @@ class MSA:
         ValueError: If the data type of the given MSA cannot be inferred.
     """
 
-    def __init__(self, msa_file: FilePath):
+    def __init__(self, msa_file: FilePath, msa_name: str = None):
         self.msa_file = msa_file
         self.data_type = self.guess_data_type()
+
+        if msa_name:
+            self.msa_name = msa_name
+        else:
+            self.msa_name = os.path.split(msa_file)[1]
+
         with NamedTemporaryFile(mode="w") as tmpfile:
             if self.data_type == "DNA":
                 self._convert_dna_msa_to_biopython_format(tmpfile)
