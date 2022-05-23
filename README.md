@@ -39,7 +39,7 @@ options:
                         to LG+G for Protein MSAs.
   --raxmlng RAXMLNG     Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng.
   --predictor PREDICTOR
-                        Filepath of the predictor to use. If not set, assume it is 'predictor.pckl' in the project directory.
+                         Filepath of the predictor to use. If not set, assume it is 'predictor.pckl' in the project directory.
   --storeTrees          If set, stores the parsimony trees as '{msa_name}.parsimony.trees' file
   --verbose             If set, prints the MSA features
 ```

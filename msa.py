@@ -1,14 +1,16 @@
-from custom_types import *
-
-from tempfile import NamedTemporaryFile
-from Bio.Align import MultipleSeqAlignment
-from Bio import AlignIO
-from Bio.Phylo.TreeConstruction import DistanceCalculator
 import math
+import os
+import random
 import statistics
 from collections import Counter
 from itertools import product
-import random
+from tempfile import NamedTemporaryFile
+
+from Bio import AlignIO
+from Bio.Align import MultipleSeqAlignment
+from Bio.Phylo.TreeConstruction import DistanceCalculator
+
+from custom_types import *
 
 STATE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,/:;<=>@[\\]^_{|}~"
 DNA_CHARS = "ATUCGMRWSYKVHDBN"
@@ -192,7 +194,7 @@ class MSA:
             entropy = -entropy
 
             assert (
-                entropy >= 0
+                    entropy >= 0
             ), f"Entropy negative, check computation. Entropy is {entropy}"
 
             entropies.append(entropy)
@@ -271,9 +273,9 @@ class MSA:
 
         frac = num_samples // 4
         X = options[:frac]
-        Y = options[frac : 2 * frac]
-        U = options[2 * frac : 3 * frac]
-        V = options[3 * frac :]
+        Y = options[frac: 2 * frac]
+        U = options[2 * frac: 3 * frac]
+        V = options[3 * frac:]
 
         res = product(X, Y, U, V)
         deltas = []

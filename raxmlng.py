@@ -20,7 +20,7 @@ class RAxMLNG:
         self.exe_path = exe_path
 
     def _base_cmd(
-        self, msa_file: FilePath, model: Model, prefix: str, **kwargs
+            self, msa_file: FilePath, model: Model, prefix: str, **kwargs
     ) -> Command:
         additional_settings = []
         for key, value in kwargs.items():
@@ -41,12 +41,12 @@ class RAxMLNG:
         ]
 
     def _run_alignment_parse(
-        self, msa_file: FilePath, model: Model, prefix: str, **kwargs
+            self, msa_file: FilePath, model: Model, prefix: str, **kwargs
     ) -> None:
         cmd = self._base_cmd(msa_file, model, prefix, parse=None, **kwargs)
         run_cmd(cmd)
 
-    def _run_rfdist(self, trees_file: FilePath, prefix:str, **kwargs) -> None:
+    def _run_rfdist(self, trees_file: FilePath, prefix: str, **kwargs) -> None:
         additional_settings = []
         for key, value in kwargs.items():
             if value is None:
@@ -64,12 +64,12 @@ class RAxMLNG:
         run_cmd(cmd)
 
     def infer_parsimony_trees(
-        self,
-        msa_file: FilePath,
-        model: Model,
-        prefix: str,
-        n_trees: int = 100,
-        **kwargs,
+            self,
+            msa_file: FilePath,
+            model: Model,
+            prefix: str,
+            n_trees: int = 100,
+            **kwargs,
     ) -> FilePath:
         """Method that infers n_trees using the RAxML-NG implementation of maximum parsimony.
 
@@ -94,7 +94,7 @@ class RAxMLNG:
         return prefix + ".raxml.startTree"
 
     def get_rfdistance_results(
-        self, trees_file: FilePath, **kwargs
+            self, trees_file: FilePath, **kwargs
     ) -> Tuple[float, float, float]:
         """Method that computes the number of unique topologies, relative RF-Distance, and absolute RF-Distance for the given set of trees.
 
@@ -112,7 +112,7 @@ class RAxMLNG:
             return get_raxmlng_rfdist_results(log_file)
 
     def get_patterns_gaps_invariant(
-        self, msa_file: FilePath, model: Model
+            self, msa_file: FilePath, model: Model
     ) -> Tuple[int, float, float]:
         """Method that obtains the number of patterns, proportion of gaps, and proportion of invariant sites in the given MSA.
 

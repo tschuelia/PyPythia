@@ -65,7 +65,7 @@ if __name__ == "__main__":
         type=str,
         required=False,
         help="Model to use for the prediction. This can be either a model string (e.g. GTR+G) or a path to a partition file."
-        "If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs and to LG+G for Protein MSAs.",
+             "If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs and to LG+G for Protein MSAs.",
     )
 
     parser.add_argument(

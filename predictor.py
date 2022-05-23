@@ -1,8 +1,8 @@
-import warnings
+import pickle
+
+import pandas as pd
 
 from custom_types import *
-import pickle
-import pandas as pd
 
 
 class DifficultyPredictor:
@@ -49,7 +49,8 @@ class DifficultyPredictor:
         for feature in self.features:
             value = query.get(feature)
             if value is None:
-                raise ValueError(f"The value for feature {feature} is not present in the query. Make sure to pass the correct set of features.")
+                raise ValueError(
+                    f"The value for feature {feature} is not present in the query. Make sure to pass the correct set of features.")
             df[feature] = [value]
 
         return self.predictor.predict(df)[0]
