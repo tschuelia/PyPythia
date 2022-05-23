@@ -28,6 +28,7 @@ class DifficultyPredictor:
             "entropy",
             "bollback",
             "avg_rfdist_parsimony",
+            "proportion_unique_topos_parsimony"
         ]
 
     def predict(self, query: Dict) -> float:

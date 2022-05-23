@@ -26,8 +26,9 @@ def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str) -> Dict:
         ntaxa = msa.number_of_taxa()
         nsites = msa.number_of_sites()
 
-        trees = raxmlng.infer_parsimony_trees(msa_file, model, tmpdir, redo=None, seed=0)
-        _, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
+        n_pars_trees = 100
+        trees = raxmlng.infer_parsimony_trees(msa_file, model, tmpdir, redo=None, seed=0, n_trees=n_pars_trees)
+        num_topos, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
 
         return {
             "num_taxa": ntaxa,
@@ -40,6 +41,7 @@ def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str) -> Dict:
             "entropy": msa.entropy(),
             "bollback": msa.bollback_multinomial(),
             "avg_rfdist_parsimony": rel_rfdist,
+            "proportion_unique_topos_parsimony": num_topos / n_pars_trees
         }
 
 
