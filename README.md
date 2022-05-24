@@ -16,6 +16,8 @@ Per default this library uses the trained scikit-learn random forest predictor `
 We will regularly retrain and update this predictor. You can also use an old version of the predictor by explicitly setting the path to the predictor to use (see usage below).
 In future versions the set of features might change, so we do not guarantee backwards compatibility for old predictor versions. 
 
+The predictor predicts the difficulty on a scale of 0.0 to 1.0. An MSA with a difficulty of 0.0 is predicted to be easy to analyze, 1.0 means the MSA is difficult. 
+
 ## Usage
 This library can be used in two ways: either directly as command line tool, or the prediction can be called from ohter python code.
 
@@ -24,7 +26,7 @@ If you only want to predict the difficulty for a single MSA, you can query the p
 ```commandline
 python prediction.py --msa examples/exmple.phy --raxmlng /path/to/raxml-ng
 ```
-The output will be something like `The predicted difficulty for MSA examples/example.phy is: 4.05%.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.
+The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.12.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.
 
 The following options are available:
 ```commandline
@@ -67,7 +69,7 @@ print(difficulty)
 
 
 ## C Library
-The same functionality is also available as C library [here](https://github.com/tschuelia/difficulty_prediction) (WIP). 
+The same functionality is also available as C library [here](https://github.com/tschuelia/difficulty_prediction). 
 Since the C library depends on [Coraxlib](https://codeberg.org/Exelixis-Lab/coraxlib) it is not as easy and fast to use as this python library.
 If you are only interested in the difficulty of your MSA, we recommend using this Python library. 
 If you want to incorporate the difficulty prediction in a phylogenetic tool, we recommend using the faster C library.

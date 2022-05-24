@@ -124,5 +124,5 @@ if __name__ == "__main__":
 
     difficulty = predictor.predict(msa_features)
     print(
-        f"The predicted difficulty for MSA {msa_file} is: {round(100 * difficulty, 2)}%."
+        f"The predicted difficulty for MSA {msa_file} is: {round(difficulty, 2)}."
     )
