@@ -164,7 +164,7 @@ class MSA:
         """
         return self.msa.get_alignment_length()
 
-    def column_entropies(self) -> list[float]:
+    def column_entropies(self) -> List[float]:
         """Returns the shannon entropy (in bits) for each site in the MSA.
 
         Returns:
