@@ -2,7 +2,7 @@ import pickle
 
 import pandas as pd
 
-from custom_types import *
+from pyphypred.custom_types import *
 
 
 class DifficultyPredictor:

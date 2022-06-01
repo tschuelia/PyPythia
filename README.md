@@ -2,13 +2,13 @@
 
 Lightweight python library to predict the difficulty of Multiple Sequence Alignments (MSA). 
 
-## Requirements
+## Installation and Requirements
 In order to use this difficulty prediction, you need RAxML-NG installed somewhere on your system. 
 You can find the install instructions [here](https://github.com/amkozlov/raxml-ng).
 
-Install the other requirements using the provided `requirements.txt` file:
+Install the python package by running
     ```
-    pip install -r requirements.txt
+    pip install -e .
     ```
 
 ### Predictor
@@ -19,18 +19,18 @@ In future versions the set of features might change, so we do not guarantee back
 The predictor predicts the difficulty on a scale of 0.0 to 1.0. An MSA with a difficulty of 0.0 is predicted to be easy to analyze, 1.0 means the MSA is difficult. 
 
 ## Usage
-This library can be used in two ways: either directly as command line tool, or the prediction can be called from ohter python code.
+This library can be used in two ways: either directly as command line tool, or the prediction can be called from other python code.
 
 ### Command Line Tool
 If you only want to predict the difficulty for a single MSA, you can query the predictor using the command line interface, for example like this:
 ```commandline
-python prediction.py --msa examples/exmple.phy --raxmlng /path/to/raxml-ng
+python predict --msa examples/exmple.phy --raxmlng /path/to/raxml-ng
 ```
 The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.12.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.
 
 The following options are available:
 ```commandline
-usage: prediction.py [-h] --msa MSA [--model MODEL] --raxmlng RAXMLNG [--predictor PREDICTOR] [--storeTrees] [--verbose]
+usage: predict [-h] --msa MSA [--model MODEL] --raxmlng RAXMLNG [--predictor PREDICTOR] [--storeTrees] [--verbose]
 
 Parser for optional config file setting.
 
@@ -52,12 +52,12 @@ You can also use the library as a regular python library by installing it in you
 Then you can query the prediction like this:
 
 ```python
-from PyPhyPred.predictor import DifficultyPredictor
-from PyPhyPred.prediction import get_all_features
-from PyPhyPred.raxmlng import RAxMLNG
-from PyPhyPred.msa import MSA
+from pyphypred.predictor import DifficultyPredictor
+from pyphypred.prediction import get_all_features
+from pyphypred.raxmlng import RAxMLNG
+from pyphypred.msa import MSA
 
-predictor = DifficultyPredictor("predictor.pckl")
+predictor = DifficultyPredictor("pyphypred/predictor.pckl")
 raxmlng = RAxMLNG("/path/to/raxml-ng")
 msa = MSA("examples/example.phy")
 model = "GTR+G"

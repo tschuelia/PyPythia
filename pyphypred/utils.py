@@ -1,4 +1,4 @@
-from custom_types import *
+from pyphypred.custom_types import *
 import subprocess
 
 

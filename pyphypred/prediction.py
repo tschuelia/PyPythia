@@ -3,10 +3,10 @@ import os.path
 import shutil
 from tempfile import TemporaryDirectory
 
-from custom_types import *
-from msa import MSA
-from predictor import DifficultyPredictor
-from raxmlng import RAxMLNG
+from pyphypred.custom_types import *
+from pyphypred.msa import MSA
+from pyphypred.predictor import DifficultyPredictor
+from pyphypred.raxmlng import RAxMLNG
 
 
 def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str, store_trees: bool = False) -> Dict:
@@ -49,7 +49,7 @@ def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str, store_trees: bool =
         }
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Parser for optional config file setting."
     )
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--predictor",
         type=argparse.FileType("rb"),
-        default=os.path.join(os.getcwd(), "predictor.pckl"),
+        default=os.path.join(os.path.dirname(__file__), "predictor.pckl"),
         required=False,
         help="Filepath of the predictor to use. If not set, assume it is 'predictor.pckl' in the project directory.",
     )

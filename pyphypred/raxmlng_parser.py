@@ -1,5 +1,5 @@
-from custom_types import *
-from utils import get_value_from_line
+from pyphypred.custom_types import *
+from pyphypred.utils import get_value_from_line
 
 
 def get_patterns_gaps_invariant(log_file: FilePath) -> Tuple[int, float, float]:

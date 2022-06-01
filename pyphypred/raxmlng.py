@@ -1,5 +1,6 @@
-from utils import run_cmd
-from raxmlng_parser import *
+from pyphypred.utils import run_cmd
+from pyphypred.custom_types import *
+from pyphypred.raxmlng_parser import *
 
 from tempfile import TemporaryDirectory
 
