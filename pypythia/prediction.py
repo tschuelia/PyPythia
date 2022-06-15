@@ -3,10 +3,10 @@ import os.path
 import shutil
 from tempfile import TemporaryDirectory
 
-from pyphypred.custom_types import *
-from pyphypred.msa import MSA
-from pyphypred.predictor import DifficultyPredictor
-from pyphypred.raxmlng import RAxMLNG
+from pypythia.custom_types import *
+from pypythia.msa import MSA
+from pypythia.predictor import DifficultyPredictor
+from pypythia.raxmlng import RAxMLNG
 
 
 def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str, store_trees: bool = False) -> Dict:

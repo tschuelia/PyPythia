@@ -1,6 +1,6 @@
-from pyphypred.utils import run_cmd
-from pyphypred.custom_types import *
-from pyphypred.raxmlng_parser import *
+from pypythia.utils import run_cmd
+from pypythia.custom_types import *
+from pypythia.raxmlng_parser import *
 
 from tempfile import TemporaryDirectory
 

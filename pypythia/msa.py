@@ -10,7 +10,7 @@ from Bio import AlignIO
 from Bio.Align import MultipleSeqAlignment
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 
-from pyphypred.custom_types import *
+from pypythia.custom_types import *
 
 STATE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,/:;<=>@[\\]^_{|}~"
 DNA_CHARS = "ATUCGMRWSYKVHDBN"

@@ -1,4 +1,4 @@
-from pyphypred.custom_types import *
+from pypythia.custom_types import *
 import subprocess
 
 

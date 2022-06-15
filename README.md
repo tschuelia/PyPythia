@@ -52,12 +52,12 @@ You can also use the library as a regular python library by installing it in you
 Then you can query the prediction like this:
 
 ```python
-from pyphypred.predictor import DifficultyPredictor
-from pyphypred.prediction import get_all_features
-from pyphypred.raxmlng import RAxMLNG
-from pyphypred.msa import MSA
+from pypythia.predictor import DifficultyPredictor
+from pypythia.prediction import get_all_features
+from pypythia.raxmlng import RAxMLNG
+from pypythia.msa import MSA
 
-predictor = DifficultyPredictor("pyphypred/predictor.pckl")
+predictor = DifficultyPredictor("pypythia/predictor.pckl")
 raxmlng = RAxMLNG("/path/to/raxml-ng")
 msa = MSA("examples/example.phy")
 model = "GTR+G"
