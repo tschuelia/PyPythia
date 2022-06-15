@@ -113,13 +113,14 @@ class RAxMLNG:
             return get_raxmlng_rfdist_results(log_file)
 
     def get_patterns_gaps_invariant(
-            self, msa_file: FilePath, model: Model
+            self, msa_file: FilePath, model: Model, prefix: str = None
     ) -> Tuple[int, float, float]:
         """Method that obtains the number of patterns, proportion of gaps, and proportion of invariant sites in the given MSA.
 
         Args:
             msa_file (str): Filepath of the MSA to compute the parsimony trees for.
             model (str): String representation of the substitution model to use. Needs to be a valid RAxML-NG model. For example "GTR+G" for DNA data or "LG+G" for protein data.
+            prefix (str): Optional prefix to use when running RAxML-NG
 
         Returns:
             n_patterns (int): Number of unique patterns in the given MSA.
@@ -127,6 +128,7 @@ class RAxMLNG:
             prop_inv (float): Proportion of invariant sites in the given MSA.
         """
         with TemporaryDirectory() as tmpdir:
-            prefix = tmpdir + "/parse"
+            if not prefix:
+                prefix = tmpdir + "/parse"
             self._run_alignment_parse(msa_file, model, prefix)
             return get_patterns_gaps_invariant(f"{prefix}.raxml.log")
