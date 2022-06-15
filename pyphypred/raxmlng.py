@@ -95,19 +95,22 @@ class RAxMLNG:
         return prefix + ".raxml.startTree"
 
     def get_rfdistance_results(
-            self, trees_file: FilePath, **kwargs
+            self, trees_file: FilePath, prefix: str = None, **kwargs
     ) -> Tuple[float, float, float]:
         """Method that computes the number of unique topologies, relative RF-Distance, and absolute RF-Distance for the given set of trees.
 
         Args:
             trees_file: Filepath of a file containing > 1 Newick strings.
+            prefix (str): Optional prefix to use when running RAxML-NG
 
         Returns:
             num_topos (float): Number of unique topologies of the given set of trees.
             rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
             abs_rfdist (float): Absolute RF-Distance of the given set of trees.
         """
-        with TemporaryDirectory() as prefix:
+        with TemporaryDirectory() as tmpdir:
+            if not prefix:
+                prefix = tmpdir
             self._run_rfdist(trees_file, prefix, **kwargs)
             log_file = prefix + ".raxml.log"
             return get_raxmlng_rfdist_results(log_file)
