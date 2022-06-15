@@ -1,4 +1,4 @@
-# Python Phylogenetic Prediction Library
+# PyPythia: Phylogenetic Difficiculty Prediction Library
 
 Lightweight python library to predict the difficulty of Multiple Sequence Alignments (MSA). 
 
