@@ -24,13 +24,13 @@ This library can be used in two ways: either directly as command line tool, or t
 ### Command Line Tool
 If you only want to predict the difficulty for a single MSA, you can query the predictor using the command line interface, for example like this:
 ```commandline
-predict --msa examples/exmple.phy --raxmlng /path/to/raxml-ng
+pythia --msa examples/exmple.phy --raxmlng /path/to/raxml-ng
 ```
 The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.12.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.
 
 The following options are available:
 ```commandline
-usage: predict [-h] --msa MSA [--model MODEL] --raxmlng RAXMLNG [--predictor PREDICTOR] [--storeTrees] [--verbose]
+usage: pythia [-h] --msa MSA [--model MODEL] --raxmlng RAXMLNG [--predictor PREDICTOR] [--storeTrees] [--verbose]
 
 Parser for optional config file setting.
 
