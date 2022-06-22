@@ -46,7 +46,7 @@ options:
   --verbose             If set, prints the MSA features
 ```
 
-### From Codediction_all
+### From Code
 You can also use the library as a regular python library by installing it in your current environment with 
 `pip install -e .` 
 Then you can query the prediction like this:
