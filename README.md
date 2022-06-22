@@ -57,7 +57,7 @@ from pypythia.prediction import get_all_features
 from pypythia.raxmlng import RAxMLNG
 from pypythia.msa import MSA
 
-predictor = DifficultyPredictor("pypythia/predictor.pckl")
+predictor = DifficultyPredictor(open("pypythia/predictor.pckl", "rb"))
 raxmlng = RAxMLNG("/path/to/raxml-ng")
 msa = MSA("examples/example.phy")
 model = "GTR+G"
