@@ -24,9 +24,9 @@ This library can be used in two ways: either directly as command line tool, or t
 ### Command Line Tool
 If you only want to predict the difficulty for a single MSA, you can query the predictor using the command line interface, for example like this:
 ```commandline
-pythia --msa examples/exmple.phy --raxmlng /path/to/raxml-ng
+pythia --msa examples/example.phy --raxmlng /path/to/raxml-ng
 ```
-The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.12.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.
+The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.14.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.
 
 The following options are available:
 ```commandline
@@ -46,7 +46,7 @@ options:
   --verbose             If set, prints the MSA features
 ```
 
-### From Code
+### From Codediction_all
 You can also use the library as a regular python library by installing it in your current environment with 
 `pip install -e .` 
 Then you can query the prediction like this:
@@ -74,8 +74,12 @@ Since the C library depends on [Coraxlib](https://codeberg.org/Exelixis-Lab/cora
 If you are only interested in the difficulty of your MSA, we recommend using this Python library. 
 If you want to incorporate the difficulty prediction in a phylogenetic tool, we recommend using the faster C library.
 
+## Preprint Publication
+The paper explaining the details of Pythia is available as preprint on BioRxiv:   
+Haag, J., Höhler, D., Bettisworth, B., & Stamatakis, A. (2022). **From Easy to Hopeless - Predicting the Difficulty of Phylogenetic Analyses.** BioRxiv. [https://doi.org/10.1101/2022.06.20.496790](https://doi.org/10.1101/2022.06.20.496790)
+
 ## References
 * A. M. Kozlov, D. Darriba, T. Flouri, B. Morel, and A. Stamatakis (2019) 
 **RAxML-NG: a fast, scalable and user-friendly tool for maximum likelihood phylogenetic inference** 
 *Bioinformatics*, 35(21): 4453–4455. 
-doi: [10.1093/bioinformatics/btz305](http://dx.doi.org/10.1093/bioinformatics/btz305)
+[https://doi.org/10.1093/bioinformatics/btz305](https://doi.org/10.1093/bioinformatics/btz305)
