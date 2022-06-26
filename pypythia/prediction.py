@@ -65,7 +65,7 @@ def main():
         type=str,
         required=False,
         help="Model to use for the prediction. This can be either a model string (e.g. GTR+G) or a path to a partition file."
-             "If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs and to LG+G for Protein MSAs.",
+             "If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs, to LG+G for Protein MSAs, and MULTI{num_states}_GTR for morphological data.",
     )
 
     parser.add_argument(
@@ -105,8 +105,7 @@ def main():
     if args.model:
         model = args.model
     else:
-        data_type = msa.guess_data_type()
-        model = "GTR+G" if data_type == "DNA" else "LG+G"
+        model = msa.get_raxmlng_model()
 
     predictor = DifficultyPredictor(args.predictor)
 
