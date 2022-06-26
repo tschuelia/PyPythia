@@ -162,7 +162,7 @@ class MSA:
         elif self.data_type == "MORPH":
             unique_states = set()
             for seq in self.msa:
-                seq = seq.seq.replace("-", "")
+                seq = str(seq.seq).replace("-", "")
                 unique_states = unique_states.union(set(seq))
             # the number of unique states is irrelevant for RAxML-NG, it only cares about the max state value...
             num_states = int(max(unique_states)) + 1
