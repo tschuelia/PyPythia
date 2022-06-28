@@ -100,7 +100,10 @@ def main():
     raxmlng_executable = args.raxmlng
     raxmlng = RAxMLNG(raxmlng_executable)
     msa_file = args.msa
-    msa = MSA(msa_file)
+    try:
+        msa = MSA(msa_file)
+    except Exception as e:
+        raise RuntimeError("Error reading the provided MSA: ", msa_file) from e
 
     if args.model:
         model = args.model

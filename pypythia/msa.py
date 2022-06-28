@@ -29,7 +29,8 @@ class MSA:
     Attributes:
         msa_file (str): Path to the corresponding MSA file.
         msa_name (str): Name of the MSA. Can be either set or is inferred automatically based on the msa_file.
-        data_type (str): Data type of the MSA. Can be either "DNA" for DNA data or "AA" for protein data.
+        data_type (str): Data type of the MSA.
+            Can be either "DNA" for DNA data, "AA" for protein data, or "MORPH" for morphological data.
         msa (MultipleSeqAlignment): Biopython MultipleSeqAlignment object for the given msa_file.
 
     Raises:
