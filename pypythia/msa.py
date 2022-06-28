@@ -5,6 +5,7 @@ import statistics
 from collections import Counter
 from itertools import product
 from tempfile import NamedTemporaryFile
+import warnings
 
 from Bio import AlignIO
 from Bio.Align import MultipleSeqAlignment
@@ -142,11 +143,32 @@ class MSA:
                 f"Unsupported MSA file format {format}. Supported formats are phylip and fasta."
             )
 
+        is_dna = all([(c in DNA_CHARS) or (c in GAP_CHARS) for c in sequence_chars])
+        is_morph = any([c.isdigit() or (c in GAP_CHARS) for c in sequence_chars])
+
         # now check whether the sequence_chars contain only DNA and GAP chars or not
-        if all([(c in DNA_CHARS) or (c in GAP_CHARS) for c in sequence_chars]):
+        if is_dna:
             return "DNA"
+        elif is_morph:
+            return "MORPH"
         else:
             return "AA"
+
+    def get_raxmlng_model(self):
+        if self.data_type == "DNA":
+            return "GTR+G"
+        elif self.data_type == "AA":
+            return "LG+G"
+        elif self.data_type == "MORPH":
+            unique_states = set()
+            for seq in self.msa:
+                seq = str(seq.seq).replace("-", "")
+                unique_states = unique_states.union(set(seq))
+            # the number of unique states is irrelevant for RAxML-NG, it only cares about the max state value...
+            num_states = int(max(unique_states)) + 1
+            return f"MULTI{num_states}_GTR"
+        else:
+            raise ValueError("Unsupported data type: ", self.data_type)
 
     def number_of_taxa(self) -> int:
         """Returns the number of taxa of the MSA.
@@ -266,6 +288,10 @@ class MSA:
             treelikeness (float): Treelikeness of the MSA. The treelikeness is in the value range [0.0, 1.0].
                 The lower the treelikeness the stronger the phylogenetic signal of the MSA.
         """
+        if self.data_type == "MORPH":
+            warnings.warn("Computing the treelikeness score for morphological data is currently not supported.")
+            return -1.0
+
         num_samples = min(self.number_of_taxa(), num_samples)
         dm = self._get_distance_matrix(num_samples)
 
