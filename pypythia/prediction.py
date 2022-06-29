@@ -100,6 +100,7 @@ def main():
     raxmlng_executable = args.raxmlng
     raxmlng = RAxMLNG(raxmlng_executable)
     msa_file = args.msa
+    predictor = DifficultyPredictor(args.predictor)
     try:
         msa = MSA(msa_file)
     except Exception as e:
@@ -109,8 +110,6 @@ def main():
         model = args.model
     else:
         model = msa.get_raxmlng_model()
-
-    predictor = DifficultyPredictor(args.predictor)
 
     msa_features = get_all_features(raxmlng, msa, model, args.storeTrees)
 

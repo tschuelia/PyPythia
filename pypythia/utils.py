@@ -6,8 +6,7 @@ def run_cmd(cmd: Command) -> None:
     try:
         subprocess.check_output(cmd)
     except Exception as e:
-        print(f"Error running command \"{' '.join(cmd)}\"")
-        raise e
+        raise RuntimeError(f"Error running command \"{' '.join(cmd)}\"") from e
 
 
 def get_value_from_line(line: str, search_string: str) -> float:

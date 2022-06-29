@@ -1,5 +1,5 @@
-from fixtures import *
-from raxmlng_parser import get_patterns_gaps_invariant, get_raxmlng_rfdist_results
+from tests.fixtures import *
+from pypythia.raxmlng_parser import get_patterns_gaps_invariant, get_raxmlng_rfdist_results
 
 
 def test_get_patterns_gaps_invariant(raxmlng, raxmlng_inference_log):

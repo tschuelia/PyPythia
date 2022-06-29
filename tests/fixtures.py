@@ -1,8 +1,9 @@
 import pytest
 import os
 
-from msa import MSA
-from raxmlng import RAxMLNG
+from pypythia.msa import MSA
+from pypythia.raxmlng import RAxMLNG
+from pypythia.predictor import DifficultyPredictor
 
 
 @pytest.fixture
@@ -32,6 +33,39 @@ def small_msa():
 def small_msa_with_signal():
     cwd = os.getcwd()
     return MSA(os.path.join(cwd, "tests", "data", "DNA", "3.phy"))
+
+
+@pytest.fixture
+def all_msa_files_with_model():
+    cwd = os.getcwd()
+
+    morph_models = {
+        "0.phy": "MULTI3_GTR",
+        "1.phy": "MULTI2_GTR"
+    }
+
+    files_and_models = []
+
+    for data_type in ["DNA", "AA", "MORPH"]:
+        base_dir = os.path.join(cwd, "tests", "data", data_type)
+        for f in os.listdir(base_dir):
+            msa_file = os.path.join(base_dir, f)
+            model = ""
+            if data_type == "DNA":
+                model = "GTR+G"
+            elif data_type == "AA":
+                model = "LG+G"
+            elif data_type == "MORPH":
+                model = morph_models[f]
+
+            files_and_models.append((msa_file, model))
+
+    return files_and_models
+
+
+@pytest.fixture
+def predictor():
+    return DifficultyPredictor(open("pypythia/predictor.pckl", "rb"))
 
 
 @pytest.fixture

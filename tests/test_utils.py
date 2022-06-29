@@ -1,7 +1,7 @@
 import subprocess
 
-from fixtures import *
-from utils import get_value_from_line, run_cmd
+from tests.fixtures import *
+from pypythia.utils import get_value_from_line, run_cmd
 
 
 def test_get_value_from_line():

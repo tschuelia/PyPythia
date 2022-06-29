@@ -145,7 +145,7 @@ class MSA:
             )
 
         is_dna = all([(c in DNA_CHARS) or (c in GAP_CHARS) for c in sequence_chars])
-        is_morph = any([c.isdigit() or (c in GAP_CHARS) for c in sequence_chars])
+        is_morph = any([c.isdigit() for c in sequence_chars])
 
         # now check whether the sequence_chars contain only DNA and GAP chars or not
         if is_dna:

@@ -1,5 +1,5 @@
-from fixtures import *
-from msa import MSA
+from tests.fixtures import *
+from pypythia.msa import MSA
 
 
 class TestMSAFeatures:
@@ -17,13 +17,20 @@ class TestMSAFeatures:
 
     def test_guess_msa_file_data_type(self):
         cwd = os.getcwd()
-        for true_type in ["DNA", "AA"]:
+        for true_type in ["DNA", "AA", "MORPH"]:
             base_dir = os.path.join(cwd, "tests", "data", true_type)
             for msa_file in os.listdir(base_dir):
                 msa_file = os.path.join(base_dir, msa_file)
                 msa = MSA(msa_file)
                 guessed_type = msa.guess_data_type()
                 assert guessed_type == true_type
+
+    def test_get_raxmlng_model(self, all_msa_files_with_model):
+        for msa_file, true_model in all_msa_files_with_model:
+            msa = MSA(msa_file)
+            model = msa.get_raxmlng_model()
+
+            assert model == true_model
 
     def test_number_of_taxa(self, dna_phylip_msa):
         assert dna_phylip_msa.number_of_taxa() == 68
