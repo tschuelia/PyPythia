@@ -127,20 +127,26 @@ def main():
 
     print(f"The predicted difficulty for MSA {msa_file} is: {round(difficulty, 2)}.")
 
+    if args.verbose:
+        print("─" * 20)
+        print("FEATURES: ")
+        for feat, val in msa_features.items():
+            print(f"{feat}: {round(val, 2)}")
+
     if args.benchmark:
         feature_time = round(features_end - features_start, 3)
         prediction_time = round(prediction_end - prediction_start, 3)
         runtime_script = round(script_end - script_start, 3)
 
-        print(textwrap.dedent(
-                f"""
-                === RUNTIME SUMMARY:
-                Feature computation runtime:\t{feature_time} seconds
-                Prediction:\t\t\t{prediction_time} seconds
-                ----
-                Total script runtime:\t\t{runtime_script} seconds
-                
-                Note that all runtimes include the overhead for python and python subprocess calls. 
-                For a more accurate and fine grained benchmark, call the respective feature computations from code.
-                """
-            ))
+        print("─" * 20)
+        print("RUNTIME SUMMARY:")
+        print(f"Feature computation runtime:\t{feature_time} seconds")
+        print(f"Prediction:\t\t\t{prediction_time} seconds")
+        print("----")
+        print(f"Total script runtime:\t\t{runtime_script} seconds")
+        print("Note that all runtimes include the overhead for python and python subprocess calls. "
+              "For a more accurate and fine grained benchmark, call the respective feature computations from code.")
+
+    if args.storeTrees:
+        print("─" * 20)
+        print(f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees")
