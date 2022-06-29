@@ -14,7 +14,6 @@ from pypythia.raxmlng import RAxMLNG
 def get_all_features(
     raxmlng: RAxMLNG,
     msa: MSA,
-    model: str,
     store_trees: bool = False,
 ) -> Dict:
     """Helper function to collect all features required for predicting the difficulty of the MSA.
@@ -22,13 +21,13 @@ def get_all_features(
     Args:
         raxmlng (RAxMLNG): Initialized RAxMLNG object.
         msa (MSA): MSA object corresponding to the MSA file to compute the features for.
-        model (str): String representation of the substitution model to use. Needs to be a valid RAxML-NG model. For example "GTR+G" for DNA data or "LG+G" for protein data.
         store_trees (bool): If True, store the inferred parsimony trees as "{msa_name}.parsimony.trees" file in the current workdir.
     Returns:
         all_features (Dict): Dictionary containing all features required for predicting the difficulty of the MSA. The keys correspond to the feature names the predictor was trained with.
     """
     with TemporaryDirectory() as tmpdir:
         msa_file = msa.msa_file
+        model = msa.get_raxmlng_model()
         patterns, gaps, invariant = raxmlng.get_patterns_gaps_invariant(msa_file, model)
 
         ntaxa = msa.number_of_taxa()
@@ -77,14 +76,6 @@ def main():
     )
 
     parser.add_argument(
-        "--model",
-        type=str,
-        required=False,
-        help="Model to use for the prediction. This can be either a model string (e.g. GTR+G) or a path to a partition file."
-             "If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs, to LG+G for Protein MSAs, and MULTI{num_states}_GTR for morphological data.",
-    )
-
-    parser.add_argument(
         "--predictor",
         type=argparse.FileType("rb"),
         default=os.path.join(os.path.dirname(__file__), "predictor.pckl"),
@@ -124,24 +115,9 @@ def main():
     except Exception as e:
         raise RuntimeError("Error reading the provided MSA: ", msa_file) from e
 
-    if args.model:
-        model = args.model
-    else:
-        model = msa.get_raxmlng_model()
-
     features_start = time.perf_counter()
-    msa_features = get_all_features(raxmlng, msa, model, args.storeTrees)
+    msa_features = get_all_features(raxmlng, msa, args.storeTrees)
     features_end = time.perf_counter()
-
-    if args.verbose:
-        print("FEATURES: ")
-        for feat, val in msa_features.items():
-            print(f"{feat}: {round(val, 2)}")
-        print("---------")
-
-    if args.storeTrees:
-        print(f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees")
-        print("---------")
 
     prediction_start = time.perf_counter()
     difficulty = predictor.predict(msa_features)
