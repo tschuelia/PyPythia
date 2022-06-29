@@ -1,7 +1,9 @@
 import argparse
 import os.path
 import shutil
+import textwrap
 from tempfile import TemporaryDirectory
+import time
 
 from pypythia.custom_types import *
 from pypythia.msa import MSA
@@ -9,7 +11,12 @@ from pypythia.predictor import DifficultyPredictor
 from pypythia.raxmlng import RAxMLNG
 
 
-def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str, store_trees: bool = False) -> Dict:
+def get_all_features(
+    raxmlng: RAxMLNG,
+    msa: MSA,
+    model: str,
+    store_trees: bool = False,
+) -> Dict:
     """Helper function to collect all features required for predicting the difficulty of the MSA.
 
     Args:
@@ -28,7 +35,9 @@ def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str, store_trees: bool =
         nsites = msa.number_of_sites()
 
         n_pars_trees = 100
-        trees = raxmlng.infer_parsimony_trees(msa_file, model, tmpdir, redo=None, seed=0, n_trees=n_pars_trees)
+        trees = raxmlng.infer_parsimony_trees(
+            msa_file, model, tmpdir, redo=None, seed=0, n_trees=n_pars_trees
+        )
         num_topos, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
 
         if store_trees:
@@ -45,7 +54,7 @@ def get_all_features(raxmlng: RAxMLNG, msa: MSA, model: str, store_trees: bool =
             "entropy": msa.entropy(),
             "bollback": msa.bollback_multinomial(),
             "avg_rfdist_parsimony": rel_rfdist,
-            "proportion_unique_topos_parsimony": num_topos / n_pars_trees
+            "proportion_unique_topos_parsimony": num_topos / n_pars_trees,
         }
 
 
@@ -61,18 +70,18 @@ def main():
     )
 
     parser.add_argument(
+        "--raxmlng",
+        type=str,
+        required=True,
+        help="Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng.",
+    )
+
+    parser.add_argument(
         "--model",
         type=str,
         required=False,
         help="Model to use for the prediction. This can be either a model string (e.g. GTR+G) or a path to a partition file."
              "If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs, to LG+G for Protein MSAs, and MULTI{num_states}_GTR for morphological data.",
-    )
-
-    parser.add_argument(
-        "--raxmlng",
-        type=str,
-        required=True,
-        help="Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng.",
     )
 
     parser.add_argument(
@@ -95,12 +104,21 @@ def main():
         action="store_true",
     )
 
+    parser.add_argument(
+        "--benchmark",
+        help="If set, time the runtime of the prediction",
+        action="store_true",
+    )
+
     args = parser.parse_args()
+
+    script_start = time.perf_counter()
 
     raxmlng_executable = args.raxmlng
     raxmlng = RAxMLNG(raxmlng_executable)
     msa_file = args.msa
     predictor = DifficultyPredictor(args.predictor)
+
     try:
         msa = MSA(msa_file)
     except Exception as e:
@@ -111,7 +129,9 @@ def main():
     else:
         model = msa.get_raxmlng_model()
 
+    features_start = time.perf_counter()
     msa_features = get_all_features(raxmlng, msa, model, args.storeTrees)
+    features_end = time.perf_counter()
 
     if args.verbose:
         print("FEATURES: ")
@@ -123,7 +143,28 @@ def main():
         print(f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees")
         print("---------")
 
+    prediction_start = time.perf_counter()
     difficulty = predictor.predict(msa_features)
-    print(
-        f"The predicted difficulty for MSA {msa_file} is: {round(difficulty, 2)}."
-    )
+    prediction_end = time.perf_counter()
+
+    script_end = time.perf_counter()
+
+    print(f"The predicted difficulty for MSA {msa_file} is: {round(difficulty, 2)}.")
+
+    if args.benchmark:
+        feature_time = round(features_end - features_start, 3)
+        prediction_time = round(prediction_end - prediction_start, 3)
+        runtime_script = round(script_end - script_start, 3)
+
+        print(textwrap.dedent(
+                f"""
+                === RUNTIME SUMMARY:
+                Feature computation runtime:\t{feature_time} seconds
+                Prediction:\t\t\t{prediction_time} seconds
+                ----
+                Total script runtime:\t\t{runtime_script} seconds
+                
+                Note that all runtimes include the overhead for python and python subprocess calls. 
+                For a more accurate and fine grained benchmark, call the respective feature computations from code.
+                """
+            ))

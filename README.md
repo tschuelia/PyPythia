@@ -30,20 +30,29 @@ The output will be something like `The predicted difficulty for MSA examples/exa
 
 The following options are available:
 ```commandline
-usage: pythia [-h] --msa MSA [--model MODEL] --raxmlng RAXMLNG [--predictor PREDICTOR] [--storeTrees] [--verbose]
+usage: pythia [-h] --msa MSA --raxmlng RAXMLNG [--model MODEL] [--predictor PREDICTOR]
+              [--storeTrees] [--verbose] [--benchmark]
 
 Parser for optional config file setting.
 
 options:
   -h, --help            show this help message and exit
-  --msa MSA             Multiple Sequence Alignment to predict the difficulty for. Must be in either phylip or fasta format.
-  --model MODEL         Model to use for the prediction. This can be either a model string (e.g. GTR+G) or a path to a partition file.
-                        If not set the data type is automatically inferred, and the model is set to GTR+G for DNA MSAs, to LG+G for Protein MSAs, and MULTI{num_states}_GTR for morphological data.
-  --raxmlng RAXMLNG     Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng.
+  --msa MSA             Multiple Sequence Alignment to predict the difficulty for. Must be
+                        in either phylip or fasta format.
+  --raxmlng RAXMLNG     Path to the binary of RAxML-NG. For install instructions see
+                        https://github.com/amkozlov/raxml-ng.
+  --model MODEL         Model to use for the prediction. This can be either a model string
+                        (e.g. GTR+G) or a path to a partition file.If not set the data type
+                        is automatically inferred, and the model is set to GTR+G for DNA
+                        MSAs, to LG+G for Protein MSAs, and MULTI{num_states}_GTR for
+                        morphological data.
   --predictor PREDICTOR
-                         Filepath of the predictor to use. If not set, assume it is 'predictor.pckl' in the project directory.
-  --storeTrees          If set, stores the parsimony trees as '{msa_name}.parsimony.trees' file
+                        Filepath of the predictor to use. If not set, assume it is
+                        'predictor.pckl' in the project directory.
+  --storeTrees          If set, stores the parsimony trees as '{msa_name}.parsimony.trees'
+                        file
   --verbose             If set, prints the MSA features
+  --benchmark           If set, time the runtime of the prediction
 ```
 
 ### From Code
