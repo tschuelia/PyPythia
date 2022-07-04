@@ -86,6 +86,9 @@ class MSA:
     def _get_file_format(self) -> FileFormat:
         first_line = open(self.msa_file).readline().strip()
 
+        if first_line.startswith(">"):
+            return "fasta"
+
         try:
             # phylip file contains two integer numbers in the first line separated by whitespace
             _num1, _num2, *_ = first_line.split()
@@ -94,13 +97,9 @@ class MSA:
             # in case these conversions worked, the file is (most likely) in phylip format
             return "phylip-relaxed"
         except:
-            # if the MSA is in fasta format, the first line should start with a '>' character
-            if first_line.startswith(">"):
-                return "fasta"
-
-        raise ValueError(
-            f"The file type of this MSA could not be autodetected, please check file."
-        )
+            raise ValueError(
+                f"The file type of this MSA could not be autodetected, please check file."
+            )
 
     def guess_data_type(self) -> DataType:
         format = self._get_file_format()
