@@ -126,18 +126,14 @@ class MSA:
                 for char in set(sequence):
                     sequence_chars.add(char)
         elif format == "fasta":
-            seen_taxon_name = False
-            # taxon names start with a ">" followed by the sequence
+            # taxon names start with a ">", treat every other line as sequence line
             for line in msa_content:
                 line = line.strip()
                 if line.startswith(">"):
-                    seen_taxon_name = True
                     continue
                 else:
-                    if seen_taxon_name:
-                        for char in set(line):
-                            sequence_chars.add(char)
-                        seen_taxon_name = False
+                    for char in set(line):
+                        sequence_chars.add(char)
         else:
             raise ValueError(
                 f"Unsupported MSA file format {format}. Supported formats are phylip and fasta."
