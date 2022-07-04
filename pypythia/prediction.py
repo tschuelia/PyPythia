@@ -150,3 +150,6 @@ def main():
     if args.storeTrees:
         print("─" * 20)
         print(f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees")
+
+if __name__ == "__main__":
+    main()
