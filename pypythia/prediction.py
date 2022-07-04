@@ -35,7 +35,7 @@ def get_all_features(
 
         n_pars_trees = 100
         trees = raxmlng.infer_parsimony_trees(
-            msa_file, model, tmpdir, redo=None, seed=0, n_trees=n_pars_trees
+            msa_file, model, os.path.join(tmpdir, "pars"), redo=None, seed=0, n_trees=n_pars_trees
         )
         num_topos, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
 

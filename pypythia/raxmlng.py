@@ -3,6 +3,7 @@ from pypythia.custom_types import *
 from pypythia.raxmlng_parser import *
 
 from tempfile import TemporaryDirectory
+import os
 
 
 class RAxMLNG:
@@ -110,7 +111,7 @@ class RAxMLNG:
         """
         with TemporaryDirectory() as tmpdir:
             if not prefix:
-                prefix = tmpdir
+                prefix = os.path.join(tmpdir, "rfdist")
             self._run_rfdist(trees_file, prefix, **kwargs)
             log_file = prefix + ".raxml.log"
             return get_raxmlng_rfdist_results(log_file)
@@ -132,6 +133,6 @@ class RAxMLNG:
         """
         with TemporaryDirectory() as tmpdir:
             if not prefix:
-                prefix = tmpdir + "/parse"
+                prefix = os.path.join(tmpdir, "parse")
             self._run_alignment_parse(msa_file, model, prefix)
             return get_patterns_gaps_invariant(f"{prefix}.raxml.log")
