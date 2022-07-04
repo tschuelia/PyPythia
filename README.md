@@ -6,10 +6,20 @@ Lightweight python library to predict the difficulty of Multiple Sequence Alignm
 In order to use this difficulty prediction, you need RAxML-NG installed somewhere on your system. 
 You can find the install instructions [here](https://github.com/amkozlov/raxml-ng).
 
-Install the python package by running
-    ```
-    pip install -e .
-    ```
+To install Pythia, run the following steps:
+
+1. Clone this repository: `git clone https://github.com/tschuelia/PyPythia.git`  
+Note: You can clone the repo to any location on your system, it does not need to be in the same directory as RAxML-NG 
+
+2. `cd` into the directory:   
+`cd PyPythia`
+
+3. Install the python package by running.
+`pip install .`  
+
+4. Verify the correct installation by running `pythia -h`. If you are having trouble running `pythia`, you can also replace `pythia` with `python pypythia/prediction.py`. 
+For this to work you need to be in the PyPythia directory (which you should still be in at this point :-)).
+
 
 ### Predictor
 Per default this library uses the trained scikit-learn random forest predictor `predictor.pckl`. 
@@ -49,6 +59,7 @@ options:
   --verbose             If set, prints the MSA features
   --benchmark           If set, time the runtime of the prediction
 ```
+
 
 ### From Code
 You can also use the library as a regular python library by installing it in your current environment with 
