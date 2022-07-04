@@ -62,6 +62,7 @@ def main():
         description="Parser for optional config file setting."
     )
     parser.add_argument(
+        "-m",
         "--msa",
         type=str,
         required=True,
@@ -69,6 +70,7 @@ def main():
     )
 
     parser.add_argument(
+        "-r",
         "--raxmlng",
         type=str,
         required=True,
@@ -76,6 +78,7 @@ def main():
     )
 
     parser.add_argument(
+        "-p",
         "--predictor",
         type=argparse.FileType("rb"),
         default=os.path.join(os.path.dirname(__file__), "predictor.pckl"),
@@ -84,20 +87,40 @@ def main():
     )
 
     parser.add_argument(
+        "-o",
+        "--output",
+        type=argparse.FileType("w"),
+        required=False,
+        help="Option to specify a filepath where the result will be written to. The file will contain a single line with only the difficulty.",
+    )
+
+    parser.add_argument(
+        "-prec",
+        "--precision",
+        type=int,
+        default=2,
+        required=False,
+        help="Set the number of decimals the difficulty should be rounded to. Recommended and default is 2."
+    )
+
+    parser.add_argument(
+        "-sT",
         "--storeTrees",
-        help="If set, stores the parsimony trees as '{msa_name}.parsimony.trees' file",
+        help="If set, stores the parsimony trees as '{msa_name}.parsimony.trees' file.",
         action="store_true",
     )
 
     parser.add_argument(
+        "-v",
         "--verbose",
-        help="If set, prints the MSA features",
+        help="If set, prints the MSA features.",
         action="store_true",
     )
 
     parser.add_argument(
+        "-b",
         "--benchmark",
-        help="If set, time the runtime of the prediction",
+        help="If set, time the runtime of the prediction.",
         action="store_true",
     )
 
@@ -125,7 +148,7 @@ def main():
 
     script_end = time.perf_counter()
 
-    print(f"The predicted difficulty for MSA {msa_file} is: {round(difficulty, 2)}.")
+    print(f"The predicted difficulty for MSA {msa_file} is: {round(difficulty, args.precision)}.")
 
     if args.verbose:
         print("─" * 20)
@@ -150,6 +173,10 @@ def main():
     if args.storeTrees:
         print("─" * 20)
         print(f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees")
+
+    if args.output:
+        args.output.write(str(round(difficulty, args.precision)))
+
 
 if __name__ == "__main__":
     main()

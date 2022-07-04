@@ -47,17 +47,18 @@ Parser for optional config file setting.
 
 options:
   -h, --help            show this help message and exit
-  --msa MSA             Multiple Sequence Alignment to predict the difficulty for. Must be
-                        in either phylip or fasta format.
-  --raxmlng RAXMLNG     Path to the binary of RAxML-NG. For install instructions see
-                        https://github.com/amkozlov/raxml-ng.
-  --predictor PREDICTOR
-                        Filepath of the predictor to use. If not set, assume it is
-                        'predictor.pckl' in the project directory.
-  --storeTrees          If set, stores the parsimony trees as '{msa_name}.parsimony.trees'
-                        file
-  --verbose             If set, prints the MSA features
-  --benchmark           If set, time the runtime of the prediction
+  -m MSA, --msa MSA     Multiple Sequence Alignment to predict the difficulty for. Must be in either phylip or fasta format.
+  -r RAXMLNG, --raxmlng RAXMLNG
+                        Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng.
+  -p PREDICTOR, --predictor PREDICTOR
+                        Filepath of the predictor to use. If not set, assume it is 'predictor.pckl' in the project directory.
+  -o OUTPUT, --output OUTPUT
+                        Option to specify a filepath where the result will be written to. The file will contain a single line with only the difficulty.
+  -prec PRECISION, --precision PRECISION
+                        Set the number of decimals the difficulty should be rounded to. Recommended and default is 2.
+  -sT, --storeTrees     If set, stores the parsimony trees as '{msa_name}.parsimony.trees' file.
+  -v, --verbose         If set, prints the MSA features.
+  -b, --benchmark       If set, time the runtime of the prediction.
 ```
 
 
