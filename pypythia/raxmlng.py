@@ -1,9 +1,19 @@
-from pypythia.utils import run_cmd
 from pypythia.custom_types import *
+from pypythia.custom_errors import RAxMLNGError
 from pypythia.raxmlng_parser import *
 
 from tempfile import TemporaryDirectory
 import os
+import subprocess
+
+
+def run_raxmlng_command(cmd: Command) -> None:
+    try:
+        subprocess.check_output(cmd, encoding="utf-8")
+    except subprocess.CalledProcessError as e:
+        raise RAxMLNGError(subprocess_exception=e)
+    except Exception as e:
+        raise RuntimeError("Running RAxML-NG command failed.") from e
 
 
 class RAxMLNG:
@@ -46,7 +56,7 @@ class RAxMLNG:
             self, msa_file: FilePath, model: Model, prefix: str, **kwargs
     ) -> None:
         cmd = self._base_cmd(msa_file, model, prefix, parse=None, **kwargs)
-        run_cmd(cmd)
+        run_raxmlng_command(cmd)
 
     def _run_rfdist(self, trees_file: FilePath, prefix: str, **kwargs) -> None:
         additional_settings = []
@@ -63,7 +73,7 @@ class RAxMLNG:
             prefix,
             *additional_settings,
         ]
-        run_cmd(cmd)
+        run_raxmlng_command(cmd)
 
     def infer_parsimony_trees(
             self,
@@ -92,7 +102,7 @@ class RAxMLNG:
         cmd = self._base_cmd(
             msa_file, model, prefix, start=None, tree=f"pars{{{n_trees}}}", **kwargs
         )
-        run_cmd(cmd)
+        run_raxmlng_command(cmd)
         return prefix + ".raxml.startTree"
 
     def get_rfdistance_results(

@@ -1,7 +1,5 @@
-import subprocess
-
 from tests.fixtures import *
-from pypythia.utils import get_value_from_line, run_cmd
+from pypythia.utils import get_value_from_line
 
 
 def test_get_value_from_line():
@@ -17,12 +15,3 @@ def test_get_value_from_line_raises_value_error_if_string_not_in_line():
 
     with pytest.raises(ValueError):
         get_value_from_line(line, "bananas")
-
-
-def test_run_cmd():
-    run_cmd(["ls"])
-
-
-def test_run_cmd_raises_exception():
-    with pytest.raises(Exception):
-        run_cmd(["thisIsNotAValidCommand"])
