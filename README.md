@@ -36,7 +36,8 @@ If you only want to predict the difficulty for a single MSA, you can query the p
 ```commandline
 pythia --msa examples/example.phy --raxmlng /path/to/raxml-ng
 ```
-The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.14.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.
+The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.14.`, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak.  
+*Note that Pythia can also handle FASTA input files, see section Input Data below.*
 
 The following options are available:
 ```commandline
@@ -81,9 +82,10 @@ msa_features = get_all_features(raxmlng, msa)
 difficulty = predictor.predict(msa_features)
 print(difficulty)
 ```
+*Note that Pythia can also handle FASTA input files, see section Input Data below.*
 
 ### Input data
-The input for Pythia is an MSA file in either phylip or fasta format. Pythia supports DNA, AA, and morphological data. 
+The input for Pythia is an MSA file in either Phylip or FASTA format. Pythia supports DNA, AA, and morphological data. 
 Make sure that the MSA only contains RAxML-NG compatible taxon names. In particular, taxon labels with spaces, tabs, newlines, commas, colons, semicolons and parenthesis are invalid.
 
 
