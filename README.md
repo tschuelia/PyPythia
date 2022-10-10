@@ -111,6 +111,7 @@ The reason for this is that duplicate sequences can have a substantial impact on
 and therefore on the topological distance measures. 
 
 If you set the command line option `--removeDuplicates`, Pythia will create a reduced alignment with all duplicates removed and predict the difficulty for this reduced alignment.
+For duplicate sequences, the first occurrence of the sequence is kept.
 WARNING: The resulting predicted difficulty is only applicable to the reduced MSA! We recommend to only use the created reduced alignment for your subsequent analyses. 
 
 ## C Library
@@ -147,4 +148,3 @@ Haag, J., Höhler, D., Bettisworth, B., & Stamatakis, A. (2022). **From Easy to 
 **RAxML Grove: an empirical phylogenetic tree database**
 *Bioinformatics*, 38(6):1741–1742.
 [https://doi.org/10.1093/bioinformatics/btab863](https://doi.org/10.1093/bioinformatics/btab863)
-
