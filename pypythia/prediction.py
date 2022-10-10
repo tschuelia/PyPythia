@@ -1,14 +1,20 @@
 import argparse
 import os.path
 import shutil
-import textwrap
-from tempfile import TemporaryDirectory
 import time
+import logging
+from tempfile import TemporaryDirectory
 
 from pypythia.custom_types import *
+from pypythia.custom_errors import PyPythiaException
 from pypythia.msa import MSA
 from pypythia.predictor import DifficultyPredictor
 from pypythia.raxmlng import RAxMLNG
+from pypythia import __version__
+
+logging.basicConfig(level=logging.WARNING, format="%(message)s")
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def get_all_features(
@@ -28,19 +34,40 @@ def get_all_features(
     with TemporaryDirectory() as tmpdir:
         msa_file = msa.msa_file
         model = msa.get_raxmlng_model()
+
+        log_runtime_information(
+            "Retrieving num_patterns, percentage_gaps, percentage_invariant",
+            log_runtime=True,
+        )
         patterns, gaps, invariant = raxmlng.get_patterns_gaps_invariant(msa_file, model)
 
+        log_runtime_information("Retrieving num_taxa, num_sites", log_runtime=True)
         ntaxa = msa.number_of_taxa()
         nsites = msa.number_of_sites()
 
         n_pars_trees = 100
+        log_runtime_information(
+            f"Inferring {n_pars_trees} parsimony trees", log_runtime=True
+        )
         trees = raxmlng.infer_parsimony_trees(
-            msa_file, model, os.path.join(tmpdir, "pars"), redo=None, seed=0, n_trees=n_pars_trees
+            msa_file,
+            model,
+            os.path.join(tmpdir, "pars"),
+            redo=None,
+            seed=0,
+            n_trees=n_pars_trees,
+        )
+        if store_trees:
+            fn = f"{msa.msa_name}.parsimony.trees"
+            log_runtime_information(
+                f"Storing the inferred parsimony trees in the file {fn}"
+            )
+            shutil.copy(trees, fn)
+
+        log_runtime_information(
+            "Computing the RF-Distance for the parsimony trees", log_runtime=True
         )
         num_topos, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
-
-        if store_trees:
-            shutil.copy(trees, f"{msa.msa_name}.parsimony.trees")
 
         return {
             "num_taxa": ntaxa,
@@ -57,7 +84,28 @@ def get_all_features(
         }
 
 
+def print_header():
+    logger.info(
+        f"PyPythia version {__version__} released by The Exelixis Lab\n"
+        f"Developed by: Julia Haag\n"
+        f"Latest version: https://github.com/tschuelia/PyPythia\n"
+        f"Questions/problems/suggestions? Please open an issue on GitHub.\n",
+    )
+
+
+def log_runtime_information(message, log_runtime=True):
+    if log_runtime:
+        seconds = time.perf_counter() - script_start
+        fmt_time = time.strftime("%H:%M:%S", time.gmtime(seconds))
+        time_string = f"[{fmt_time}] "
+    else:
+        time_string = ""
+    logger.debug(f"{time_string}{message}")
+
+
 def main():
+    print_header()
+
     parser = argparse.ArgumentParser(
         description="Parser for optional config file setting."
     )
@@ -81,9 +129,10 @@ def main():
         "-p",
         "--predictor",
         type=argparse.FileType("rb"),
-        default=os.path.join(os.path.dirname(__file__), "predictor.pckl"),
+        default=os.path.join(os.path.dirname(__file__), "predictors/predictor_lgb_v1.0.0.pckl"),
         required=False,
-        help="Filepath of the predictor to use. If not set, assume it is 'predictor.pckl' in the project directory.",
+        help="Filepath of the predictor to use. If not set, "
+             "assume it is 'predictors/predictor_lgb_v1.0.0.pckl' in the project directory.",
     )
 
     parser.add_argument(
@@ -91,7 +140,8 @@ def main():
         "--output",
         type=argparse.FileType("w"),
         required=False,
-        help="Option to specify a filepath where the result will be written to. The file will contain a single line with only the difficulty.",
+        help="Option to specify a filepath where the result will be written to. "
+             "The file will contain a single line with only the difficulty.",
     )
 
     parser.add_argument(
@@ -100,7 +150,7 @@ def main():
         type=int,
         default=2,
         required=False,
-        help="Set the number of decimals the difficulty should be rounded to. Recommended and default is 2."
+        help="Set the number of decimals the difficulty should be rounded to. Recommended and default is 2.",
     )
 
     parser.add_argument(
@@ -111,9 +161,18 @@ def main():
     )
 
     parser.add_argument(
+        "--removeDuplicates",
+        help="Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
+        "If this option is set, PyPythia removes the duplicate sequences, "
+        "stores the reduced MSA as '{msa_name}.{phy/fasta}.pythia.reduced' "
+        "and predicts the difficulty for the reduced alignment.",
+        action="store_true",
+    )
+
+    parser.add_argument(
         "-v",
         "--verbose",
-        help="If set, prints the MSA features.",
+        help="If set, additionally prints the MSA features.",
         action="store_true",
     )
 
@@ -124,23 +183,71 @@ def main():
         action="store_true",
     )
 
+    parser.add_argument(
+        "-q",
+        "--quiet",
+        help="If set, Pythia does not print progress updates and only prints the predicted difficulty.",
+        action="store_true",
+    )
+
     args = parser.parse_args()
 
+    global script_start
     script_start = time.perf_counter()
+
+    if args.quiet:
+        logger.setLevel(logging.INFO)
+
+    log_runtime_information(message="Starting prediction.", log_runtime=True)
 
     raxmlng_executable = args.raxmlng
     raxmlng = RAxMLNG(raxmlng_executable)
-    msa_file = args.msa
+
+    log_runtime_information(message=f"Loading predictor {args.predictor.name}", log_runtime=True)
     predictor = DifficultyPredictor(args.predictor)
 
-    try:
-        msa = MSA(msa_file)
-    except Exception as e:
-        raise RuntimeError("Error reading the provided MSA: ", msa_file) from e
+    log_runtime_information(message="Checking MSA", log_runtime=True)
+
+    msa_file = args.msa
+    msa = MSA(msa_file)
+    final_warning_string = None
+
+    if msa.contains_duplicate_sequences() and not args.removeDuplicates:
+        raise PyPythiaException(
+            "The provided MSA contains sequences that are exactly identical (duplicate sequences). "
+            "Duplicate sequences influence the topological distances and distort the difficulty."
+        )
+
+    if not msa.contains_duplicate_sequences() and args.removeDuplicates:
+        logger.warning(
+            "WARNING: The provided MSA does not contain duplicate sequences. "
+            "The setting 'removeDuplicates' has no effect."
+        )
+
+    if msa.contains_duplicate_sequences() and args.removeDuplicates:
+        reduced_msa = msa_file + ".pythia.reduced"
+        log_runtime_information(
+            f"The input alignment {msa_file} contains duplicate sequences: "
+            f"saving a reduced alignment as {reduced_msa}\n",
+            log_runtime=True,
+        )
+        msa.save_reduced_alignment(reduced_msa_file=reduced_msa, replace_original=True)
+        msa_file = reduced_msa
+
+        final_warning_string = (
+            f"WARNING: This predicted difficulty is only applicable to the reduced MSA (duplicate sequences removed). "
+            f"We recommend to only use the reduced alignment {msa_file} for your subsequent analyses.\n"
+        )
+
+    log_runtime_information(
+        f"Starting to compute MSA features for MSA {msa_file}", log_runtime=True
+    )
 
     features_start = time.perf_counter()
     msa_features = get_all_features(raxmlng, msa, args.storeTrees)
     features_end = time.perf_counter()
+
+    log_runtime_information("Predicting the difficulty", log_runtime=True)
 
     prediction_start = time.perf_counter()
     difficulty = predictor.predict(msa_features)
@@ -148,31 +255,42 @@ def main():
 
     script_end = time.perf_counter()
 
-    print(f"The predicted difficulty for MSA {msa_file} is: {round(difficulty, args.precision)}.")
+    log_runtime_information("Done")
+
+    logger.info(
+        f"\nThe predicted difficulty for MSA {msa_file} is: {round(difficulty, args.precision)}\n"
+    )
+
+    if final_warning_string:
+        logger.warning(final_warning_string)
+
+    if args.storeTrees:
+        logger.debug("─" * 20)
+        logger.debug(
+            f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees"
+        )
 
     if args.verbose:
-        print("─" * 20)
-        print("FEATURES: ")
+        logger.debug("─" * 20)
+        logger.info("FEATURES: ")
         for feat, val in msa_features.items():
-            print(f"{feat}: {round(val, 2)}")
+            logger.info(f"{feat}: {round(val, 2)}")
 
     if args.benchmark:
         feature_time = round(features_end - features_start, 3)
         prediction_time = round(prediction_end - prediction_start, 3)
         runtime_script = round(script_end - script_start, 3)
 
-        print("─" * 20)
-        print("RUNTIME SUMMARY:")
-        print(f"Feature computation runtime:\t{feature_time} seconds")
-        print(f"Prediction:\t\t\t{prediction_time} seconds")
-        print("----")
-        print(f"Total script runtime:\t\t{runtime_script} seconds")
-        print("Note that all runtimes include the overhead for python and python subprocess calls. "
-              "For a more accurate and fine grained benchmark, call the respective feature computations from code.")
-
-    if args.storeTrees:
-        print("─" * 20)
-        print(f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees")
+        logger.info(
+            f"{'─' * 20}\n"
+            f"RUNTIME SUMMARY:\n"
+            f"Feature computation runtime:\t{feature_time} seconds\n"
+            f"Prediction:\t\t\t{prediction_time} seconds\n"
+            f"----\n"
+            f"Total script runtime:\t\t{runtime_script} seconds\n"
+            f"Note that all runtimes include the overhead for python and python subprocess calls.\n"
+            f"For a more accurate and fine grained benchmark, call the respective feature computations from code."
+        )
 
     if args.output:
         args.output.write(str(round(difficulty, args.precision)))

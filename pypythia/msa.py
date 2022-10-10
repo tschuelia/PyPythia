@@ -7,11 +7,12 @@ from itertools import product
 from tempfile import NamedTemporaryFile
 import warnings
 
-from Bio import AlignIO
+from Bio import AlignIO, SeqIO
 from Bio.Align import MultipleSeqAlignment
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 
 from pypythia.custom_types import *
+from pypythia.custom_errors import PyPythiaException
 
 STATE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,/:;<=>@[\\]^_{|}~"
 DNA_CHARS = "ATUCGMRWSYKVHDBN"
@@ -24,13 +25,12 @@ class MSA:
     This class provides methods for computing MSA attributes.
 
     Args:
-        msa_file (str): Path to the MSA file the statistics should be computed for. The file must be either in "fasta" or "phylip" format.
+        msa_file (FilePath): Path to the MSA file the statistics should be computed for. The file must be either in "fasta" or "phylip" format.
 
     Attributes:
-        msa_file (str): Path to the corresponding MSA file.
+        msa_file (FilePath): Path to the corresponding MSA file.
         msa_name (str): Name of the MSA. Can be either set or is inferred automatically based on the msa_file.
-        data_type (str): Data type of the MSA.
-            Can be either "DNA" for DNA data, "AA" for protein data, or "MORPH" for morphological data.
+        data_type (DataType): Data type of the MSA.
         msa (MultipleSeqAlignment): Biopython MultipleSeqAlignment object for the given msa_file.
 
     Raises:
@@ -47,23 +47,32 @@ class MSA:
         else:
             self.msa_name = os.path.split(msa_file)[1]
 
+        self._set_msa_object(self.msa_file)
+
+    def _set_msa_object(self, msa_file: FilePath):
         with NamedTemporaryFile(mode="w") as tmpfile:
-            if self.data_type == "DNA":
-                self._convert_dna_msa_to_biopython_format(tmpfile)
-            else:
-                self._convert_aa_msa_to_biopython_format(tmpfile)
+            if self.data_type == DataType.DNA:
+                self._convert_dna_msa_to_biopython_format(msa_file, tmpfile)
+            elif self.data_type == DataType.AA:
+                self._convert_aa_msa_to_biopython_format(msa_file, tmpfile)
+            elif self.data_type == DataType.MORPH:
+                # same functionality works also for morphological data
+                self._convert_aa_msa_to_biopython_format(msa_file, tmpfile)
 
             tmpfile.flush()
-            self.msa = AlignIO.read(tmpfile.name, format=self._get_file_format())
+            try:
+                self.msa = AlignIO.read(tmpfile.name, format=self._get_file_format())
+            except Exception as e:
+                raise PyPythiaException("Error reading the provided MSA: ", msa_file) from e
 
-    def _convert_dna_msa_to_biopython_format(self, tmpfile: NamedTemporaryFile) -> None:
+    def _convert_dna_msa_to_biopython_format(self, msa_file: FilePath, tmpfile: NamedTemporaryFile) -> None:
         """
         The unknonwn char in DNA MSA files for Biopython to work
         has to be "-" instead of "X" or "N" -> replace all occurences
         All "?" are gaps -> convert to "-"
         Also all "U" need to be "T"
         """
-        with open(self.msa_file) as f:
+        with open(msa_file) as f:
             repl = f.read().replace("X", "-")
             repl = repl.replace("N", "-")
             repl = repl.replace("?", "-")
@@ -72,12 +81,12 @@ class MSA:
 
         tmpfile.write(repl)
 
-    def _convert_aa_msa_to_biopython_format(self, tmpfile: NamedTemporaryFile) -> None:
+    def _convert_aa_msa_to_biopython_format(self, msa_file: FilePath, tmpfile: NamedTemporaryFile) -> None:
         """
         The unknonwn char in AA MSA files for Biopython to work
         All "?" are gaps -> convert to "-"
         """
-        with open(self.msa_file) as f:
+        with open(msa_file) as f:
             repl = f.read().replace("?", "-")
             repl = repl.upper()
 
@@ -98,10 +107,58 @@ class MSA:
             return "phylip-relaxed"
         except:
             raise ValueError(
-                f"The file type of this MSA could not be autodetected, please check file."
+                f"The file type of this MSA could not be autodetected, please check that the file contains data in phylip or fasta format."
             )
 
+    def _get_unique_sequences(self):
+        unique_sequences = set()
+        unique_seq_objects = []
+
+        for seq_object in self.msa:
+            sequence = seq_object.seq
+
+            if sequence not in unique_sequences:
+                unique_sequences.add(sequence)
+                unique_seq_objects.append(seq_object)
+
+        return unique_seq_objects
+
+    def save_reduced_alignment(self, reduced_msa_file: FilePath, replace_original: bool = False):
+        """ Removes all duplicate sequences from the MSA and stores the reduced alignment in reduced_msa_file.
+        In case of duplicate sequences, the reduced alignment only contains the first occurrence of the respective sequence.
+
+        Args:
+            reduced_msa_file (FilePath): Filename where to store the reduced alignment.
+            replace_original (bool): Optional switch.
+                If True, self.msa_file is replaced with the reduced alignment and
+                self.msa with the MultipleSeqAlignment object of the reduced MSA.
+                Self.msa_name will be appended with "_reduced"
+        """
+        contains_duplicates = self.contains_duplicate_sequences()
+
+        if not contains_duplicates:
+            raise PyPythiaException("This MSA does not contain duplicate sequences, MSA reduction does not make sense.")
+
+        unique_sequence_objects = self._get_unique_sequences()
+        SeqIO.write(unique_sequence_objects, reduced_msa_file, self._get_file_format())
+
+        if replace_original:
+            self._set_msa_object(reduced_msa_file)
+            self.msa_name += "_reduced"
+
+    def contains_duplicate_sequences(self) -> bool:
+        num_unique = len({s.seq for s in self.msa})
+
+        return self.number_of_taxa() > num_unique
+
     def guess_data_type(self) -> DataType:
+        """Guesses and returns the data type (DNA, AA, Morphological data) based on the contents of the MSA.
+        The data type is guessed as DNA, if the sequences only contains DNA_CHARS or GAP_CHARS.
+        The data type is guesses as morphological if the sequences contain digits.
+
+        Returns:
+            data_type (DataType): A guess of the data type for this MSA.
+        """
         format = self._get_file_format()
         msa_content = open(self.msa_file).readlines()
 
@@ -144,18 +201,26 @@ class MSA:
 
         # now check whether the sequence_chars contain only DNA and GAP chars or not
         if is_dna:
-            return "DNA"
+            return DataType.DNA
         elif is_morph:
-            return "MORPH"
+            return DataType.MORPH
         else:
-            return "AA"
+            return DataType.AA
 
-    def get_raxmlng_model(self):
-        if self.data_type == "DNA":
+    def get_raxmlng_model(self) -> Model:
+        """Returns a RAxML-NG model string based on the data type
+
+        Returns:
+             model_string (string): RAxML-NG model string
+                For DNA data: GTR+G
+                For Protein (AA) data: LG+G
+                For morphological data: MULTIx_GTR where x refers to the maximum state value in the alignment
+        """
+        if self.data_type == DataType.DNA:
             return "GTR+G"
-        elif self.data_type == "AA":
+        elif self.data_type == DataType.AA:
             return "LG+G"
-        elif self.data_type == "MORPH":
+        elif self.data_type == DataType.MORPH:
             unique_states = set()
             for seq in self.msa:
                 seq = str(seq.seq).replace("-", "")
@@ -262,7 +327,7 @@ class MSA:
         else:
             _msa = self.msa
 
-        model = "blastn" if self.data_type == "DNA" else "blosum62"
+        model = "blastn" if self.data_type == DataType.DNA else "blosum62"
         calculator = DistanceCalculator(model=model)
         return calculator.get_distance(_msa)
 
@@ -284,7 +349,7 @@ class MSA:
             treelikeness (float): Treelikeness of the MSA. The treelikeness is in the value range [0.0, 1.0].
                 The lower the treelikeness the stronger the phylogenetic signal of the MSA.
         """
-        if self.data_type == "MORPH":
+        if self.data_type == DataType.MORPH:
             warnings.warn("Computing the treelikeness score for morphological data is currently not supported.")
             return -1.0
 

@@ -1,0 +1,1 @@
+RAXMLNG_COMMAND = "/Users/julia/Desktop/Promotion/software/raxml-ng/bin/raxml-ng"

@@ -1,6 +1,10 @@
 import subprocess
 
 
+class PyPythiaException(Exception):
+    pass
+
+
 class RAxMLNGError(Exception):
     """
     Custom RAxML-NG Exception used when running RAxML-NG commands.

@@ -1,6 +1,8 @@
 import pytest
 import os
 
+from .test_config import RAXMLNG_COMMAND
+
 from pypythia.msa import MSA
 from pypythia.raxmlng import RAxMLNG
 from pypythia.predictor import DifficultyPredictor
@@ -36,6 +38,16 @@ def small_msa_with_signal():
 
 
 @pytest.fixture
+def msa_with_duplicate_sequences(dna_phylip_msa):
+    return dna_phylip_msa
+
+
+@pytest.fixture
+def msa_without_duplicate_sequences(small_msa_with_signal):
+    return small_msa_with_signal
+
+
+@pytest.fixture
 def all_msa_files_with_model():
     cwd = os.getcwd()
 
@@ -65,12 +77,17 @@ def all_msa_files_with_model():
 
 @pytest.fixture
 def predictor():
-    return DifficultyPredictor(open("pypythia/predictor.pckl", "rb"))
+    return DifficultyPredictor(open("pypythia/predictors/predictor_lgb_v1.0.0.pckl", "rb"))
+
+
+@pytest.fixture
+def old_predictor():
+    return DifficultyPredictor(open("pypythia/predictors/predictor_sklearn_rf_v0.0.1.pckl", "rb"))
 
 
 @pytest.fixture
 def raxmlng_command():
-    return "/Users/julia/Desktop/Promotion/software/raxml-ng/bin/raxml-ng"
+    return RAXMLNG_COMMAND
 
 
 @pytest.fixture
