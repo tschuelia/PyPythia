@@ -14,10 +14,13 @@ Note: You can clone the repo to any location on your system, it does not need to
 2. `cd` into the directory:   
 `cd PyPythia`
 
-3. Install the python package by running.
+3. Checkout the latest release:
+`git checkout tags/1.0.0`
+
+4. Install the python package by running.
 `pip install .`  
 
-4. Verify the correct installation by running `pythia -h`. If you are having trouble running `pythia`, you can also replace `pythia` with `python pypythia/prediction.py`. 
+5. Verify the correct installation by running `pythia -h`. If you are having trouble running `pythia`, you can also replace `pythia` with `python pypythia/prediction.py`. 
 For this to work you need to be in the PyPythia directory (which you should still be in at this point :-)).
 
 
