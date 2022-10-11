@@ -101,8 +101,15 @@ print(difficulty)
 *Note that Pythia can also handle FASTA input files, see section Input Data below.*
 
 ### Input data
-#### Supported file and data types
-The input for Pythia is an MSA file in either Phylip or FASTA format. Pythia supports DNA, AA, and morphological data.
+#### Supported file types
+The input for Pythia is an MSA file in either Phylip or FASTA format. 
+
+#### Supported  data types
+Pythia supports DNA, AA, and morphological data.
+
+Please note that by morphological data we refer to biological data. According to our analyses, the attributes of biological morphological data are similar to the attributes of DNA and AA data.
+However, when analyzing language data (cognate, sound-class, and morphosyntactic data) we observed substantially distinct attributes and concluded that morphological language data is not 
+comparable to DNA, AA, or biological morphological data. Thus, at the moment Pythia is not able to reliably predict the difficulty for language alignments.
 
 #### Taxon names
 Make sure that the MSA only contains RAxML-NG compatible taxon names. 
