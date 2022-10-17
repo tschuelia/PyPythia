@@ -100,6 +100,12 @@ print(difficulty)
 ```
 *Note that Pythia can also handle FASTA input files, see section Input Data below.*
 
+##### Using Python multiprocessing
+There are reported issues with multiprocessing in Python and LightGBM based predictors (see for example the [LightGBM FAQ](https://lightgbm.readthedocs.io/en/latest/FAQ.html#lightgbm-hangs-when-multithreading-openmp-and-using-forking-in-linux-at-the-same-time)). 
+We added a type check in the `predictor.py` prediction code that sets the number of threads to 1 for the prediction (`num_threads=1`) if the predictor is a LightGBM predictor. 
+This should not affect the previous Pythia versions using the scikit-learn predictors. Since the multithreading issues do not occur consistently, this issue is hard to debug. 
+If you encounter any issues with Python multiprocessing and Pythia please open a GitHub issue.
+
 ### Input data
 #### Supported file types
 The input for Pythia is an MSA file in either Phylip or FASTA format. 

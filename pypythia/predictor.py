@@ -26,6 +26,7 @@ class DifficultyPredictor:
 
     def __init__(self, predictor_handle, features=None) -> None:
         self.predictor = pickle.load(predictor_handle)
+        self.predictor_type = str(type(self.predictor))
 
         if features is None:
             features = [
@@ -40,6 +41,7 @@ class DifficultyPredictor:
             ]
 
         self.features = features
+
 
     def predict(self, query: Dict) -> float:
         """Predicts the difficulty for the given set of MSA features.
@@ -80,7 +82,12 @@ class DifficultyPredictor:
                                     "Something went wrong during feature computation.")
 
         try:
-            prediction = self.predictor.predict(df).clip(min=0.0, max=1.0)[0]
+            if "lightgbm" in self.predictor_type:
+                prediction = self.predictor.predict(df, num_threads=1)
+            else:
+                prediction = self.predictor.predict(df)
+
+            prediction = prediction.clip(min=0.0, max=1.0)[0]
         except Exception as e:
             raise PyPythiaException(
                 "An error occurred predicting the difficulty for the provided set of MSA features."

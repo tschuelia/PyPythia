@@ -16,18 +16,22 @@ logging.basicConfig(level=logging.WARNING, format="%(message)s")
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+SCRIPT_START = time.perf_counter()
+
 
 def get_all_features(
     raxmlng: RAxMLNG,
     msa: MSA,
     store_trees: bool = False,
+    log_info: bool = True,
 ) -> Dict:
     """Helper function to collect all features required for predicting the difficulty of the MSA.
 
     Args:
         raxmlng (RAxMLNG): Initialized RAxMLNG object.
         msa (MSA): MSA object corresponding to the MSA file to compute the features for.
-        store_trees (bool): If True, store the inferred parsimony trees as "{msa_name}.parsimony.trees" file in the current workdir.
+        store_trees (bool, optional): If True, store the inferred parsimony trees as "{msa_name}.parsimony.trees" file in the current workdir.
+        log_info (bool, optional): If True, log intermediate progress information using the default logger.
     Returns:
         all_features (Dict): Dictionary containing all features required for predicting the difficulty of the MSA. The keys correspond to the feature names the predictor was trained with.
     """
@@ -35,10 +39,11 @@ def get_all_features(
         msa_file = msa.msa_file
         model = msa.get_raxmlng_model()
 
-        log_runtime_information(
-            "Retrieving num_patterns, percentage_gaps, percentage_invariant",
-            log_runtime=True,
-        )
+        if log_info:
+            log_runtime_information(
+                "Retrieving num_patterns, percentage_gaps, percentage_invariant",
+                log_runtime=True,
+            )
         patterns, gaps, invariant = raxmlng.get_patterns_gaps_invariant(msa_file, model)
 
         log_runtime_information("Retrieving num_taxa, num_sites", log_runtime=True)
@@ -46,9 +51,10 @@ def get_all_features(
         nsites = msa.number_of_sites()
 
         n_pars_trees = 100
-        log_runtime_information(
-            f"Inferring {n_pars_trees} parsimony trees", log_runtime=True
-        )
+        if log_info:
+            log_runtime_information(
+                f"Inferring {n_pars_trees} parsimony trees", log_runtime=True
+            )
         trees = raxmlng.infer_parsimony_trees(
             msa_file,
             model,
@@ -64,9 +70,10 @@ def get_all_features(
             )
             shutil.copy(trees, fn)
 
-        log_runtime_information(
-            "Computing the RF-Distance for the parsimony trees", log_runtime=True
-        )
+        if log_info:
+            log_runtime_information(
+                "Computing the RF-Distance for the parsimony trees", log_runtime=True
+            )
         num_topos, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
 
         return {
@@ -95,7 +102,7 @@ def print_header():
 
 def log_runtime_information(message, log_runtime=True):
     if log_runtime:
-        seconds = time.perf_counter() - script_start
+        seconds = time.perf_counter() - SCRIPT_START
         fmt_time = time.strftime("%H:%M:%S", time.gmtime(seconds))
         time_string = f"[{fmt_time}] "
     else:
@@ -192,9 +199,6 @@ def main():
 
     args = parser.parse_args()
 
-    global script_start
-    script_start = time.perf_counter()
-
     if args.quiet:
         logger.setLevel(logging.INFO)
 
@@ -279,7 +283,7 @@ def main():
     if args.benchmark:
         feature_time = round(features_end - features_start, 3)
         prediction_time = round(prediction_end - prediction_start, 3)
-        runtime_script = round(script_end - script_start, 3)
+        runtime_script = round(script_end - SCRIPT_START, 3)
 
         logger.info(
             f"{'─' * 20}\n"
