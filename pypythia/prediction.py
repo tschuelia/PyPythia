@@ -274,7 +274,7 @@ def main():
         logger.debug("─" * 20)
         logger.info("FEATURES: ")
         for feat, val in msa_features.items():
-            logger.info(f"{feat}: {round(val, 2)}")
+            logger.info(f"{feat}: {round(val, args.precision)}")
 
     if args.benchmark:
         feature_time = round(features_end - features_start, 3)
