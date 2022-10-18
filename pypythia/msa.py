@@ -26,20 +26,24 @@ class MSA:
 
     Args:
         msa_file (FilePath): Path to the MSA file the statistics should be computed for. The file must be either in "fasta" or "phylip" format.
+        msa_name (str, optional): Better readable name for the MSA. If not set, the name of the file is used.
+        file_format (FileFormat, optional): If not set, Pythia attempts to autodetect the file format.
 
     Attributes:
         msa_file (FilePath): Path to the corresponding MSA file.
         msa_name (str): Name of the MSA. Can be either set or is inferred automatically based on the msa_file.
         data_type (DataType): Data type of the MSA.
+        file_format (FileFormat): File format of the MSA.
         msa (MultipleSeqAlignment): Biopython MultipleSeqAlignment object for the given msa_file.
 
     Raises:
-        ValueError: If the file format of the given MSA is not "fasta" or "phylip".
+        ValueError: If the file format of the given MSA is not FASTA or PHYLIP.
         ValueError: If the data type of the given MSA cannot be inferred.
     """
 
-    def __init__(self, msa_file: FilePath, msa_name: str = None):
+    def __init__(self, msa_file: FilePath, msa_name: str = None, file_format: FileFormat = None):
         self.msa_file = msa_file
+        self.file_format = file_format if file_format is not None else self._get_file_format()
         self.data_type = self.guess_data_type()
 
         if msa_name:
@@ -61,7 +65,7 @@ class MSA:
 
             tmpfile.flush()
             try:
-                self.msa = AlignIO.read(tmpfile.name, format=self._get_file_format())
+                self.msa = AlignIO.read(tmpfile.name, format=self.file_format.value)
             except Exception as e:
                 raise PyPythiaException("Error reading the provided MSA: ", msa_file) from e
 
@@ -96,7 +100,7 @@ class MSA:
         first_line = open(self.msa_file).readline().strip()
 
         if first_line.startswith(">"):
-            return "fasta"
+            return FileFormat.FASTA
 
         try:
             # phylip file contains two integer numbers in the first line separated by whitespace
@@ -104,7 +108,7 @@ class MSA:
             _num1 = int(_num1)
             _num2 = int(_num2)
             # in case these conversions worked, the file is (most likely) in phylip format
-            return "phylip-relaxed"
+            return FileFormat.PHYLIP
         except:
             raise ValueError(
                 f"The file type of this MSA could not be autodetected, please check that the file contains data in phylip or fasta format."
@@ -140,7 +144,7 @@ class MSA:
             raise PyPythiaException("This MSA does not contain duplicate sequences, MSA reduction does not make sense.")
 
         unique_sequence_objects = self._get_unique_sequences()
-        SeqIO.write(unique_sequence_objects, reduced_msa_file, self._get_file_format())
+        SeqIO.write(unique_sequence_objects, reduced_msa_file, self.file_format.value)
 
         if replace_original:
             self._set_msa_object(reduced_msa_file)
@@ -159,12 +163,11 @@ class MSA:
         Returns:
             data_type (DataType): A guess of the data type for this MSA.
         """
-        format = self._get_file_format()
+        format = self.file_format
         msa_content = open(self.msa_file).readlines()
-
         sequence_chars = set()
 
-        if format == "phylip-relaxed":
+        if format == FileFormat.PHYLIP:
             # the sequences start in the second line and the schema is "taxon_name [SEQUENCE]"
             for line in msa_content[1:]:
                 line = line.strip()
@@ -182,7 +185,7 @@ class MSA:
                 sequence = sequence.strip().replace(" ", "")
                 for char in set(sequence):
                     sequence_chars.add(char)
-        elif format == "fasta":
+        elif format == FileFormat.FASTA:
             # taxon names start with a ">", treat every other line as sequence line
             for line in msa_content:
                 line = line.strip()

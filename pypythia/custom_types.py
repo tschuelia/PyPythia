@@ -2,7 +2,6 @@ from typing import List, Tuple, Dict, Union
 from enum import Enum
 
 FilePath = str
-FileFormat = str
 Command = List[str]
 Model = Union[str, FilePath]
 Executable = str
@@ -17,3 +16,12 @@ class DataType(Enum):
     DNA = "DNA"
     AA = "AA"
     MORPH = "MORPH"
+
+
+class FileFormat(Enum):
+    """File formats for MSAs
+    - PHYLIP = phylip-relaxed
+    - FASTA = fasta
+    """
+    PHYLIP = "phylip-relaxed"
+    FASTA = "fasta"

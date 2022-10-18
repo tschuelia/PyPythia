@@ -1,5 +1,5 @@
 from tests.fixtures import *
-from pypythia.custom_types import DataType
+from pypythia.custom_types import DataType, FileFormat
 from pypythia.msa import MSA
 from pypythia.custom_errors import PyPythiaException
 
@@ -12,10 +12,10 @@ class TestMSAFeatures:
 
     def test_get_msa_file_format(self, dna_phylip_msa, dna_fasta_msa):
         ff = dna_phylip_msa._get_file_format()
-        assert ff == "phylip-relaxed"
+        assert ff == FileFormat.PHYLIP
 
         ff = dna_fasta_msa._get_file_format()
-        assert ff == "fasta"
+        assert ff == FileFormat.FASTA
 
     def test_get_msa_file_format_raises_value_error(self,
                                                     raxmlng_inference_log):
