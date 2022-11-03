@@ -46,7 +46,9 @@ def get_all_features(
             )
         patterns, gaps, invariant = raxmlng.get_patterns_gaps_invariant(msa_file, model)
 
-        log_runtime_information("Retrieving num_taxa, num_sites", log_runtime=True)
+        if log_info:
+            log_runtime_information("Retrieving num_taxa, num_sites", log_runtime=True)
+
         ntaxa = msa.number_of_taxa()
         nsites = msa.number_of_sites()
 

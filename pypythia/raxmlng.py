@@ -22,10 +22,10 @@ class RAxMLNG:
     This class provides methods for computing MSA attributes using RAxML-NG.
 
     Args:
-        exe_path (str): Path to an executable of RAxML-NG. See https://github.com/amkozlov/raxml-ng for install instructions.
+        exe_path (Executable): Path to an executable of RAxML-NG. See https://github.com/amkozlov/raxml-ng for install instructions.
 
     Attributes:
-        exe_path (str): Path to an executable of RAxML-NG.
+        exe_path (Executable): Path to an executable of RAxML-NG.
     """
 
     def __init__(self, exe_path: Executable):
