@@ -24,6 +24,9 @@ Note: You can clone the repo to any location on your system, it does not need to
 For this to work you need to be in the PyPythia directory (which you should still be in at this point :-)).
 
 
+Note: as of version 1.0.1, PyPythia includes a Python script that allows predictions from code without installing Pythia. See Section `Usage Without Installation` for details.
+
+
 ### Predictor
 Per default this library uses the trained LightGBM boosted tree predictor `predictors/predictor_lgb_v1.0.0.pckl`. 
 We will regularly retrain and update this predictor. You can also use an old version of the predictor by explicitly setting the path to the predictor to use (see usage below).
@@ -90,7 +93,7 @@ from pypythia.prediction import get_all_features
 from pypythia.raxmlng import RAxMLNG
 from pypythia.msa import MSA
 
-predictor = DifficultyPredictor(open("pypythia/predictor.pckl", "rb"))
+predictor = DifficultyPredictor(open("pypythia/predictors/predictor_lgb_v1.0.0.pckl", "rb"))
 raxmlng = RAxMLNG("/path/to/raxml-ng")
 msa = MSA("examples/example.phy")
 
@@ -105,6 +108,11 @@ There are reported issues with multiprocessing in Python and LightGBM based pred
 We added a type check in the `predictor.py` prediction code that sets the number of threads to 1 for the prediction (`num_threads=1`) if the predictor is a LightGBM predictor. 
 This should not affect the previous Pythia versions using the scikit-learn predictors. Since the multithreading issues do not occur consistently, this issue is hard to debug. 
 If you encounter any issues with Python multiprocessing and Pythia please open a GitHub issue.
+
+### Usage Without Installation
+As of version 1.0.1, PyPythia includes a script `prediction_no_install.py` in the root directory. This script contains the single function `predict_difficulty`. 
+Provided a path to an MSA, a path to a trained difficulty predictor (e.g. `pypythia/predictors/predictor_lgb_v1.0.0.pckl`), and a path to an executable of RAxML-NG, this fucntion
+returns the predicted difficulty without requiring an installation of PyPythia. Note that this script can only be called from PyPythia's root directory.
 
 ### Input data
 #### Supported file types
