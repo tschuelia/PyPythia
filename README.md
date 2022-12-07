@@ -47,7 +47,7 @@ The output will be something like `The predicted difficulty for MSA examples/exa
 
 The following options are available:
 ```commandline
-PyPythia version 1.0.0 released by The Exelixis Lab
+PyPythia version 1.0.1 released by The Exelixis Lab
 Developed by: Julia Haag
 Latest version: https://github.com/tschuelia/PyPythia
 Questions/problems/suggestions? Please open an issue on GitHub.
@@ -157,10 +157,9 @@ Older versions of the trained predictors are available in the `predictors` direc
 If you encounter any trouble using Pythia, have a question, or you find a bug, please feel free to open an issue here.
 
 
-## Preprint Publication
-The paper explaining the details of Pythia is available as preprint on BioRxiv:   
-Haag, J., Höhler, D., Bettisworth, B., & Stamatakis, A. (2022). **From Easy to Hopeless - Predicting the Difficulty of Phylogenetic Analyses.** BioRxiv. [https://doi.org/10.1101/2022.06.20.496790](https://doi.org/10.1101/2022.06.20.496790)
-
+## Publication
+The paper explaining the details of Pythia is published in MBE:    
+Haag, J., Höhler, D., Bettisworth, B., & Stamatakis, A. (2022). **From Easy to Hopeless - Predicting the Difficulty of Phylogenetic Analyses.** *Molecular Biology and Evolution*, 39(12). [https://doi.org/10.1093/molbev/msac254](https://doi.org/10.1093/molbev/msac254)
 
 ## References
 * A. M. Kozlov, D. Darriba, T. Flouri, B. Morel, and A. Stamatakis (2019) 
