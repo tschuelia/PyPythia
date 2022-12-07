@@ -15,7 +15,7 @@ Note: You can clone the repo to any location on your system, it does not need to
 `cd PyPythia`
 
 3. Checkout the latest release:
-`git checkout tags/1.0.0`
+`git checkout tags/1.0.1`
 
 4. Install the python package by running.
 `pip install .`  
