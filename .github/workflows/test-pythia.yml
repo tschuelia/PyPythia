@@ -4,24 +4,22 @@ on: [push]
 env:
   RAXMLNG: /home/runner/work/PyPythia/PyPythia/raxml-ng/bin/raxml-ng
 jobs:
-  Setup-RAxML-NG:
+  Run-Pythia-Tests:
     runs-on: ubuntu-latest
     steps:
-      - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
-      - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j
-      - run: echo "Successfully build RAxML-NG"
-  Test-Pythia:
-    runs-on: ubuntu-latest
-    needs: [Setup-RAxML-NG]
-    steps:
+      - name: Setup RAxML-NG
+        run: |
+          git clone --recursive https://github.com/amkozlov/raxml-ng.git
+          cd raxml-ng && mkdir build && cd build
+          cmake .. && make -j
       - name: Check out repository code
         uses: actions/checkout@v3
-      - run: sudo pip install -e .
-      - run: pip install pytest
-      # replace the RAxML-NG command line in the tests with the correct one from the runner
-      # to do so we remove the old file and a new one with the correct path
-      - run: rm tests/test_config.py
-      - run: echo "RAXMLNG_COMMAND = '$RAXMLNG'" > tests/test_config.py
-      - run: pwd
-      - run: ls tests/data
-      - run: PYTHONPATH=. pytest
+      - name: Install Pythia and setup requirements
+        run: |
+          sudo pip install -e .
+          pip install pytest
+          rm tests/test_config.py
+          echo "RAXMLNG_COMMAND = '$RAXMLNG'" > tests/test_config.py
+      - name: Run Pythia tests
+        run: |
+          PYTHONPATH=. pytest
