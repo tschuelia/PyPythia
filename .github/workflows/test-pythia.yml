@@ -6,10 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
-      - run: cd raxml-ng
-      - run: mkdir build && cd build
-      - run: cmake ..
-      - run: make -j
+      - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j
       - run: cd && ls
       - name: Check out repository code
         uses: actions/checkout@v3
