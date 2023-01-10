@@ -1,18 +1,22 @@
 name: Build and test PyPythia
 run-name: Build and run the tests of the PyPythia python library.
 on: [push]
+env:
+  RAXMLNG: /home/runner/work/PyPythia/PyPythia/raxml-ng/bin/raxml-ng
 jobs:
-  Build-RAxML-NG:
+#  Build-RAxML-NG:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
+#      - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j
+#      - run: echo "Successfully build RAxML-NG"
+  Test-Pythia:
     runs-on: ubuntu-latest
     steps:
-      - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
-      - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j && pwd
-      - run: /home/runner/work/PyPythia/PyPythia/raxml-ng/bin/raxml-ng
-#      - name: Check out repository code
-#        uses: actions/checkout@v3
-#      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-#      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-#      - name: List files in the repository
-#        run: |
-#          ls ${{ github.workspace }}
-#      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      # replace the RAxML-NG command line in the tests with the correct one from the runner
+      # to do so we remove the old file and a new one with the correct path
+      - run: rm tests/test_config.py
+      - run: echo "RAXMLNG_COMMAND = ${{ RAXMLNG }}" > tests/test_config.py
+      - run: cat tests/test_config.py
