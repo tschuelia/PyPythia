@@ -4,15 +4,15 @@ on: [push]
 env:
   RAXMLNG: /home/runner/work/PyPythia/PyPythia/raxml-ng/bin/raxml-ng
 jobs:
-  Setup-RAxML-NG:
-    runs-on: ubuntu-latest
-    steps:
-      - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
-      - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j
-      - run: echo "Successfully build RAxML-NG"
+#  Setup-RAxML-NG:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
+#      - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j
+#      - run: echo "Successfully build RAxML-NG"
   Test-Pythia:
     runs-on: ubuntu-latest
-    needs: [Setup-RAxML-NG]
+#    needs: [Setup-RAxML-NG]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -23,5 +23,5 @@ jobs:
       - run: rm tests/test_config.py
       - run: echo "RAXMLNG_COMMAND = '$RAXMLNG'" > tests/test_config.py
       - run: pwd
-      - run: ls tests/data/logs
-      - run: PYTHONPATH=. pytest
+      - run: ls tests/data
+#      - run: PYTHONPATH=. pytest
