@@ -12,7 +12,7 @@ jobs:
 #          cmake .. && make -j
       - name: Set RAxML-NG environment variable
         run: |
-          cd .. && echo "$pwd" && echo "raxmlng=test/bin/raxml-ng" >> $GITHUB_ENV
+          cd .. && echo "raxmlng=$(pwd)/bin/raxml-ng" >> $GITHUB_ENV
       - name: use the value
         run: |
           echo "${{ env.raxmlng }}"
