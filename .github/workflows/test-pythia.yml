@@ -21,5 +21,5 @@ jobs:
       # replace the RAxML-NG command line in the tests with the correct one from the runner
       # to do so we remove the old file and a new one with the correct path
       - run: rm tests/test_config.py
-      - run: echo "RAXMLNG_COMMAND = $RAXMLNG" > tests/test_config.py
+      - run: echo "RAXMLNG_COMMAND = '$RAXMLNG'" > tests/test_config.py
       - run: PYTHONPATH=. pytest
