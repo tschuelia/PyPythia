@@ -8,7 +8,7 @@ from tempfile import TemporaryDirectory
 
 
 def test_infer_parsimony_trees(raxmlng, example_msa_path):
-    run_raxmlng_command([raxmlng])
+    run_raxmlng_command([raxmlng.exe_path])
 #     with TemporaryDirectory() as tmpdir:
 #         file_path = raxmlng.infer_parsimony_trees(
 #             msa_file=example_msa_path, model="GTR+G", prefix=tmpdir, n_trees=10
