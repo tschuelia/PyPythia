@@ -2,6 +2,14 @@
 Pythia is a lightweight python library to predict the difficulty of Multiple Sequence Alignments (MSA). 
 Pythia supports DNA, AA, and morphological data in phylip and FASTA format.
 
+### Installation
+The easiest way to install Pythia is to use the python package manager pip:
+```
+pip install git+https://github.com/tschuelia/PyPythia.git
+```
+This will install the latest version of Pythia. You can verify the correct installation by running `pythia -h`.
+For further install instructions see the documentation in [the wiki](https://github.com/tschuelia/PyPythia/wiki).
+
 ### Documentation
 For detailed instructions on how to install and use Pythia see [the wiki](https://github.com/tschuelia/PyPythia/wiki).
 
