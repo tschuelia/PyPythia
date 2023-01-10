@@ -15,7 +15,7 @@ jobs:
           cd .. && echo "raxmlng=$(pwd)/bin/raxml-ng" >> $GITHUB_ENV
       - name: use the value
         run: |
-          echo "${{ env.raxmlng }}"
+          ${{ env.raxmlng }}
 #      - name: Check out repository code
 #        uses: actions/checkout@v3
 #      - name: Install Pythia and setup requirements
