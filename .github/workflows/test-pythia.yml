@@ -12,8 +12,9 @@ jobs:
           cmake .. && make -j
       - name: Set RAxML-NG environment variable
         run: |
-          cd .. && echo "RAXMLNG=$pwd/bin/raxml-ng" >> $GITHUB_ENV
-          echo "RAxMLNG: ${{ RAXMLNG }}"
+          cd .. 
+          echo "raxmlng=$pwd/bin/raxml-ng" >> $GITHUB_ENV
+          echo "RAxMLNG: ${{ env.raxmlng }}"
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Install Pythia and setup requirements
@@ -21,7 +22,7 @@ jobs:
           sudo pip install -e .
           pip install pytest
           rm tests/test_config.py
-          echo "RAXMLNG_COMMAND = '${{ RAXMLNG }}'" > tests/test_config.py
+          echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
       - name: Run Pythia tests
         run: |
           PYTHONPATH=. pytest
