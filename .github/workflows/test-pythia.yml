@@ -1,8 +1,6 @@
 name: Build and test PyPythia
 run-name: Build and run the tests of the PyPythia python library.
 on: [push]
-env:
-  RAXMLNG: /home/runner/work/PyPythia/PyPythia/raxml-ng/bin/raxml-ng
 jobs:
   Run-Pythia-Tests:
     runs-on: ubuntu-latest
@@ -12,6 +10,10 @@ jobs:
           git clone --recursive https://github.com/amkozlov/raxml-ng.git
           cd raxml-ng && mkdir build && cd build
           cmake .. && make -j
+      - name: Set RAxML-NG environment variable
+        run: |
+          cd .. && echo "RAXMLNG=$pwd/bin/raxml-ng" >> $GITHUB_ENV
+          echo "RAxMLNG: ${{ RAXMLNG }}"
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Install Pythia and setup requirements
@@ -19,7 +21,7 @@ jobs:
           sudo pip install -e .
           pip install pytest
           rm tests/test_config.py
-          echo "RAXMLNG_COMMAND = '$RAXMLNG'" > tests/test_config.py
+          echo "RAXMLNG_COMMAND = '${{ RAXMLNG }}'" > tests/test_config.py
       - name: Run Pythia tests
         run: |
           PYTHONPATH=. pytest
