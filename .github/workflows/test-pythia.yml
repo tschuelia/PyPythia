@@ -22,6 +22,6 @@ jobs:
       # to do so we remove the old file and a new one with the correct path
       - run: rm tests/test_config.py
       - run: echo "RAXMLNG_COMMAND = '$RAXMLNG'" > tests/test_config.py
-      - run: ls
-      - run: ls tests
+      - run: pwd
+      - run: ls tests/data/logs
       - run: PYTHONPATH=. pytest
