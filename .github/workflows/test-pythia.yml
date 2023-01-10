@@ -20,6 +20,7 @@ jobs:
           pip install pytest
           rm tests/test_config.py
           echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
+          cat tests/test_config.py
       - name: Run Pythia tests
         run: |
           PYTHONPATH=. pytest
