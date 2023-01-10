@@ -4,12 +4,12 @@ on: [push]
 env:
   RAXMLNG: /home/runner/work/PyPythia/PyPythia/raxml-ng/bin/raxml-ng
 jobs:
-#  Build-RAxML-NG:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
-#      - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j
-#      - run: echo "Successfully build RAxML-NG"
+  Build-RAxML-NG:
+    runs-on: ubuntu-latest
+    steps:
+      - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
+      - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j
+      - run: echo "Successfully build RAxML-NG"
   Test-Pythia:
     runs-on: ubuntu-latest
     steps:
