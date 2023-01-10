@@ -4,7 +4,7 @@ on: [push]
 env:
   RAXMLNG: /home/runner/work/PyPythia/PyPythia/raxml-ng/bin/raxml-ng
 jobs:
-  Build-RAxML-NG:
+  Setup-RAxML-NG:
     runs-on: ubuntu-latest
     steps:
       - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
@@ -12,6 +12,7 @@ jobs:
       - run: echo "Successfully build RAxML-NG"
   Test-Pythia:
     runs-on: ubuntu-latest
+    needs: [Setup-RAxML-NG]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
