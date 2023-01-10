@@ -5,13 +5,11 @@ jobs:
   Run-Pythia-Tests:
     runs-on: ubuntu-latest
     steps:
-#      - name: Setup RAxML-NG
-#        run: |
-#          git clone --recursive https://github.com/amkozlov/raxml-ng.git
-#          cd raxml-ng && mkdir build && cd build
-#          cmake .. && make -j
-      - name: Set RAxML-NG environment variable
+      - name: Setup RAxML-NG and RAxML-NG env variable
         run: |
+          git clone --recursive https://github.com/amkozlov/raxml-ng.git
+          cd raxml-ng && mkdir build && cd build
+          cmake .. && make -j
           cd .. && echo "raxmlng=$(pwd)/bin/raxml-ng" >> $GITHUB_ENV
       - name: use the value
         run: |
