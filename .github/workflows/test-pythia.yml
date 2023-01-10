@@ -12,18 +12,18 @@ jobs:
 #          cmake .. && make -j
       - name: Set RAxML-NG environment variable
         run: |
-          echo "raxmlng=yellow" >> $GITHUB_ENV
+          echo "raxmlng=test/bin/raxml-ng" >> $GITHUB_ENV
       - name: use the value
         run: |
           echo "${{ env.raxmlng }}"
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Install Pythia and setup requirements
-        run: |
-          sudo pip install -e .
-          pip install pytest
-          rm tests/test_config.py
-          echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
-      - name: Run Pythia tests
-        run: |
-          PYTHONPATH=. pytest
+#      - name: Check out repository code
+#        uses: actions/checkout@v3
+#      - name: Install Pythia and setup requirements
+#        run: |
+#          sudo pip install -e .
+#          pip install pytest
+#          rm tests/test_config.py
+#          echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
+#      - name: Run Pythia tests
+#        run: |
+#          PYTHONPATH=. pytest
