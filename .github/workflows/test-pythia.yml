@@ -5,16 +5,22 @@ jobs:
   Run-Pythia-Tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup RAxML-NG
+#      - name: Setup RAxML-NG
+#        run: |
+#          git clone --recursive https://github.com/amkozlov/raxml-ng.git
+#          cd raxml-ng && mkdir build && cd build
+#          cmake .. && make -j
+#      - name: Set RAxML-NG environment variable
+#        run: |
+#          cd ..
+#          echo "raxmlng=blabla/bin/raxml-ng" >> $GITHUB_ENV
+#          echo "RAxMLNG: ${{ env.raxmlng }}"
+      - name: set the value
         run: |
-          git clone --recursive https://github.com/amkozlov/raxml-ng.git
-          cd raxml-ng && mkdir build && cd build
-          cmake .. && make -j
-      - name: Set RAxML-NG environment variable
+          echo "action_state=yellow" >> $GITHUB_ENV
+      - name: use the value
         run: |
-          cd .. 
-          echo "raxmlng=blabla/bin/raxml-ng" >> $GITHUB_ENV
-          echo "RAxMLNG: ${{ env.raxmlng }}"
+          echo "${{ env.action_state }}"
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Install Pythia and setup requirements
