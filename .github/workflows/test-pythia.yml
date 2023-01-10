@@ -7,6 +7,7 @@ jobs:
     steps:
       - run: git clone --recursive https://github.com/amkozlov/raxml-ng.git
       - run: cd raxml-ng && mkdir build && cd build && cmake .. && make -j && pwd
+      - run: /home/runner/work/PyPythia/PyPythia/raxml-ng/bin/raxml-ng
 #      - name: Check out repository code
 #        uses: actions/checkout@v3
 #      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
