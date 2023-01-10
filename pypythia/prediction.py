@@ -24,6 +24,7 @@ def get_all_features(
     msa: MSA,
     store_trees: bool = False,
     log_info: bool = True,
+    threads: int = None,
 ) -> Dict:
     """Helper function to collect all features required for predicting the difficulty of the MSA.
 
@@ -32,6 +33,7 @@ def get_all_features(
         msa (MSA): MSA object corresponding to the MSA file to compute the features for.
         store_trees (bool, optional): If True, store the inferred parsimony trees as "{msa_name}.parsimony.trees" file in the current workdir.
         log_info (bool, optional): If True, log intermediate progress information using the default logger.
+        threads (int, optional): The number of threads to use for parallel parsimony tree inference. Uses the RAxML-NG auto parallelization scheme if none is set.
     Returns:
         all_features (Dict): Dictionary containing all features required for predicting the difficulty of the MSA. The keys correspond to the feature names the predictor was trained with.
     """
@@ -64,6 +66,7 @@ def get_all_features(
             redo=None,
             seed=0,
             n_trees=n_pars_trees,
+            **dict(threads=threads) if threads else {}
         )
         if store_trees:
             fn = f"{msa.msa_name}.parsimony.trees"
@@ -116,7 +119,7 @@ def main():
     print_header()
 
     parser = argparse.ArgumentParser(
-        description="Parser for optional config file setting."
+        description="Parser for Pythia command line options."
     )
     parser.add_argument(
         "-m",
@@ -135,13 +138,25 @@ def main():
     )
 
     parser.add_argument(
+        "-t",
+        "--threads",
+        type=int,
+        required=False,
+        help="Number of threads to use for parallel parsimony tree inference. "
+        "If none is set, Pythia uses the parallelization scheme of RAxML-NG "
+        "that automatically detects the optimal number of threads for your machine.",
+    )
+
+    parser.add_argument(
         "-p",
         "--predictor",
         type=argparse.FileType("rb"),
-        default=os.path.join(os.path.dirname(__file__), "predictors/predictor_lgb_v1.0.0.pckl"),
+        default=os.path.join(
+            os.path.dirname(__file__), "predictors/latest.pckl"
+        ),
         required=False,
         help="Filepath of the predictor to use. If not set, "
-             "assume it is 'predictors/predictor_lgb_v1.0.0.pckl' in the project directory.",
+        "assume it is 'predictors/latest.pckl' in the project directory.",
     )
 
     parser.add_argument(
@@ -150,7 +165,7 @@ def main():
         type=argparse.FileType("w"),
         required=False,
         help="Option to specify a filepath where the result will be written to. "
-             "The file will contain a single line with only the difficulty.",
+        "The file will contain a single line with only the difficulty.",
     )
 
     parser.add_argument(
@@ -209,7 +224,9 @@ def main():
     raxmlng_executable = args.raxmlng
     raxmlng = RAxMLNG(raxmlng_executable)
 
-    log_runtime_information(message=f"Loading predictor {args.predictor.name}", log_runtime=True)
+    log_runtime_information(
+        message=f"Loading predictor {args.predictor.name}", log_runtime=True
+    )
     predictor = DifficultyPredictor(args.predictor)
 
     log_runtime_information(message="Checking MSA", log_runtime=True)
@@ -250,7 +267,13 @@ def main():
     )
 
     features_start = time.perf_counter()
-    msa_features = get_all_features(raxmlng, msa, args.storeTrees)
+    msa_features = get_all_features(
+        raxmlng=raxmlng,
+        msa=msa,
+        store_trees=args.storeTrees,
+        log_info=True,
+        threads=args.threads,
+    )
     features_end = time.perf_counter()
 
     log_runtime_information("Predicting the difficulty", log_runtime=True)

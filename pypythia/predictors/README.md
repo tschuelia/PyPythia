@@ -3,6 +3,9 @@ You can use any of the provided trained predictors to query Pythia with.
 You can set the predictor to use by passing the respective path via the `-p` switch.
 We recommend you to only use this option for reproducing older results as the default predictor will yield the most accurate results.
 
+- latest.pckl
+  - equals the predictor `predictor_lgb_v1.0.0.pckl`
+
 - predictor_sklearn_rf_v0.0.1.pckl
   - trained random forest predictor used as default predictor in Pythia versions <= 0.0.1
   - trained using `sklearn.ensemble.RandomForestRegressor`

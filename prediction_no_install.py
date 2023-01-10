@@ -27,4 +27,5 @@ def predict_difficulty(msa_file: FilePath, predictor_path: FilePath, raxmlng_exe
     msa = MSA(msa_file)
     msa_features = get_all_features(raxmlng, msa, log_info=False)
     difficulty = predictor.predict(msa_features)
+    print(f"The difficulty of your MSA {msa_file} is {round(difficulty, 2)}")
     return difficulty
