@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+      - run: pip install -e .
+      - run: pip install pytest
       # replace the RAxML-NG command line in the tests with the correct one from the runner
       # to do so we remove the old file and a new one with the correct path
       - run: rm tests/test_config.py
