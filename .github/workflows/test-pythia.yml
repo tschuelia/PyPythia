@@ -10,18 +10,16 @@ jobs:
           git clone --recursive https://github.com/amkozlov/raxml-ng.git
           cd raxml-ng && mkdir build && cd build
           cmake .. && make -j
+          # set the raxmlng environment variable we need for the tests below
           cd .. && echo "raxmlng=$(pwd)/bin/raxml-ng" >> $GITHUB_ENV
-      - name: use the value
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install Pythia and setup requirements
         run: |
-          ${{ env.raxmlng }}
-#      - name: Check out repository code
-#        uses: actions/checkout@v3
-#      - name: Install Pythia and setup requirements
-#        run: |
-#          sudo pip install -e .
-#          pip install pytest
-#          rm tests/test_config.py
-#          echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
-#      - name: Run Pythia tests
-#        run: |
-#          PYTHONPATH=. pytest
+          sudo pip install -e .
+          pip install pytest
+          rm tests/test_config.py
+          echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
+      - name: Run Pythia tests
+        run: |
+          PYTHONPATH=. pytest
