@@ -13,7 +13,7 @@ jobs:
       - name: Set RAxML-NG environment variable
         run: |
           cd .. 
-          echo "raxmlng=$pwd/bin/raxml-ng" >> $GITHUB_ENV
+          echo "raxmlng=blabla/bin/raxml-ng" >> $GITHUB_ENV
           echo "RAxMLNG: ${{ env.raxmlng }}"
       - name: Check out repository code
         uses: actions/checkout@v3
