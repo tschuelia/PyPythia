@@ -1,5 +1,6 @@
 name: Setup RAxML-NG
 runs:
+  using: composite
   steps:
     - name: Setup RAxML-NG and RAxML-NG env variable
       run: |
