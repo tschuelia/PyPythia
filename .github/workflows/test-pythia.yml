@@ -22,6 +22,8 @@ jobs:
   Test-Pythia-Install-using-pip:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Install Pythia using pip
