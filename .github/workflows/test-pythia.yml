@@ -19,6 +19,7 @@ jobs:
       - name: Run Pythia tests
         run: |
           PYTHONPATH=. pytest
+
   Test-Pythia-Install-using-pip:
     runs-on: ubuntu-latest
     steps:
@@ -29,5 +30,18 @@ jobs:
       - name: Install Pythia using pip
         run: |
           pip install git+https://github.com/tschuelia/PyPythia.git
+      - name: Test Pythia installation by running the CLI
+        uses: ./.github/actions/test-pythia-cli
+
+  Test-Pythia-Isntall-from-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup RAxML-NG and RAxML-NG env variable
+        uses: ./.github/actions/setup-raxmlng
+      - name: Install from source
+        run: |
+          pip install .
       - name: Test Pythia installation by running the CLI
         uses: ./.github/actions/test-pythia-cli
