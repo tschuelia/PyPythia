@@ -1,6 +1,15 @@
 # PyPythia: Phylogenetic Difficulty Prediction Library
+![Pythia GH actions CI](https://github.com/tschuelia/PyPythia/actions/workflows/test-pythia.yml/badge.svg)
+
+## Introduction
+
 Pythia is a lightweight python library to predict the difficulty of Multiple Sequence Alignments (MSA). 
+Phylogenetic analyzes under the Maximum-Likelihood (ML) model are time and resource intensive. To adequately capture the vastness of tree space, one needs to infer multiple independent trees. On some datasets, multiple tree inferences converge to similar tree topologies, on others to multiple, topologically highly distinct yet statistically indistinguishable topologies. Pythia predicts the degree of difficulty of analyzing a dataset prior to initiating ML-based tree inferences. Predicting the difficulty using Pythia is substantially faster than inferring multiple ML trees using RAxML-NG.
+Pythia can be used to increase user awareness with respect to the amount of signal and uncertainty to be expected in phylogenetic analyzes, and hence inform an appropriate (post-)analysis setup. Further, it can be used to select appropriate search algorithms for easy-, intermediate-, and hard-to-analyze datasets.
 Pythia supports DNA, AA, and morphological data in phylip and FASTA format.
+
+
+
 
 ### Installation
 The easiest way to install Pythia is to use the python package manager pip:
