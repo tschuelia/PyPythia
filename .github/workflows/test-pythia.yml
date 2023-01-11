@@ -8,12 +8,13 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Setup RAxML-NG and RAxML-NG env variable
-        run: |
-          git clone --recursive https://github.com/amkozlov/raxml-ng.git
-          cd raxml-ng && mkdir build && cd build
-          cmake .. && make -j
-          # set the raxmlng environment variable we need for the tests below
-          cd .. && echo "raxmlng=$(pwd)/bin/raxml-ng" >> $GITHUB_ENV
+        uses: ./.github/actions/setup-raxmlng
+#        run: |
+#          git clone --recursive https://github.com/amkozlov/raxml-ng.git
+#          cd raxml-ng && mkdir build && cd build
+#          cmake .. && make -j
+#          # set the raxmlng environment variable we need for the tests below
+#          cd .. && echo "raxmlng=$(pwd)/bin/raxml-ng" >> $GITHUB_ENV
       - name: Install Pythia and setup requirements
         run: |
           sudo pip install -e .
