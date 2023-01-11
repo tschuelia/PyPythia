@@ -1,0 +1,101 @@
+RAxML-NG v. 1.1.0-master released on 29.11.2021 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Apple M1 Pro, 8 cores, 16 GB RAM
+
+RAxML-NG was called at 24-Mar-2022 14:06:45 as follows:
+
+/Users/julia/Desktop/Promotion/software/raxml-ng/bin/raxml-ng --msa /Users/julia/Desktop/Promotion/DifficultyPrediction/training_data/TreeBase/12540_3.phy --model GTR+G --prefix results/12540_3.phy/output_files/raxmlng/inference/pars_0 --seed 0 --tree pars{1}
+
+Analysis options:
+  run mode: ML tree search
+  start tree(s): parsimony (1)
+  random seed: 0
+  tip-inner: OFF
+  pattern compression: ON
+  per-rate scalers: OFF
+  site repeats: ON
+  fast spr radius: AUTO
+  spr subtree cutoff: 1.000000
+  lh-epsilon during autodetect spr rounds: 0.100000
+  lh-epsilon during fast spr rounds: 0.100000
+  lh-epsilon during slow spr rounds: 0.100000
+  lh-epsilon for full brlen opt: 0.100000
+  lh-epsilon for triplet brlen opt: 0.100000
+  branch lengths: proportional (ML estimate, algorithm: NR-FAST)
+  SIMD kernels: SSE3
+  parallelization: coarse-grained (auto), PTHREADS (auto)
+
+[00:00:00] Reading alignment from file: /Users/julia/Desktop/Promotion/DifficultyPrediction/training_data/TreeBase/12540_3.phy
+[00:00:00] Loaded alignment with 6 taxa and 922 sites
+
+WARNING: Sequences Phytophthora_ramorum_EU1 and Phytophthora_ramorum_NA1 are exactly identical!
+WARNING: Duplicate sequences found: 1
+
+NOTE: Reduced alignment (with duplicates and gap-only sites/taxa removed)
+NOTE: was saved to: /Users/julia/Desktop/Promotion/DifficultyPrediction/training_data_pipeline/results/12540_3.phy/output_files/raxmlng/inference/pars_0.raxml.reduced.phy
+
+Alignment comprises 1 partitions and 50 patterns
+
+Partition 0: noname
+Model: GTR+FO+G4m
+Alignment sites / patterns: 922 / 50
+Gaps: 1.63 %
+Invariant sites: 89.70 %
+
+
+NOTE: Binary MSA file created: results/12540_3.phy/output_files/raxmlng/inference/pars_0.raxml.rba
+
+Parallelization scheme autoconfig: 1 worker(s) x 1 thread(s)
+
+Parallel reduction/worker buffer size: 1 KB  / 0 KB
+
+[00:00:00] Generating 1 parsimony starting tree(s) with 6 taxa
+Parsimony score: 119
+[00:00:00] Data distribution: max. partitions/sites/weight per thread: 1 / 50 / 800
+[00:00:00] Data distribution: max. searches per worker: 1
+
+Starting ML tree search with 1 distinct starting trees
+
+[00:00:00 -2260.177101] Initial branch length optimization
+[00:00:00 -1829.086772] Model parameter optimization (eps = 10.000000)
+[00:00:00 -1662.325841] AUTODETECT spr round 1 (radius: 5)
+[00:00:00 -1662.323343] AUTODETECT eps = 0.100000
+[00:00:00 -1662.323343] SPR radius for FAST iterations: 5 (autodetect)
+[00:00:00 -1662.323343] Model parameter optimization (eps = 3.000000)
+[00:00:00 -1662.270542] FAST eps = 0.100000
+[00:00:00 -1662.270542] Full brlen eps = 0.100000
+[00:00:00 -1662.270542] FAST spr round 1 (radius: 5)
+[00:00:00 -1662.270298] Model parameter optimization (eps = 1.000000)
+[00:00:00 -1662.268550] SLOW eps = 0.100000
+[00:00:00 -1662.268550] SLOW spr round 1 (radius: 5)
+[00:00:00 -1662.268532] Model parameter optimization (eps = 0.100000)
+
+[00:00:00] ML tree search #1, logLikelihood: -1662.268394
+
+
+Optimized model parameters:
+
+   Partition 0: noname
+   Rate heterogeneity: GAMMA (4 cats, mean),  alpha: 0.087007 (ML),  weights&rates: (0.250000,0.000000) (0.250000,0.000384) (0.250000,0.061094) (0.250000,3.938522)
+   Base frequencies (ML): 0.365581 0.091991 0.142825 0.399603
+   Substitution rates (ML): 1.908494 3.154072 1.536439 0.638140 4.628761 1.000000
+
+
+Final LogLikelihood: -1662.268394
+
+AIC score: 3360.536789 / AICc score: 3361.294264 / BIC score: 3447.414603
+Free parameters (model + branch lengths): 18
+
+Best ML tree saved to: /Users/julia/Desktop/Promotion/DifficultyPrediction/training_data_pipeline/results/12540_3.phy/output_files/raxmlng/inference/pars_0.raxml.bestTree
+Optimized model saved to: /Users/julia/Desktop/Promotion/DifficultyPrediction/training_data_pipeline/results/12540_3.phy/output_files/raxmlng/inference/pars_0.raxml.bestModel
+
+Execution log saved to: /Users/julia/Desktop/Promotion/DifficultyPrediction/training_data_pipeline/results/12540_3.phy/output_files/raxmlng/inference/pars_0.raxml.log
+
+Analysis started: 24-Mar-2022 14:06:45 / finished: 24-Mar-2022 14:06:45
+
+Elapsed time: 0.025 seconds
+

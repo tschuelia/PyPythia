@@ -1,0 +1,12 @@
+name: Test Pythia CLI
+inputs:
+  msa-file:
+    description: MSA file to test Pythia CLI with
+    default: examples/example.phy
+runs:
+  using: composite
+  steps:
+    - name: Run Pythia CLI with an exemplary MSA to make sure everything is working
+      run: |
+        pythia -m ${{ inputs.msa-file }} -r ${{ env.raxmlng }}
+      shell: bash

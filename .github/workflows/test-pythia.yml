@@ -1,0 +1,47 @@
+name: Build and test PyPythia
+run-name: Build and run the tests of the PyPythia python library.
+on: [push]
+jobs:
+  Run-Pythia-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup RAxML-NG and RAxML-NG env variable
+        uses: ./.github/actions/setup-raxmlng
+      - name: Install Pythia and setup requirements
+        run: |
+          sudo pip install -e .
+          pip install pytest
+          rm tests/test_config.py
+          echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
+          cat tests/test_config.py
+      - name: Run Pythia tests
+        run: |
+          PYTHONPATH=. pytest
+
+  Test-Pythia-Install-using-pip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup RAxML-NG and RAxML-NG env variable
+        uses: ./.github/actions/setup-raxmlng
+      - name: Install Pythia using pip
+        run: |
+          pip install git+https://github.com/tschuelia/PyPythia.git
+      - name: Test Pythia installation by running the CLI
+        uses: ./.github/actions/test-pythia-cli
+
+  Test-Pythia-Isntall-from-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup RAxML-NG and RAxML-NG env variable
+        uses: ./.github/actions/setup-raxmlng
+      - name: Install from source
+        run: |
+          pip install .
+      - name: Test Pythia installation by running the CLI
+        uses: ./.github/actions/test-pythia-cli

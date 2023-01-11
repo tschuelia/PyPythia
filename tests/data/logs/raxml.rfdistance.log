@@ -1,0 +1,38 @@
+RAxML-NG v. 1.1.0-master released on 29.11.2021 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Apple M1 Pro, 8 cores, 16 GB RAM
+
+RAxML-NG was called at 24-Mar-2022 14:06:47 as follows:
+
+/Users/julia/Desktop/Promotion/software/raxml-ng/bin/raxml-ng --rfdist --tree results/12540_3.phy/output_files/parsimony/AllParsimonyTrees.trees --prefix results/12540_3.phy/output_files/parsimony/parsimony
+
+Analysis options:
+  run mode: RF distance computation
+  start tree(s): user
+  random seed: 1648127207
+  SIMD kernels: SSE3
+  parallelization: coarse-grained (auto), PTHREADS (auto)
+
+Reading input trees from file: results/12540_3.phy/output_files/parsimony/AllParsimonyTrees.trees
+Loaded 2 trees with 6 taxa.
+
+CLUSTERS:
+len clusters 2
+[0, ]
+[1, ]
+Average absolute RF distance in this tree set: 2.000000
+Average relative RF distance in this tree set: 0.333333
+Number of unique topologies in this tree set: 2
+
+Pairwise RF distances saved to: /Users/julia/Desktop/Promotion/DifficultyPrediction/training_data_pipeline/results/12540_3.phy/output_files/parsimony/parsimony.raxml.rfDistances
+
+Execution log saved to: /Users/julia/Desktop/Promotion/DifficultyPrediction/training_data_pipeline/results/12540_3.phy/output_files/parsimony/parsimony.raxml.log
+
+Analysis started: 24-Mar-2022 14:06:47 / finished: 24-Mar-2022 14:06:47
+
+Elapsed time: 0.002 seconds
+
