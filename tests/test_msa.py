@@ -27,7 +27,6 @@ class TestMSAFeatures:
         for true_type in DataType:
             base_dir = os.path.join(cwd, "tests", "data", true_type.value)
             for msa_file in os.listdir(base_dir):
-                print("MSAAAAA ", msa_file)
                 msa_file = os.path.join(base_dir, msa_file)
                 msa = MSA(msa_file)
                 guessed_type = msa.guess_data_type()

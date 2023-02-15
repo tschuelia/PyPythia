@@ -55,13 +55,7 @@ class MSA:
 
     def _set_msa_object(self, msa_file: FilePath):
         with NamedTemporaryFile(mode="w") as tmpfile:
-            if self.data_type == DataType.DNA:
-                self._convert_dna_msa_to_biopython_format(msa_file, tmpfile)
-            elif self.data_type == DataType.AA:
-                self._convert_aa_msa_to_biopython_format(msa_file, tmpfile)
-            elif self.data_type == DataType.MORPH:
-                # same functionality works also for morphological data
-                self._convert_aa_msa_to_biopython_format(msa_file, tmpfile)
+            self._convert_msa_to_biopython_format(msa_file, tmpfile)
 
             tmpfile.flush()
             try:
@@ -69,32 +63,83 @@ class MSA:
             except Exception as e:
                 raise PyPythiaException("Error reading the provided MSA: ", msa_file) from e
 
-    def _convert_dna_msa_to_biopython_format(self, msa_file: FilePath, tmpfile: NamedTemporaryFile) -> None:
+    def _get_updated_sequence(self, sequence: str, char_mapping: dict):
+        sequence = sequence.upper()
+        for char, new_char in char_mapping.items():
+            sequence = sequence.replace(char, new_char)
+
+        return sequence
+
+    def _replace_phylip_sequence_chars(self, msa_file: FilePath, char_mapping: dict, new_file: FilePath):
+        msa_content = open(msa_file)
+        new_content = []
+
+        # phylip file contains the number of taxa and sites as integer numbers in the first line
+        first_line = msa_content.readline().strip()
+        _ntaxa, _nsites, *_ = first_line.split()
+        new_content.append(first_line + "\n")
+
+        for i, line in enumerate(msa_content):
+            if i < int(_ntaxa):
+                # for the first _ntaxa lines: replace all chars only in the sequences
+                taxon, sequence = line.split(maxsplit=1)
+                sequence = self._get_updated_sequence(sequence, char_mapping)
+                new_line = f"{taxon} {sequence}"
+            else:
+                new_line = self._get_updated_sequence(line, char_mapping)
+
+            new_content.append(new_line)
+
+        msa_content.close()
+
+        new_file.write("".join(new_content))
+
+    def _replace_fasta_sequence_chars(self, msa_file: FilePath, char_mapping: dict, new_file: FilePath):
+        msa_content = open(msa_file)
+        new_content = []
+
+        for line in msa_content:
+            if line.startswith(">"):
+                # this line contains the taxon name, we can simply add it
+                new_line = line
+            else:
+                new_line = self._get_updated_sequence(line, char_mapping)
+
+            new_content.append(new_line)
+
+        msa_content.close()
+
+        new_file.write("".join(new_content))
+
+    def _convert_msa_to_biopython_format(self, msa_file: FilePath, tmpfile: NamedTemporaryFile) -> None:
         """
-        The unknonwn char in DNA MSA files for Biopython to work
-        has to be "-" instead of "X" or "N" -> replace all occurences
+        The unknown char in DNA MSA files for Biopython to work
+        has to be "-" instead of "X" or "N" -> replace all occurrences
         All "?" are gaps -> convert to "-"
         Also all "U" need to be "T"
-        """
-        with open(msa_file) as f:
-            repl = f.read().replace("X", "-")
-            repl = repl.replace("N", "-")
-            repl = repl.replace("?", "-")
-            repl = repl.replace("U", "T")
-            repl = repl.upper()
 
-        tmpfile.write(repl)
+        For AA and MORPH files, we only have to replace the "?" gap symbol with "-"
 
-    def _convert_aa_msa_to_biopython_format(self, msa_file: FilePath, tmpfile: NamedTemporaryFile) -> None:
+        We do however, need to be careful as to not replace any of these chars in the taxon names.
         """
-        The unknonwn char in AA MSA files for Biopython to work
-        All "?" are gaps -> convert to "-"
-        """
-        with open(msa_file) as f:
-            repl = f.read().replace("?", "-")
-            repl = repl.upper()
+        if self.data_type == DataType.DNA:
+            char_mapping = {
+                "X": "-",
+                "N": "-",
+                "?": "-",
+                "U": "T"
+            }
+        else:
+            char_mapping = {
+                "?": "-"
+            }
 
-        tmpfile.write(repl)
+        if self.file_format == FileFormat.PHYLIP:
+            self._replace_phylip_sequence_chars(msa_file, char_mapping, tmpfile)
+        elif self.file_format == FileFormat.FASTA:
+            self._replace_fasta_sequence_chars(msa_file, char_mapping, tmpfile)
+        else:
+            raise PyPythiaException("Unsupported file format: ", self.file_format)
 
     def _get_file_format(self) -> FileFormat:
         first_line = open(self.msa_file).readline().strip()
