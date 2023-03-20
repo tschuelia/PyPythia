@@ -229,7 +229,7 @@ class MSA:
                 # remove whitespace and add the characters to the set of unique characters of this MSA
                 sequence = sequence.strip().replace(" ", "")
                 for char in set(sequence):
-                    sequence_chars.add(char)
+                    sequence_chars.add(char.upper())
         elif format == FileFormat.FASTA:
             # taxon names start with a ">", treat every other line as sequence line
             for line in msa_content:
@@ -238,7 +238,7 @@ class MSA:
                     continue
                 else:
                     for char in set(line):
-                        sequence_chars.add(char)
+                        sequence_chars.add(char.upper())
         else:
             raise ValueError(
                 f"Unsupported MSA file format {format}. Supported formats are phylip and fasta."
