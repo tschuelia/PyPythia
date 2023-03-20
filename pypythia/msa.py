@@ -56,7 +56,6 @@ class MSA:
     def _set_msa_object(self, msa_file: FilePath):
         with NamedTemporaryFile(mode="w") as tmpfile:
             self._convert_msa_to_biopython_format(msa_file, tmpfile)
-
             tmpfile.flush()
             try:
                 self.msa = AlignIO.read(tmpfile.name, format=self.file_format.value)
@@ -156,7 +155,7 @@ class MSA:
             return FileFormat.PHYLIP
         except:
             raise ValueError(
-                f"The file type of this MSA could not be autodetected, please check that the file contains data in phylip or fasta format."
+                f"The file type of {self.msa_file} could not be autodetected, please check that the file contains data in phylip or fasta format."
             )
 
     def _get_unique_sequences(self):
