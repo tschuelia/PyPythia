@@ -87,10 +87,12 @@ def get_all_features(
             "num_patterns": patterns,
             "num_patterns/num_taxa": patterns / ntaxa,
             "num_sites/num_taxa": nsites / ntaxa,
+            "num_patterns/num_sites": patterns / nsites,
             "proportion_gaps": gaps,
             "proportion_invariant": invariant,
             "entropy": msa.entropy(),
             "bollback": msa.bollback_multinomial(),
+            "pattern_entropy": msa.pattern_entropy(),
             "avg_rfdist_parsimony": rel_rfdist,
             "proportion_unique_topos_parsimony": num_topos / n_pars_trees,
         }
@@ -265,6 +267,11 @@ def main():
     log_runtime_information(
         f"Starting to compute MSA features for MSA {msa_file}", log_runtime=True
     )
+
+    if args.threads is not None:
+        log_runtime_information(f"Using {args.threads} threads for parallel parsimony tree computation.", log_runtime=True)
+    else:
+        log_runtime_information(f"Number of threads not specified, using RAxML-NG autoconfig.", log_runtime=True)
 
     features_start = time.perf_counter()
     msa_features = get_all_features(

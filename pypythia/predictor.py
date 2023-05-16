@@ -1,7 +1,9 @@
 import pickle
 
+from lightgbm import LGBMRegressor
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
 
 from pypythia.custom_types import *
 from pypythia.custom_errors import PyPythiaException
@@ -26,22 +28,28 @@ class DifficultyPredictor:
 
     def __init__(self, predictor_handle, features=None) -> None:
         self.predictor = pickle.load(predictor_handle)
-        self.predictor_type = str(type(self.predictor))
 
-        if features is None:
-            features = [
+        # Pythia version < 1.0.0 was a scikit-learn based predictor
+        # starting from version 1.0.0 we have a lightGBM based predictor
+        # so we need to distinguish the predictor type to obtain the feature names
+        if isinstance(self.predictor, RandomForestRegressor):
+            self.features = list(self.predictor.feature_names_in_)
+        elif isinstance(self.predictor, LGBMRegressor):
+            self.features = list(self.predictor.feature_name_)
+        else:
+            # hard-code the set of features we can use based on prediction.py
+            self.features = [
                 "num_patterns/num_taxa",
                 "num_sites/num_taxa",
+                "num_patterns/num_sites",
                 "proportion_gaps",
                 "proportion_invariant",
                 "entropy",
+                "pattern_entropy",
                 "bollback",
                 "avg_rfdist_parsimony",
                 "proportion_unique_topos_parsimony",
             ]
-
-        self.features = features
-
 
     def predict(self, query: Dict) -> float:
         """Predicts the difficulty for the given set of MSA features.
@@ -82,7 +90,7 @@ class DifficultyPredictor:
                                     "Something went wrong during feature computation.")
 
         try:
-            if "lightgbm" in self.predictor_type:
+            if isinstance(self.predictor, LGBMRegressor):
                 prediction = self.predictor.predict(df, num_threads=1)
             else:
                 prediction = self.predictor.predict(df)

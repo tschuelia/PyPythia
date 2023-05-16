@@ -338,13 +338,12 @@ class MSA:
         """
         return statistics.mean(self.column_entropies())
 
-    def bollback_multinomial(self) -> float:
-        """Returns the bollback multinomial statistic of the MSA.
-
-        According to Bollback, JP: Bayesian model adequacy and choice in phylogenetics (2002)
+    def pattern_entropy(self) -> float:
+        """Returns an entropy like metric based on the number and frequency of patterns in the MSA.
 
         Returns:
-            bollback (float): The bollback multionomial statistic of the MSA. The bollback multinomial statistic is <= 0.
+            pattern entropy (float): The pattern entropy like measure. The pattern entropy is >= 0.
+        TODO: Documentation and Test
         """
         msa_length = self.number_of_sites()
 
@@ -358,8 +357,20 @@ class MSA:
             N_i = site_counts[i]
             mult += N_i * math.log(N_i)
 
-        mult = mult - msa_length * math.log(msa_length)
         return mult
+
+    def bollback_multinomial(self) -> float:
+        """Returns the bollback multinomial statistic of the MSA.
+
+        According to Bollback, JP: Bayesian model adequacy and choice in phylogenetics (2002)
+
+        Returns:
+            bollback (float): The bollback multionomial statistic of the MSA. The bollback multinomial statistic is <= 0.
+        """
+        pattern_entropy = self.pattern_entropy()
+        msa_length = self.number_of_sites()
+        bollback = pattern_entropy - msa_length * math.log(msa_length)
+        return bollback
 
     def _get_distance_matrix(self, num_samples: int):
         """
