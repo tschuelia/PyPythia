@@ -1,6 +1,8 @@
 import pickle
+import shap
 
 from lightgbm import LGBMRegressor
+from matplotlib.figure import Figure
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
@@ -108,3 +110,23 @@ class DifficultyPredictor:
             ) from e
 
         return prediction
+
+    def plot_shapley_values(self, query: Dict) -> Figure:
+        explainer = shap.TreeExplainer(self.predictor)
+        df = self._check_and_pack_query(query)
+        shap_values = explainer.shap_values(df)
+        base_values = explainer.expected_value
+
+        if isinstance(self.predictor, RandomForestRegressor):
+            base_values = base_values[0]
+
+        return shap.plots.waterfall(
+            shap.Explanation(
+                values=shap_values[0],
+                base_values=base_values,
+                data=df.iloc[0]
+            ),
+            show=False
+        )
+
+

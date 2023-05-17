@@ -196,6 +196,14 @@ def main():
     )
 
     parser.add_argument(
+        "--shap",
+        help="If set, computes the shapley values of the prediction as waterfall plot in '{msa_name}.shap.pdf'. "
+             "When using this option, make sure you understand what shapley values are and how to interpret this plot."
+             "For details on shapley values refer to the wiki: TODO.",
+        action="store_true"
+    )
+
+    parser.add_argument(
         "-v",
         "--verbose",
         help="If set, additionally prints the MSA features.",
