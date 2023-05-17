@@ -353,8 +353,7 @@ class MSA:
 
         site_counts = Counter(sites)
         mult = 0
-        for i in site_counts:
-            N_i = site_counts[i]
+        for N_i in site_counts.values():
             mult += N_i * math.log(N_i)
 
         return mult

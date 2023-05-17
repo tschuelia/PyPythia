@@ -1,3 +1,5 @@
+import pytest
+
 from tests.fixtures import *
 from pypythia.custom_types import DataType, FileFormat
 from pypythia.msa import MSA
@@ -5,7 +7,9 @@ from pypythia.custom_errors import PyPythiaException
 
 
 class TestMSAFeatures:
-    def test_contains_duplicate_sequences(self, msa_with_duplicate_sequences, msa_without_duplicate_sequences):
+    def test_contains_duplicate_sequences(
+        self, msa_with_duplicate_sequences, msa_without_duplicate_sequences
+    ):
         # small_msa_with_signal does not contain duplicates
         assert msa_with_duplicate_sequences.contains_duplicate_sequences()
         assert not msa_without_duplicate_sequences.contains_duplicate_sequences()
@@ -17,8 +21,7 @@ class TestMSAFeatures:
         ff = dna_fasta_msa._get_file_format()
         assert ff == FileFormat.FASTA
 
-    def test_get_msa_file_format_raises_value_error(self,
-                                                    raxmlng_inference_log):
+    def test_get_msa_file_format_raises_value_error(self, raxmlng_inference_log):
         with pytest.raises(ValueError):
             MSA(raxmlng_inference_log)._get_file_format()
 
@@ -56,9 +59,14 @@ class TestMSAFeatures:
 
         assert entropy == pytest.approx(0.19863, abs=0.01)
 
+    def test_pattern_entropy(self, small_msa):
+        pattern_entropy = small_msa.pattern_entropy()
+
+        assert pattern_entropy == pytest.approx(2900.801214, abs=0.001)
+
     def test_bollback_multinomial(self, small_msa):
         bollback = small_msa.bollback_multinomial()
-        
+
         assert bollback == pytest.approx(-365.70127, abs=0.001)
 
     def test_treelikeness_score(self, dna_phylip_msa):
@@ -66,13 +74,19 @@ class TestMSAFeatures:
         # print(dna_phylip_msa.number_of_taxa())
         # print(dna_phylip_msa.treelikeness_score())
 
-    def test_save_reduced_alignment_without_replace_does_not_change_msa(self, msa_with_duplicate_sequences):
+    def test_save_reduced_alignment_without_replace_does_not_change_msa(
+        self, msa_with_duplicate_sequences
+    ):
         pre_taxa = msa_with_duplicate_sequences.number_of_taxa()
         pre_sites = msa_with_duplicate_sequences.number_of_sites()
 
-        reduced_msa = os.path.join(os.getcwd(), "tests", "data", "DNA", "0.phy.pythia.reduced")
+        reduced_msa = os.path.join(
+            os.getcwd(), "tests", "data", "DNA", "0.phy.pythia.reduced"
+        )
 
-        msa_with_duplicate_sequences.save_reduced_alignment(reduced_msa, replace_original=False)
+        msa_with_duplicate_sequences.save_reduced_alignment(
+            reduced_msa, replace_original=False
+        )
 
         post_taxa = msa_with_duplicate_sequences.number_of_taxa()
         post_sites = msa_with_duplicate_sequences.number_of_sites()
@@ -80,22 +94,33 @@ class TestMSAFeatures:
         assert pre_taxa == post_taxa
         assert pre_sites == post_sites
 
-    def test_save_reduced_alignment_with_replace_changes_msa(self, msa_with_duplicate_sequences):
+    def test_save_reduced_alignment_with_replace_changes_msa(
+        self, msa_with_duplicate_sequences
+    ):
         pre_taxa = msa_with_duplicate_sequences.number_of_taxa()
         pre_sites = msa_with_duplicate_sequences.number_of_sites()
 
-        reduced_msa = os.path.join(os.getcwd(), "tests", "data", "DNA", "0.phy.pythia.reduced")
+        reduced_msa = os.path.join(
+            os.getcwd(), "tests", "data", "DNA", "0.phy.pythia.reduced"
+        )
         if os.path.exists(reduced_msa):
             os.remove(reduced_msa)
 
-        msa_with_duplicate_sequences.save_reduced_alignment(reduced_msa, replace_original=True)
+        msa_with_duplicate_sequences.save_reduced_alignment(
+            reduced_msa, replace_original=True
+        )
 
         post_taxa = msa_with_duplicate_sequences.number_of_taxa()
         post_sites = msa_with_duplicate_sequences.number_of_sites()
 
-        assert pre_sites == post_sites # number of sites still needs to be the same
+        # remove reduced alignment again
+        os.remove(reduced_msa)
+
+        assert pre_sites == post_sites  # number of sites still needs to be the same
         assert pre_taxa > post_taxa
 
-    def test_save_reduced_alignemnt_without_duplicate_raises_pypythia_exception(self, msa_without_duplicate_sequences):
+    def test_save_reduced_alignemnt_without_duplicate_raises_pypythia_exception(
+        self, msa_without_duplicate_sequences
+    ):
         with pytest.raises(PyPythiaException):
             msa_without_duplicate_sequences.save_reduced_alignment("")
