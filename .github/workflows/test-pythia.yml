@@ -3,7 +3,7 @@ run-name: Build and run the tests of the PyPythia python library.
 on: [push]
 jobs:
   Run-Pythia-Tests:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, macos-latest]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -11,7 +11,7 @@ jobs:
         uses: ./.github/actions/setup-raxmlng
       - name: Install Pythia and setup requirements
         run: |
-          sudo pip install -e .
+          pip install -e .
           pip install pytest
           rm tests/test_config.py
           echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
@@ -21,7 +21,7 @@ jobs:
           PYTHONPATH=. pytest
 
   Test-Pythia-Install-using-pip:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, macos-latest]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -33,8 +33,8 @@ jobs:
       - name: Test Pythia installation by running the CLI
         uses: ./.github/actions/test-pythia-cli
 
-  Test-Pythia-Isntall-from-source:
-    runs-on: ubuntu-latest
+  Test-Pythia-Install-from-source:
+    runs-on: [ubuntu-latest, macos-latest]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
