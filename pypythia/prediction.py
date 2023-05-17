@@ -199,7 +199,7 @@ def main():
         "--shap",
         help="If set, computes the shapley values of the prediction as waterfall plot in '{msa_name}.shap.pdf'. "
              "When using this option, make sure you understand what shapley values are and how to interpret this plot."
-             "For details on shapley values refer to the wiki: TODO.",
+             "For details on shapley values refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values.",
         action="store_true"
     )
 
@@ -315,8 +315,8 @@ def main():
         logger.info(
             f"Waterfall plot of shapley values saved to {msa.msa_name}.shap.pdf"
         )
-        logger.warning("When using this plot make sure you understand what shapley values are and how you can interpret"
-                       " this plot. For details refer to the wiki: TODO")
+        logger.warning("WARNING: When using this plot make sure you understand what shapley values are and how you can interpret"
+                       " this plot. For details refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values")
 
     if args.storeTrees:
         logger.info("─" * 20)
