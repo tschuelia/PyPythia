@@ -77,11 +77,11 @@ def all_msa_files_with_model():
 
 @pytest.fixture
 def predictor():
-    return DifficultyPredictor(open("pypythia/predictors/predictor_lgb_v1.0.0.pckl", "rb"))
+    return DifficultyPredictor(open("pypythia/predictors/latest.pckl", "rb"))
 
 
 @pytest.fixture
-def old_predictor():
+def sklearn_predictor():
     return DifficultyPredictor(open("pypythia/predictors/predictor_sklearn_rf_v0.0.1.pckl", "rb"))
 
 

@@ -114,7 +114,7 @@ def log_runtime_information(message, log_runtime=True):
         time_string = f"[{fmt_time}] "
     else:
         time_string = ""
-    logger.debug(f"{time_string}{message}")
+    logger.info(f"{time_string}{message}")
 
 
 def main():
@@ -219,7 +219,7 @@ def main():
     args = parser.parse_args()
 
     if args.quiet:
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.WARNING)
 
     log_runtime_information(message="Starting prediction.", log_runtime=True)
 
@@ -300,14 +300,24 @@ def main():
     if final_warning_string:
         logger.warning(final_warning_string)
 
+    if args.shap:
+        fig = predictor.plot_shapley_values(msa_features)
+        fig.tight_layout()
+        fig.savefig(fname=f"{msa.msa_name}.shap.pdf")
+        logger.info(
+            f"Waterfall plot of shapley values saved to {msa.msa_name}.shap.pdf"
+        )
+        logger.warning("When using this plot make sure you understand what shapley values are and how you can interpret"
+                       " this plot. For details refer to the wiki: TODO")
+
     if args.storeTrees:
-        logger.debug("─" * 20)
-        logger.debug(
+        logger.info("─" * 20)
+        logger.info(
             f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees"
         )
 
     if args.verbose:
-        logger.debug("─" * 20)
+        logger.info("─" * 20)
         logger.info("FEATURES: ")
         for feat, val in msa_features.items():
             logger.info(f"{feat}: {round(val, args.precision)}")

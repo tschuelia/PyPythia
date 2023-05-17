@@ -9,9 +9,11 @@ class TestPredictor:
         query = {
             "num_patterns/num_taxa": 0.0,
             "num_sites/num_taxa": 0.0,
+            "num_patterns/num_sites": 0.0,
             "proportion_gaps": 0.0,
             "proportion_invariant": 0.0,
             "entropy": 0.0,
+            "pattern_entropy": 0.0,
             "bollback": 0.0,
             "avg_rfdist_parsimony": 0.0,
             "proportion_unique_topos_parsimony": 0.0,
@@ -28,9 +30,11 @@ class TestPredictor:
         query = {
             "num_patterns/num_taxa": [0.0],
             "num_sites/num_taxa": [0.0],
+            "num_patterns/num_sites": [0.0],
             "proportion_gaps": [0.0],
             "proportion_invariant": 0.0,
             "entropy": 0.0,
+            "pattern_entropy": 0.0,
             "bollback": 0.0,
             "avg_rfdist_parsimony": 0.0,
             "proportion_unique_topos_parsimony": 0.0,
@@ -65,10 +69,12 @@ class TestPredictor:
         query = {
             "num_patterns/num_taxa": -np.inf,
             "num_sites/num_taxa": -np.inf,
+            "num_patterns/num_sites": -np.inf,
             "proportion_gaps": -np.inf,
             "proportion_invariant": -np.inf,
             "entropy": -np.inf,
             "bollback": -np.inf,
+            "pattern_entropy": -np.inf,
             "avg_rfdist_parsimony": -np.inf,
             "proportion_unique_topos_parsimony": -np.inf,
         }
@@ -77,8 +83,8 @@ class TestPredictor:
             predictor.predict(query)
 
 
-class TestBackwardsCompatibility:
-    def test_predict(self, old_predictor):
+class TestBackwardsSklearnCompatibility:
+    def test_predict(self, sklearn_predictor):
         query = {
             "num_patterns/num_taxa": 0.0,
             "num_sites/num_taxa": 0.0,
@@ -90,7 +96,7 @@ class TestBackwardsCompatibility:
             "proportion_unique_topos_parsimony": 0.0,
         }
 
-        prediction = old_predictor.predict(query)
+        prediction = sklearn_predictor.predict(query)
 
         # don't test against an actual value, as this might change once the predictor changes
         # but the prediction should be a float between 0.0 and 1.0

@@ -15,11 +15,16 @@ class DifficultyPredictor:
     This class provides methods for predicting the difficulty of an MSA.
 
     Args:
-        predictor_handle (file object): Open file handle for the trained predictor.
+        predictor_handle (file object):
+            Open file handle for the trained predictor. We do not guarantee the functionality of this class
+            for predictors other than lightGBM Regressors and scikit-learn RandomForestRegressors
         features (optional list[string]):
             Names of the features the passed predictor was trained with.
             If you are using a LightGBM based predictor, the order of the features needs to be the same
             order as the order the predictor was trained with!
+            If no list is passed and the predictor is either a lightGBM Regressor or scikit-learn RandomForestRegressor,
+            the features will be automatically determined.
+            For any other predictor type features cannot be None.
 
     Attributes:
         predictor: Loaded trained predictor.
@@ -37,33 +42,16 @@ class DifficultyPredictor:
         elif isinstance(self.predictor, LGBMRegressor):
             self.features = list(self.predictor.feature_name_)
         else:
-            # hard-code the set of features we can use based on prediction.py
-            self.features = [
-                "num_patterns/num_taxa",
-                "num_sites/num_taxa",
-                "num_patterns/num_sites",
-                "proportion_gaps",
-                "proportion_invariant",
-                "entropy",
-                "pattern_entropy",
-                "bollback",
-                "avg_rfdist_parsimony",
-                "proportion_unique_topos_parsimony",
-            ]
+            if features is None:
+                raise PyPythiaException(
+                    "If passing a predictor other than a lightGMB Regressor or scikit-learn RandomForestRegressor, "
+                    "you also need to pass a list of features the predictor was trained with."
+                )
+            self.features = features
 
-    def predict(self, query: Dict) -> float:
-        """Predicts the difficulty for the given set of MSA features.
-
-        Args:
-            query (Dict): Dict containing the features of the MSA to predict the difficulty for.
-                query needs to contain at least the features the predictor was trained with.
-                You can check this using the DifficultyPredictor.features attribute
-
-        Returns:
-            difficulty (float): The predicted difficulty for the given set of MSA features.
-
-        Raises:
-            PyPythiaException: If not all features the predictor was trained with are present in the given query.
+    def _check_and_pack_query(self, query: Dict) -> pd.DataFrame:
+        """
+        Checks whether the given query is in correct format and packs the features as pandas Dataframe
         """
         df = pd.DataFrame()
         for feature in self.features:
@@ -88,6 +76,24 @@ class DifficultyPredictor:
         if np.all(np.isinf(df)):
             raise PyPythiaException("All features in this set are infinite. "
                                     "Something went wrong during feature computation.")
+
+        return df
+
+    def predict(self, query: Dict) -> float:
+        """Predicts the difficulty for the given set of MSA features.
+
+        Args:
+            query (Dict): Dict containing the features of the MSA to predict the difficulty for.
+                query needs to contain at least the features the predictor was trained with.
+                You can check this using the DifficultyPredictor.features attribute
+
+        Returns:
+            difficulty (float): The predicted difficulty for the given set of MSA features.
+
+        Raises:
+            PyPythiaException: If not all features the predictor was trained with are present in the given query.
+        """
+        df = self._check_and_pack_query(query)
 
         try:
             if isinstance(self.predictor, LGBMRegressor):
