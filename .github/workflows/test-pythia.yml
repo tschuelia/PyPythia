@@ -3,7 +3,10 @@ run-name: Build and run the tests of the PyPythia python library.
 on: [push]
 jobs:
   Run-Pythia-Tests:
-    runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -21,7 +24,10 @@ jobs:
           PYTHONPATH=. pytest
 
   Test-Pythia-Install-using-pip:
-    runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -34,7 +40,10 @@ jobs:
         uses: ./.github/actions/test-pythia-cli
 
   Test-Pythia-Install-from-source:
-    runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
