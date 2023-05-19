@@ -7,13 +7,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+        python-version: ["3.7", "3.11"]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11' 
+          python-version: ${{ matrix.python-version }}
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Install Pythia and setup requirements
@@ -26,8 +27,24 @@ jobs:
       - name: Run Pythia tests
         run: |
           PYTHONPATH=. pytest
+  
+#   Install-using-conda:
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest, macos-latest]
+#     steps:
+#       - name: Check out repository code
+#         uses: actions/checkout@v3
+#       - name: Setup Python
+#         uses: actions/setup-python@v4
+#         with:
+#           python-version: '3.11' 
+#       - name: Setup RAxML-NG and RAxML-NG env variable
+#         uses: ./.github/actions/setup-raxmlng
+#       - name: Setup conda
 
-  Test-Pythia-Install-using-pip:
+  Install-using-pip:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -47,7 +64,7 @@ jobs:
       - name: Test Pythia installation by running the CLI
         uses: ./.github/actions/test-pythia-cli
 
-  Test-Pythia-Install-from-source:
+  Install-from-source:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
