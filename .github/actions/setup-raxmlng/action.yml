@@ -5,10 +5,13 @@ runs:
     - name: Download RAxML-NG MacOS
       if: runner.os == 'macOS'
       run: wget https://github.com/amkozlov/raxml-ng/releases/download/1.2.0/raxml-ng_v1.2.0_macos_x86_64.zip
+      shell: bash
     - name: Download RAxML-NG Linux
       if: runner.os == 'Linux'
       run: wget https://github.com/amkozlov/raxml-ng/releases/download/1.2.0/raxml-ng_v1.2.0_linux_x86_64.zip
+      shell: bash
     - name: Unzip RAxML-NG and set Env variable
       run: |
         unzip raxml-ng_*.zip
         echo "raxmlng=$(pwd)/raxml-ng_*/raxml-ng" >> $GITHUB_ENV 
+      shell: bash
