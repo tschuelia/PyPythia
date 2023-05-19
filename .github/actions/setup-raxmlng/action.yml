@@ -2,14 +2,13 @@ name: Setup RAxML-NG
 runs:
   using: composite
   steps:
-    - name: ccache
-      uses: hendrikmuhs/ccache-action@v1.2
-    - name: Setup RAxML-NG and RAxML-NG env variable
+    - name: Download RAxML-NG MacOS
+      if: runner.os == 'macOS'
+      run: wget https://github.com/amkozlov/raxml-ng/releases/download/1.2.0/raxml-ng_v1.2.0_macos_x86_64.zip
+    - name: Download RAxML-NG Linux
+      if: runner.os == 'Linux'
+      run: wget https://github.com/amkozlov/raxml-ng/releases/download/1.2.0/raxml-ng_v1.2.0_linux_x86_64.zip
+    - name: Unzip RAxML-NG and set Env variable
       run: |
-        export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-        git clone --recursive https://github.com/amkozlov/raxml-ng.git
-        cd raxml-ng && mkdir build && cd build
-        cmake .. && make -j
-        # set the raxmlng environment variable we need for the tests below
-        cd .. && echo "raxmlng=$(pwd)/bin/raxml-ng" >> $GITHUB_ENV
-      shell: bash
+        unzip raxml-ng_*.zip
+        echo "raxmlng=$(pwd)/raxml-ng_*/raxml-ng" >> $GITHUB_ENV 
