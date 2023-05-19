@@ -12,6 +12,9 @@ runs:
       shell: bash
     - name: Unzip RAxML-NG and set Env variable
       run: |
+        ls 
         unzip raxml-ng_*.zip
+        ls
+        ls raxml-ng_*
         echo raxmlng=$(pwd)/raxml-ng_*/raxml-ng >> $GITHUB_ENV 
       shell: bash
