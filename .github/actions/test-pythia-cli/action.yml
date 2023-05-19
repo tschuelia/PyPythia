@@ -9,4 +9,4 @@ runs:
     - name: Run Pythia CLI with an exemplary MSA to make sure everything is working
       run: |
         pythia -m ${{ inputs.msa-file }} -r ${{ env.raxmlng }}
-      shell: bash
+      shell: bash -el {0}
