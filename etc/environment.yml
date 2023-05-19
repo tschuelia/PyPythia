@@ -1,0 +1,14 @@
+name: pythia
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - pandas
+  - biopython
+  - scikit-learn >= 1.0
+  - lightgbm >= 3.3
+  - shap >= 0.41
+  - matplotlib
+  - pip
+  - pip:
+    - git+https://github.com/tschuelia/PyPythia.git
