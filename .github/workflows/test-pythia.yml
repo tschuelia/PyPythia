@@ -28,21 +28,25 @@ jobs:
         run: |
           PYTHONPATH=. pytest
   
-#   Install-using-conda:
-#     runs-on: ${{ matrix.os }}
-#     strategy:
-#       matrix:
-#         os: [ubuntu-latest, macos-latest]
-#     steps:
-#       - name: Check out repository code
-#         uses: actions/checkout@v3
-#       - name: Setup Python
-#         uses: actions/setup-python@v4
-#         with:
-#           python-version: '3.11' 
-#       - name: Setup RAxML-NG and RAxML-NG env variable
-#         uses: ./.github/actions/setup-raxmlng
-#       - name: Setup conda
+  Install-using-conda:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.7", "3.11"]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup Conda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: pythia
+          environment-file: etc/environment.yml
+          python-version: ${{ matrix.python-version }}
+      - name: Setup RAxML-NG and RAxML-NG env variable
+        uses: ./.github/actions/setup-raxmlng
+      - name: Test Pythia installation by running the CLI
+        uses: ./.github/actions/test-pythia-cli
 
   Install-using-pip:
     runs-on: ${{ matrix.os }}
