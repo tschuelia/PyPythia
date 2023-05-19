@@ -38,11 +38,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Setup Conda
-        uses: conda-incubator/setup-miniconda@v2
+        uses: mamba-org/setup-micromamba@v1
         with:
-          activate-environment: pythia
           environment-file: etc/environment.yml
-          python-version: ${{ matrix.python-version }}
+          cache-environment: true
+          create-args:
+            python=${{ matrix.python-version }}
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Test Pythia installation by running the CLI
