@@ -112,13 +112,13 @@ class DifficultyPredictor:
         return prediction
 
     def plot_shapley_values(self, query: Dict) -> Figure:
+        if isinstance(self.predictor, RandomForestRegressor):
+            raise PyPythiaException("Cannot infer shapley values for scikit-learn predictors")
+
         explainer = shap.TreeExplainer(self.predictor)
         df = self._check_and_pack_query(query)
         shap_values = explainer.shap_values(df)
         base_values = explainer.expected_value
-
-        if isinstance(self.predictor, RandomForestRegressor):
-            base_values = base_values[0]
 
         return shap.plots.waterfall(
             shap.Explanation(

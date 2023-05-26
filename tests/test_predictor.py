@@ -1,4 +1,5 @@
 import matplotlib.figure
+import pytest
 
 from tests.fixtures import *
 import numpy as np
@@ -122,7 +123,7 @@ class TestBackwardsSklearnCompatibility:
         assert isinstance(prediction, float)
         assert 0.0 <= prediction <= 1.0
 
-    def test_plot_shapley_values(self, sklearn_predictor):
+    def test_plot_shapley_values_raises_error(self, sklearn_predictor):
         query = {
             "num_patterns/num_taxa": 0.0,
             "num_sites/num_taxa": 0.0,
@@ -134,5 +135,5 @@ class TestBackwardsSklearnCompatibility:
             "proportion_unique_topos_parsimony": 0.0,
         }
 
-        fig = sklearn_predictor.plot_shapley_values(query)
-        assert isinstance(fig, matplotlib.figure.Figure)
+        with pytest.raises(PyPythiaException):
+            sklearn_predictor.plot_shapley_values(query)
