@@ -12,10 +12,11 @@ Pythia supports DNA, AA, and morphological data in phylip and FASTA format.
 
 
 ### Installation
-The easiest way to install Pythia is to use the python package manager pip:
+The easiest (and recommended) way to install PyPythia is by using conda:
 ```
-pip install git+https://github.com/tschuelia/PyPythia.git
+conda install pypythia -c conda-forge
 ```
+
 This will install the latest version of Pythia. You can verify the correct installation by running `pythia -h`.
 For further install instructions see the documentation in [the wiki](https://github.com/tschuelia/PyPythia/wiki).
 
