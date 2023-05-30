@@ -1,5 +1,5 @@
 import pickle
-import shap
+import warnings
 
 from lightgbm import LGBMRegressor
 from matplotlib.figure import Figure
@@ -112,6 +112,10 @@ class DifficultyPredictor:
         return prediction
 
     def plot_shapley_values(self, query: Dict) -> Figure:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            import shap
+
         if isinstance(self.predictor, RandomForestRegressor):
             raise PyPythiaException("Cannot infer shapley values for scikit-learn predictors")
 
