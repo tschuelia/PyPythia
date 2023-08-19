@@ -6,7 +6,7 @@ dependencies:
   - pandas
   - biopython
   - scikit-learn >= 1.0
-  - lightgbm >= 3.3
+  - lightgbm >= 3.3, < 4.0.0
   - shap >= 0.41
   - matplotlib
   - pip
