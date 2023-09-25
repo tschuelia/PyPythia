@@ -193,6 +193,7 @@ class MSA:
         if replace_original:
             self._set_msa_object(reduced_msa_file)
             self.msa_name += "_reduced"
+            self.msa_file = reduced_msa_file
 
     def contains_duplicate_sequences(self) -> bool:
         num_unique = len({s.seq for s in self.msa})

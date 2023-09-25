@@ -123,6 +123,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Parser for Pythia command line options."
     )
+
     parser.add_argument(
         "-m",
         "--msa",
