@@ -64,7 +64,7 @@ jobs:
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Setup lightgbm requirements
-        run: brew install libomp
+        uses: ./.github/actions/setup-lightgbm
       - name: Install Pythia using pip
         run: |
           pip install git+https://github.com/tschuelia/PyPythia.git
