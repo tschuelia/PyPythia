@@ -1,0 +1,9 @@
+name: Setup LightGBM
+description: Install LightGBM dependencies for macOS
+runs:
+  using: composite
+  steps:
+    - name: Install dependencies
+      if: runner.os == 'macOS'
+      run: brew install libomp
+      shell: bash
