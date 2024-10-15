@@ -85,6 +85,8 @@ jobs:
           python-version: '3.11' 
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
+      - name: Setup lightgbm requirements
+        uses: ./.github/actions/setup-lightgbm
       - name: Install from source
         run: |
           pip install .
