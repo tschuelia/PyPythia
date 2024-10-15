@@ -131,6 +131,6 @@ class DifficultyPredictor:
                 data=df.iloc[0]
             ),
             show=False
-        )
+        ).figure
 
 
