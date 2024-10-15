@@ -197,6 +197,13 @@ def main():
     )
 
     parser.add_argument(
+        "--forceDuplicates",
+        help="Per default, Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
+             "Set this option if you are absolutely sure that you want to predict the difficulty for this MSA. ",
+        action="store_true",
+    )
+
+    parser.add_argument(
         "--shap",
         help="If set, computes the shapley values of the prediction as waterfall plot in '{msa_name}.shap.pdf'. "
              "When using this option, make sure you understand what shapley values are and how to interpret this plot."
@@ -246,7 +253,7 @@ def main():
     msa = MSA(msa_file)
     final_warning_string = None
 
-    if msa.contains_duplicate_sequences() and not args.removeDuplicates:
+    if msa.contains_duplicate_sequences() and not (args.removeDuplicates or args.forceDuplicates):
         raise PyPythiaException(
             "The provided MSA contains sequences that are exactly identical (duplicate sequences). "
             "Duplicate sequences influence the topological distances and distort the difficulty."
@@ -271,6 +278,12 @@ def main():
         final_warning_string = (
             f"WARNING: This predicted difficulty is only applicable to the reduced MSA (duplicate sequences removed). "
             f"We recommend to only use the reduced alignment {msa_file} for your subsequent analyses.\n"
+        )
+
+    if msa.contains_duplicate_sequences() and args.forceDuplicates:
+        logger.warning(
+            "WARNING: The provided MSA contains duplicate sequences. "
+            "The setting 'forceDuplicates' is set, Pythia will predict the difficulty for the MSA with duplicates."
         )
 
     log_runtime_information(
