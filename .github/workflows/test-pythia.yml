@@ -17,6 +17,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
+      - name: Setup lightgbm requirements
+        uses: ./.github/actions/setup-lightgbm
       - name: Install Pythia and setup requirements
         run: |
           pip install -e .
