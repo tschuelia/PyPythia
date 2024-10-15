@@ -99,7 +99,9 @@ class DifficultyPredictor:
 
         try:
             if isinstance(self.predictor, LGBMRegressor):
-                prediction = self.predictor.predict(df, num_threads=1)
+                # Required for compatibility with lightGBM > 4.0.0
+                self.predictor._n_classes = -1
+                prediction = self.predictor.predict(df, num_threads=1, verbose=-1)
             else:
                 prediction = self.predictor.predict(df)
 
