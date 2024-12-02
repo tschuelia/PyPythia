@@ -1,8 +1,9 @@
-from pypythia.custom_types import *
+import pathlib
+
 from pypythia.utils import get_value_from_line
 
 
-def get_patterns_gaps_invariant(log_file: FilePath) -> Tuple[int, float, float]:
+def get_patterns_gaps_invariant(log_file: pathlib.Path) -> tuple[int, float, float]:
     """Method that parses the number of patterns, proportion of gaps, and proportion of invariant sites in the given log_file.
 
     Args:
@@ -19,7 +20,7 @@ def get_patterns_gaps_invariant(log_file: FilePath) -> Tuple[int, float, float]:
     patterns = None
     gaps = None
     invariant = None
-    for line in open(log_file).readlines():
+    for line in log_file.open().readlines():
         if line.startswith("Alignment sites"):
             # number of alignment patterns
             # Alignment sites / patterns: 1940 / 933
@@ -42,7 +43,7 @@ def get_patterns_gaps_invariant(log_file: FilePath) -> Tuple[int, float, float]:
     return patterns, gaps, invariant
 
 
-def get_raxmlng_rfdist_results(log_file: FilePath) -> Tuple[float, float, float]:
+def get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[float, float, float]:
     """Method that parses the number of unique topologies, relative RF-Distance, and absolute RF-Distance in the given log file.
 
     Args:
@@ -60,7 +61,7 @@ def get_raxmlng_rfdist_results(log_file: FilePath) -> Tuple[float, float, float]
     rel_rfdist = None
     num_topos = None
 
-    for line in open(log_file).readlines():
+    for line in log_file.open().readlines():
         line = line.strip()
 
         if "Average absolute RF distance in this tree set:" in line:

@@ -1,11 +1,11 @@
 import argparse
 import os.path
+import pathlib
 import shutil
 import time
 import logging
 from tempfile import TemporaryDirectory
 
-from pypythia.custom_types import *
 from pypythia.custom_errors import PyPythiaException
 from pypythia.msa import MSA
 from pypythia.predictor import DifficultyPredictor
@@ -25,7 +25,7 @@ def get_all_features(
     store_trees: bool = False,
     log_info: bool = True,
     threads: int = None,
-) -> Dict:
+) -> dict[str, float]:
     """Helper function to collect all features required for predicting the difficulty of the MSA.
 
     Args:
@@ -62,7 +62,7 @@ def get_all_features(
         trees = raxmlng.infer_parsimony_trees(
             msa_file,
             model,
-            os.path.join(tmpdir, "pars"),
+            pathlib.Path(tmpdir) / "pars",
             redo=None,
             seed=0,
             n_trees=n_pars_trees,
@@ -127,7 +127,7 @@ def main():
     parser.add_argument(
         "-m",
         "--msa",
-        type=str,
+        type=pathlib.Path,
         required=True,
         help="Multiple Sequence Alignment to predict the difficulty for. Must be in either phylip or fasta format.",
     )
@@ -135,7 +135,7 @@ def main():
     parser.add_argument(
         "-r",
         "--raxmlng",
-        type=str,
+        type=pathlib.Path,
         required=True,
         help="Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng.",
     )

@@ -1,5 +1,4 @@
 import matplotlib.figure
-import pytest
 
 from tests.fixtures import *
 import numpy as np

@@ -1,4 +1,4 @@
-import pytest
+import pathlib
 
 from tests.fixtures import *
 from pypythia.custom_types import DataType, FileFormat
@@ -26,11 +26,9 @@ class TestMSAFeatures:
             MSA(raxmlng_inference_log)._get_file_format()
 
     def test_guess_msa_file_data_type(self):
-        cwd = os.getcwd()
         for true_type in DataType:
-            base_dir = os.path.join(cwd, "tests", "data", true_type.value)
-            for msa_file in os.listdir(base_dir):
-                msa_file = os.path.join(base_dir, msa_file)
+            base_dir = pathlib.Path.cwd() / "tests" / "data" / true_type.value
+            for msa_file in base_dir.iterdir():
                 msa = MSA(msa_file)
                 guessed_type = msa.guess_data_type()
                 assert guessed_type == true_type
@@ -80,9 +78,7 @@ class TestMSAFeatures:
         pre_taxa = msa_with_duplicate_sequences.number_of_taxa()
         pre_sites = msa_with_duplicate_sequences.number_of_sites()
 
-        reduced_msa = os.path.join(
-            os.getcwd(), "tests", "data", "DNA", "0.phy.pythia.reduced"
-        )
+        reduced_msa = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.phy.pythia.reduced"
 
         msa_with_duplicate_sequences.save_reduced_alignment(
             reduced_msa, replace_original=False
@@ -100,11 +96,9 @@ class TestMSAFeatures:
         pre_taxa = msa_with_duplicate_sequences.number_of_taxa()
         pre_sites = msa_with_duplicate_sequences.number_of_sites()
 
-        reduced_msa = os.path.join(
-            os.getcwd(), "tests", "data", "DNA", "0.phy.pythia.reduced"
-        )
-        if os.path.exists(reduced_msa):
-            os.remove(reduced_msa)
+        reduced_msa = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.phy.pythia.reduced"
+        if reduced_msa.exists():
+            reduced_msa.unlink()
 
         msa_with_duplicate_sequences.save_reduced_alignment(
             reduced_msa, replace_original=True
@@ -114,7 +108,7 @@ class TestMSAFeatures:
         post_sites = msa_with_duplicate_sequences.number_of_sites()
 
         # remove reduced alignment again
-        os.remove(reduced_msa)
+        reduced_msa.unlink()
 
         assert pre_sites == post_sites  # number of sites still needs to be the same
         assert pre_taxa > post_taxa

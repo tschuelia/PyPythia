@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
-from pypythia.custom_types import *
 from pypythia.custom_errors import PyPythiaException
 
 
@@ -33,7 +32,7 @@ class DifficultyPredictor:
         features: Names of the features the predictor was trained with.
     """
 
-    def __init__(self, predictor_handle, features=None) -> None:
+    def __init__(self, predictor_handle, features: list[str]=None) -> None:
         self.predictor = pickle.load(predictor_handle)
 
         # Pythia version < 1.0.0 was a scikit-learn based predictor
@@ -51,7 +50,7 @@ class DifficultyPredictor:
                 )
             self.features = features
 
-    def _check_and_pack_query(self, query: Dict) -> pd.DataFrame:
+    def _check_and_pack_query(self, query: dict[str, float]) -> pd.DataFrame:
         """
         Checks whether the given query is in correct format and packs the features as pandas Dataframe
         """
@@ -81,7 +80,7 @@ class DifficultyPredictor:
 
         return df
 
-    def predict(self, query: Dict) -> float:
+    def predict(self, query: dict[str, float]) -> float:
         """Predicts the difficulty for the given set of MSA features.
 
         Args:
@@ -113,7 +112,7 @@ class DifficultyPredictor:
 
         return prediction
 
-    def plot_shapley_values(self, query: Dict) -> Figure:
+    def plot_shapley_values(self, query: dict[str, float]) -> Figure:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             import shap

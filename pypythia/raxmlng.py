@@ -1,4 +1,3 @@
-from pypythia.custom_types import *
 from pypythia.custom_errors import RAxMLNGError
 from pypythia.raxmlng_parser import *
 
@@ -7,7 +6,7 @@ import os
 import subprocess
 
 
-def run_raxmlng_command(cmd: Command) -> None:
+def run_raxmlng_command(cmd: list[str]) -> None:
     try:
         subprocess.check_output(cmd, encoding="utf-8")
     except subprocess.CalledProcessError as e:
@@ -28,12 +27,12 @@ class RAxMLNG:
         exe_path (Executable): Path to an executable of RAxML-NG.
     """
 
-    def __init__(self, exe_path: Executable):
+    def __init__(self, exe_path: pathlib.Path):
         self.exe_path = exe_path
 
     def _base_cmd(
-            self, msa_file: FilePath, model: Model, prefix: str, **kwargs
-    ) -> Command:
+            self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
+    ) -> list[str]:
         additional_settings = []
         for key, value in kwargs.items():
             if value is None:
@@ -42,23 +41,23 @@ class RAxMLNG:
                 additional_settings += [f"--{key}", str(value)]
 
         return [
-            self.exe_path,
+            str(self.exe_path.absolute()),
             "--msa",
-            msa_file,
+            str(msa_file.absolute()),
             "--model",
             model,
             "--prefix",
-            prefix,
+            str(prefix.absolute()),
             *additional_settings,
         ]
 
     def _run_alignment_parse(
-            self, msa_file: FilePath, model: Model, prefix: str, **kwargs
+            self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
     ) -> None:
         cmd = self._base_cmd(msa_file, model, prefix, parse=None, **kwargs)
         run_raxmlng_command(cmd)
 
-    def _run_rfdist(self, trees_file: FilePath, prefix: str, **kwargs) -> None:
+    def _run_rfdist(self, trees_file: pathlib.Path, prefix: pathlib.Path, **kwargs) -> None:
         additional_settings = []
         for key, value in kwargs.items():
             if value is None:
@@ -66,23 +65,23 @@ class RAxMLNG:
             else:
                 additional_settings += [f"--{key}", str(value)]
         cmd = [
-            self.exe_path,
+            str(self.exe_path.absolute()),
             "--rfdist",
-            trees_file,
+            str(trees_file.absolute()),
             "--prefix",
-            prefix,
+            str(prefix.absolute()),
             *additional_settings,
         ]
         run_raxmlng_command(cmd)
 
     def infer_parsimony_trees(
             self,
-            msa_file: FilePath,
-            model: Model,
-            prefix: str,
+            msa_file: pathlib.Path,
+            model: str,
+            prefix: pathlib.Path,
             n_trees: int = 100,
             **kwargs,
-    ) -> FilePath:
+    ) -> pathlib.Path:
         """Method that infers n_trees using the RAxML-NG implementation of maximum parsimony.
 
         Args:
@@ -103,11 +102,11 @@ class RAxMLNG:
             msa_file, model, prefix, start=None, tree=f"pars{{{n_trees}}}", **kwargs
         )
         run_raxmlng_command(cmd)
-        return prefix + ".raxml.startTree"
+        return pathlib.Path(f"{prefix}.raxml.startTree")
 
     def get_rfdistance_results(
-            self, trees_file: FilePath, prefix: str = None, **kwargs
-    ) -> Tuple[float, float, float]:
+            self, trees_file: pathlib.Path, prefix: pathlib.Path = None, **kwargs
+    ) -> tuple[float, float, float]:
         """Method that computes the number of unique topologies, relative RF-Distance, and absolute RF-Distance for the given set of trees.
 
         Args:
@@ -120,15 +119,16 @@ class RAxMLNG:
             abs_rfdist (float): Absolute RF-Distance of the given set of trees.
         """
         with TemporaryDirectory() as tmpdir:
+            tmpdir = pathlib.Path(tmpdir)
             if not prefix:
-                prefix = os.path.join(tmpdir, "rfdist")
+                prefix = tmpdir / "rfdist"
             self._run_rfdist(trees_file, prefix, **kwargs)
-            log_file = prefix + ".raxml.log"
+            log_file = pathlib.Path(f"{prefix}.raxml.log")
             return get_raxmlng_rfdist_results(log_file)
 
     def get_patterns_gaps_invariant(
-            self, msa_file: FilePath, model: Model, prefix: str = None
-    ) -> Tuple[int, float, float]:
+            self, msa_file: pathlib.Path, model: str, prefix: str = None
+    ) -> tuple[int, float, float]:
         """Method that obtains the number of patterns, proportion of gaps, and proportion of invariant sites in the given MSA.
 
         Args:
@@ -143,6 +143,7 @@ class RAxMLNG:
         """
         with TemporaryDirectory() as tmpdir:
             if not prefix:
-                prefix = os.path.join(tmpdir, "parse")
+                prefix = pathlib.Path(tmpdir) / "parse"
             self._run_alignment_parse(msa_file, model, prefix)
-            return get_patterns_gaps_invariant(f"{prefix}.raxml.log")
+            log_file = pathlib.Path(f"{prefix}.raxml.log")
+            return get_patterns_gaps_invariant(log_file)

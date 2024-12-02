@@ -1,5 +1,6 @@
+import pathlib
+
 import pytest
-import os
 
 from .test_config import RAXMLNG_COMMAND
 
@@ -10,8 +11,7 @@ from pypythia.predictor import DifficultyPredictor
 
 @pytest.fixture
 def example_msa_path():
-    cwd = os.getcwd()
-    return os.path.join(cwd, "tests", "data", "DNA", "0.phy")
+    return pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.phy"
 
 
 @pytest.fixture
@@ -21,20 +21,20 @@ def dna_phylip_msa(example_msa_path):
 
 @pytest.fixture
 def dna_fasta_msa():
-    cwd = os.getcwd()
-    return MSA(os.path.join(cwd, "tests", "data", "DNA", "0.fasta"))
+    pth = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.fasta"
+    return MSA(pth)
 
 
 @pytest.fixture
 def small_msa():
-    cwd = os.getcwd()
-    return MSA(os.path.join(cwd, "tests", "data", "DNA", "small.fasta"))
+    pth = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "small.fasta"
+    return MSA(pth)
 
 
 @pytest.fixture
 def small_msa_with_signal():
-    cwd = os.getcwd()
-    return MSA(os.path.join(cwd, "tests", "data", "DNA", "3.phy"))
+    pth = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "3.phy"
+    return MSA(pth)
 
 
 @pytest.fixture
@@ -49,8 +49,6 @@ def msa_without_duplicate_sequences(small_msa_with_signal):
 
 @pytest.fixture
 def all_msa_files_with_model():
-    cwd = os.getcwd()
-
     morph_models = {
         "0.phy": "MULTI3_GTR",
         "1.phy": "MULTI2_GTR"
@@ -59,18 +57,17 @@ def all_msa_files_with_model():
     files_and_models = []
 
     for data_type in ["DNA", "AA", "MORPH"]:
-        base_dir = os.path.join(cwd, "tests", "data", data_type)
-        for f in os.listdir(base_dir):
-            msa_file = os.path.join(base_dir, f)
+        base_dir = pathlib.Path.cwd() / "tests" / "data" / data_type
+        for f in base_dir.iterdir():
             model = ""
             if data_type == "DNA":
                 model = "GTR+G"
             elif data_type == "AA":
                 model = "LG+G"
             elif data_type == "MORPH":
-                model = morph_models[f]
+                model = morph_models[f.name]
 
-            files_and_models.append((msa_file, model))
+            files_and_models.append((f, model))
 
     return files_and_models
 
@@ -87,7 +84,7 @@ def sklearn_predictor():
 
 @pytest.fixture
 def raxmlng_command():
-    return RAXMLNG_COMMAND
+    return pathlib.Path(RAXMLNG_COMMAND)
 
 
 @pytest.fixture
@@ -97,17 +94,14 @@ def raxmlng(raxmlng_command):
 
 @pytest.fixture
 def multiple_trees_path():
-    cwd = os.getcwd()
-    return os.path.join(cwd, "tests", "data", "trees", "many.trees")
+    return pathlib.Path.cwd() / "tests" / "data" / "trees" / "many.trees"
 
 
 @pytest.fixture
 def raxmlng_rfdistance_log():
-    cwd = os.getcwd()
-    return os.path.join(cwd, "tests", "data", "logs", "raxml.rfdistance.log")
+    return pathlib.Path.cwd() / "tests" / "data" / "logs" / "raxml.rfdistance.log"
 
 
 @pytest.fixture
 def raxmlng_inference_log():
-    cwd = os.getcwd()
-    return os.path.join(cwd, "tests", "data", "logs", "raxml.inference.log")
+    return pathlib.Path.cwd() / "tests" / "data" / "logs" / "raxml.inference.log"

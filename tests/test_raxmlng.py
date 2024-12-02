@@ -1,3 +1,4 @@
+import pathlib
 import tempfile
 
 from tests.fixtures import *
@@ -10,10 +11,10 @@ from tempfile import TemporaryDirectory
 def test_infer_parsimony_trees(raxmlng, example_msa_path):
     with TemporaryDirectory() as tmpdir:
         file_path = raxmlng.infer_parsimony_trees(
-            msa_file=example_msa_path, model="GTR+G", prefix=tmpdir, n_trees=10
+            msa_file=example_msa_path, model="GTR+G", prefix=pathlib.Path(tmpdir), n_trees=10
         )
 
-        trees = open(file_path).readlines()
+        trees = file_path.open().readlines()
         trees = [t.strip() for t in trees if t]
 
         assert len(trees) == 10
@@ -40,7 +41,7 @@ def test_get_patterns_gaps_invariant(raxmlng, example_msa_path):
 
 def test_run_raxmlng_command(raxmlng_command, example_msa_path):
     with tempfile.TemporaryDirectory() as tmpdir:
-        prefix = os.path.join(tmpdir, "test")
+        prefix = pathlib.Path(tmpdir) / "test"
         raxmlng_example = [
             raxmlng_command,
             "--parse",
@@ -57,16 +58,16 @@ def test_run_raxmlng_command(raxmlng_command, example_msa_path):
 def test_run_raxmlng_command_raises_raxmlng_error_with_error_output(raxmlng_command):
     with pytest.raises(RAxMLNGError, match="ERROR: Alignment file not found: this_does_no_exist.phy"):
         with tempfile.TemporaryDirectory() as tmpdir:
-            prefix = os.path.join(tmpdir, "test")
+            prefix = pathlib.Path(tmpdir) / "test"
             raxmlng_failure = [
-                raxmlng_command,
+                str(raxmlng_command.absolute()),
                 "--parse",
                 "--msa",
                 "this_does_no_exist.phy",
                 "--model",
                 "GTR+G",
                 "--prefix",
-                prefix,
+                str(prefix.absolute()),
             ]
             run_raxmlng_command(raxmlng_failure)
 

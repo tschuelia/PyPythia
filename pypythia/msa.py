@@ -1,5 +1,6 @@
 import math
 import os
+import pathlib
 import random
 import statistics
 from collections import Counter
@@ -25,12 +26,12 @@ class MSA:
     This class provides methods for computing MSA attributes.
 
     Args:
-        msa_file (FilePath): Path to the MSA file the statistics should be computed for. The file must be either in "fasta" or "phylip" format.
+        msa_file (pathlib.Path): Path to the MSA file the statistics should be computed for. The file must be either in "fasta" or "phylip" format.
         msa_name (str, optional): Better readable name for the MSA. If not set, the name of the file is used.
         file_format (FileFormat, optional): If not set, Pythia attempts to autodetect the file format.
 
     Attributes:
-        msa_file (FilePath): Path to the corresponding MSA file.
+        msa_file (pathlib.Path): Path to the corresponding MSA file.
         msa_name (str): Name of the MSA. Can be either set or is inferred automatically based on the msa_file.
         data_type (DataType): Data type of the MSA.
         file_format (FileFormat): File format of the MSA.
@@ -41,7 +42,7 @@ class MSA:
         ValueError: If the data type of the given MSA cannot be inferred.
     """
 
-    def __init__(self, msa_file: FilePath, msa_name: str = None, file_format: FileFormat = None):
+    def __init__(self, msa_file: pathlib.Path, msa_name: str = None, file_format: FileFormat = None):
         self.msa_file = msa_file
         self.file_format = file_format if file_format is not None else self._get_file_format()
         self.data_type = self.guess_data_type()
@@ -53,9 +54,9 @@ class MSA:
 
         self._set_msa_object(self.msa_file)
 
-    def _set_msa_object(self, msa_file: FilePath):
+    def _set_msa_object(self, msa_file: pathlib.Path):
         with NamedTemporaryFile(mode="w") as tmpfile:
-            self._convert_msa_to_biopython_format(msa_file, tmpfile)
+            self._convert_msa_to_biopython_format(msa_file, pathlib.Path(tmpfile.name))
             tmpfile.flush()
             try:
                 self.msa = AlignIO.read(tmpfile.name, format=self.file_format.value)
@@ -69,32 +70,30 @@ class MSA:
 
         return sequence
 
-    def _replace_phylip_sequence_chars(self, msa_file: FilePath, char_mapping: dict, new_file: FilePath):
-        msa_content = open(msa_file)
+    def _replace_phylip_sequence_chars(self, msa_file: pathlib.Path, char_mapping: dict, new_file: pathlib.Path):
         new_content = []
 
-        # phylip file contains the number of taxa and sites as integer numbers in the first line
-        first_line = msa_content.readline().strip()
-        _ntaxa, _nsites, *_ = first_line.split()
-        new_content.append(first_line + "\n")
+        with msa_file.open() as msa_content:
+            # phylip file contains the number of taxa and sites as integer numbers in the first line
+            first_line = msa_content.readline().strip()
+            _ntaxa, _nsites, *_ = first_line.split()
+            new_content.append(first_line + "\n")
 
-        for i, line in enumerate(msa_content):
-            if i < int(_ntaxa):
-                # for the first _ntaxa lines: replace all chars only in the sequences
-                taxon, sequence = line.split(maxsplit=1)
-                sequence = self._get_updated_sequence(sequence, char_mapping)
-                new_line = f"{taxon} {sequence}"
-            else:
-                new_line = self._get_updated_sequence(line, char_mapping)
+            for i, line in enumerate(msa_content):
+                if i < int(_ntaxa):
+                    # for the first _ntaxa lines: replace all chars only in the sequences
+                    taxon, sequence = line.split(maxsplit=1)
+                    sequence = self._get_updated_sequence(sequence, char_mapping)
+                    new_line = f"{taxon} {sequence}"
+                else:
+                    new_line = self._get_updated_sequence(line, char_mapping)
 
-            new_content.append(new_line)
+                new_content.append(new_line)
 
-        msa_content.close()
+        new_file.write_text("".join(new_content))
 
-        new_file.write("".join(new_content))
-
-    def _replace_fasta_sequence_chars(self, msa_file: FilePath, char_mapping: dict, new_file: FilePath):
-        msa_content = open(msa_file)
+    def _replace_fasta_sequence_chars(self, msa_file: pathlib.Path, char_mapping: dict, new_file: pathlib.Path):
+        msa_content = msa_file.open()
         new_content = []
 
         for line in msa_content:
@@ -108,9 +107,9 @@ class MSA:
 
         msa_content.close()
 
-        new_file.write("".join(new_content))
+        new_file.write_text("".join(new_content))
 
-    def _convert_msa_to_biopython_format(self, msa_file: FilePath, tmpfile: NamedTemporaryFile) -> None:
+    def _convert_msa_to_biopython_format(self, msa_file: pathlib.Path, tmpfile: pathlib.Path) -> None:
         """
         The unknown char in DNA MSA files for Biopython to work
         has to be "-" instead of "X" or "N" -> replace all occurrences
@@ -171,12 +170,12 @@ class MSA:
 
         return unique_seq_objects
 
-    def save_reduced_alignment(self, reduced_msa_file: FilePath, replace_original: bool = False):
+    def save_reduced_alignment(self, reduced_msa_file: pathlib.Path, replace_original: bool = False):
         """ Removes all duplicate sequences from the MSA and stores the reduced alignment in reduced_msa_file.
         In case of duplicate sequences, the reduced alignment only contains the first occurrence of the respective sequence.
 
         Args:
-            reduced_msa_file (FilePath): Filename where to store the reduced alignment.
+            reduced_msa_file (pathlib.Path): Filename where to store the reduced alignment.
             replace_original (bool): Optional switch.
                 If True, self.msa_file is replaced with the reduced alignment and
                 self.msa with the MultipleSeqAlignment object of the reduced MSA.
@@ -255,7 +254,7 @@ class MSA:
         else:
             return DataType.AA
 
-    def get_raxmlng_model(self) -> Model:
+    def get_raxmlng_model(self) -> str:
         """Returns a RAxML-NG model string based on the data type
 
         Returns:
@@ -295,7 +294,7 @@ class MSA:
         """
         return self.msa.get_alignment_length()
 
-    def column_entropies(self) -> List[float]:
+    def column_entropies(self) -> list[float]:
         """Returns the shannon entropy (in bits) for each site in the MSA.
 
         Returns:

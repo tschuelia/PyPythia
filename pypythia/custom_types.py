@@ -1,10 +1,4 @@
-from typing import List, Tuple, Dict, Union
 from enum import Enum
-
-FilePath = str
-Command = List[str]
-Model = Union[str, FilePath]
-Executable = str
 
 
 class DataType(Enum):
