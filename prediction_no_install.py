@@ -1,11 +1,14 @@
+import pathlib
+
 from pypythia.predictor import DifficultyPredictor
 from pypythia.prediction import get_all_features
 from pypythia.raxmlng import RAxMLNG
 from pypythia.msa import MSA
-from pypythia.custom_types import *
 
 
-def predict_difficulty(msa_file: FilePath, predictor_path: FilePath, raxmlng_exe_path: Executable) -> float:
+def predict_difficulty(
+    msa_file: pathlib.Path, predictor_path: pathlib.Path, raxmlng_exe_path: pathlib.Path
+) -> float:
     """
     Predicts the difficulty of an MSA using the given difficulty predictor.
 

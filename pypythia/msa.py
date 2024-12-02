@@ -12,7 +12,7 @@ from Bio import AlignIO, SeqIO
 from Bio.Align import MultipleSeqAlignment
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 
-from pypythia.custom_types import *
+from pypythia.custom_types import DataType, FileFormat
 from pypythia.custom_errors import PyPythiaException
 
 STATE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,/:;<=>@[\\]^_{|}~"
@@ -42,9 +42,16 @@ class MSA:
         ValueError: If the data type of the given MSA cannot be inferred.
     """
 
-    def __init__(self, msa_file: pathlib.Path, msa_name: str = None, file_format: FileFormat = None):
+    def __init__(
+        self,
+        msa_file: pathlib.Path,
+        msa_name: str = None,
+        file_format: FileFormat = None,
+    ):
         self.msa_file = msa_file
-        self.file_format = file_format if file_format is not None else self._get_file_format()
+        self.file_format = (
+            file_format if file_format is not None else self._get_file_format()
+        )
         self.data_type = self.guess_data_type()
 
         if msa_name:
@@ -61,7 +68,9 @@ class MSA:
             try:
                 self.msa = AlignIO.read(tmpfile.name, format=self.file_format.value)
             except Exception as e:
-                raise PyPythiaException("Error reading the provided MSA: ", msa_file) from e
+                raise PyPythiaException(
+                    "Error reading the provided MSA: ", msa_file
+                ) from e
 
     def _get_updated_sequence(self, sequence: str, char_mapping: dict):
         sequence = sequence.upper()
@@ -70,7 +79,9 @@ class MSA:
 
         return sequence
 
-    def _replace_phylip_sequence_chars(self, msa_file: pathlib.Path, char_mapping: dict, new_file: pathlib.Path):
+    def _replace_phylip_sequence_chars(
+        self, msa_file: pathlib.Path, char_mapping: dict, new_file: pathlib.Path
+    ):
         new_content = []
 
         with msa_file.open() as msa_content:
@@ -92,7 +103,9 @@ class MSA:
 
         new_file.write_text("".join(new_content))
 
-    def _replace_fasta_sequence_chars(self, msa_file: pathlib.Path, char_mapping: dict, new_file: pathlib.Path):
+    def _replace_fasta_sequence_chars(
+        self, msa_file: pathlib.Path, char_mapping: dict, new_file: pathlib.Path
+    ):
         msa_content = msa_file.open()
         new_content = []
 
@@ -109,7 +122,9 @@ class MSA:
 
         new_file.write_text("".join(new_content))
 
-    def _convert_msa_to_biopython_format(self, msa_file: pathlib.Path, tmpfile: pathlib.Path) -> None:
+    def _convert_msa_to_biopython_format(
+        self, msa_file: pathlib.Path, tmpfile: pathlib.Path
+    ) -> None:
         """
         The unknown char in DNA MSA files for Biopython to work
         has to be "-" instead of "X" or "N" -> replace all occurrences
@@ -121,16 +136,9 @@ class MSA:
         We do however, need to be careful as to not replace any of these chars in the taxon names.
         """
         if self.data_type == DataType.DNA:
-            char_mapping = {
-                "X": "-",
-                "N": "-",
-                "?": "-",
-                "U": "T"
-            }
+            char_mapping = {"X": "-", "N": "-", "?": "-", "U": "T"}
         else:
-            char_mapping = {
-                "?": "-"
-            }
+            char_mapping = {"?": "-"}
 
         if self.file_format == FileFormat.PHYLIP:
             self._replace_phylip_sequence_chars(msa_file, char_mapping, tmpfile)
@@ -152,7 +160,7 @@ class MSA:
             _num2 = int(_num2)
             # in case these conversions worked, the file is (most likely) in phylip format
             return FileFormat.PHYLIP
-        except:
+        except Exception:
             raise ValueError(
                 f"The file type of {self.msa_file} could not be autodetected, please check that the file contains data in phylip or fasta format."
             )
@@ -170,8 +178,10 @@ class MSA:
 
         return unique_seq_objects
 
-    def save_reduced_alignment(self, reduced_msa_file: pathlib.Path, replace_original: bool = False):
-        """ Removes all duplicate sequences from the MSA and stores the reduced alignment in reduced_msa_file.
+    def save_reduced_alignment(
+        self, reduced_msa_file: pathlib.Path, replace_original: bool = False
+    ):
+        """Removes all duplicate sequences from the MSA and stores the reduced alignment in reduced_msa_file.
         In case of duplicate sequences, the reduced alignment only contains the first occurrence of the respective sequence.
 
         Args:
@@ -184,7 +194,9 @@ class MSA:
         contains_duplicates = self.contains_duplicate_sequences()
 
         if not contains_duplicates:
-            raise PyPythiaException("This MSA does not contain duplicate sequences, MSA reduction does not make sense.")
+            raise PyPythiaException(
+                "This MSA does not contain duplicate sequences, MSA reduction does not make sense."
+            )
 
         unique_sequence_objects = self._get_unique_sequences()
         SeqIO.write(unique_sequence_objects, reduced_msa_file, self.file_format.value)
@@ -324,7 +336,7 @@ class MSA:
             entropy = -entropy
 
             assert (
-                    entropy >= 0
+                entropy >= 0
             ), f"Entropy negative, check computation. Entropy is {entropy}"
 
             entropies.append(entropy)
@@ -407,7 +419,9 @@ class MSA:
                 The lower the treelikeness the stronger the phylogenetic signal of the MSA.
         """
         if self.data_type == DataType.MORPH:
-            warnings.warn("Computing the treelikeness score for morphological data is currently not supported.")
+            warnings.warn(
+                "Computing the treelikeness score for morphological data is currently not supported."
+            )
             return -1.0
 
         num_samples = min(self.number_of_taxa(), num_samples)
@@ -417,9 +431,9 @@ class MSA:
 
         frac = num_samples // 4
         X = options[:frac]
-        Y = options[frac: 2 * frac]
-        U = options[2 * frac: 3 * frac]
-        V = options[3 * frac:]
+        Y = options[frac : 2 * frac]
+        U = options[2 * frac : 3 * frac]
+        V = options[3 * frac :]
 
         res = product(X, Y, U, V)
         deltas = []

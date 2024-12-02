@@ -7,6 +7,7 @@ class DataType(Enum):
     - AA = Protein data
     - MORPH = morphological data
     """
+
     DNA = "DNA"
     AA = "AA"
     MORPH = "MORPH"
@@ -17,5 +18,6 @@ class FileFormat(Enum):
     - PHYLIP = phylip-relaxed
     - FASTA = fasta
     """
+
     PHYLIP = "phylip-relaxed"
     FASTA = "fasta"

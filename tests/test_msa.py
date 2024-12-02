@@ -1,6 +1,5 @@
 import pathlib
-
-from tests.fixtures import *
+import pytest
 from pypythia.custom_types import DataType, FileFormat
 from pypythia.msa import MSA
 from pypythia.custom_errors import PyPythiaException
@@ -78,7 +77,9 @@ class TestMSAFeatures:
         pre_taxa = msa_with_duplicate_sequences.number_of_taxa()
         pre_sites = msa_with_duplicate_sequences.number_of_sites()
 
-        reduced_msa = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.phy.pythia.reduced"
+        reduced_msa = (
+            pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.phy.pythia.reduced"
+        )
 
         msa_with_duplicate_sequences.save_reduced_alignment(
             reduced_msa, replace_original=False
@@ -96,7 +97,9 @@ class TestMSAFeatures:
         pre_taxa = msa_with_duplicate_sequences.number_of_taxa()
         pre_sites = msa_with_duplicate_sequences.number_of_sites()
 
-        reduced_msa = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.phy.pythia.reduced"
+        reduced_msa = (
+            pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.phy.pythia.reduced"
+        )
         if reduced_msa.exists():
             reduced_msa.unlink()
 

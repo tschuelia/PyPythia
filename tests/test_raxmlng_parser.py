@@ -1,5 +1,8 @@
-from tests.fixtures import *
-from pypythia.raxmlng_parser import get_patterns_gaps_invariant, get_raxmlng_rfdist_results
+import pytest
+from pypythia.raxmlng_parser import (
+    get_patterns_gaps_invariant,
+    get_raxmlng_rfdist_results,
+)
 
 
 def test_get_patterns_gaps_invariant(raxmlng, raxmlng_inference_log):
@@ -20,10 +23,12 @@ def test_get_patterns_gaps_invariant_raises_value_error(raxmlng_rfdistance_log):
 
 
 def test_get_raxmlng_rfdist_results(raxmlng_rfdistance_log):
-    num_topos, rel_rfdist, abs_rfdist = get_raxmlng_rfdist_results(raxmlng_rfdistance_log)
+    num_topos, rel_rfdist, abs_rfdist = get_raxmlng_rfdist_results(
+        raxmlng_rfdistance_log
+    )
 
     assert num_topos == 2
-    assert rel_rfdist == pytest.approx(1/3, abs=0.01)
+    assert rel_rfdist == pytest.approx(1 / 3, abs=0.01)
     assert abs_rfdist == pytest.approx(2)
 
 

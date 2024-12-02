@@ -66,7 +66,7 @@ def get_all_features(
             redo=None,
             seed=0,
             n_trees=n_pars_trees,
-            **dict(threads=threads) if threads else {}
+            **dict(threads=threads) if threads else {},
         )
         if store_trees:
             fn = f"{msa.msa_name}.parsimony.trees"
@@ -154,9 +154,7 @@ def main():
         "-p",
         "--predictor",
         type=argparse.FileType("rb"),
-        default=os.path.join(
-            os.path.dirname(__file__), "predictors/latest.pckl"
-        ),
+        default=os.path.join(os.path.dirname(__file__), "predictors/latest.pckl"),
         required=False,
         help="Filepath of the predictor to use. If not set, "
         "assume it is 'predictors/latest.pckl' in the project directory.",
@@ -199,16 +197,16 @@ def main():
     parser.add_argument(
         "--forceDuplicates",
         help="Per default, Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
-             "Set this option if you are absolutely sure that you want to predict the difficulty for this MSA. ",
+        "Set this option if you are absolutely sure that you want to predict the difficulty for this MSA. ",
         action="store_true",
     )
 
     parser.add_argument(
         "--shap",
         help="If set, computes the shapley values of the prediction as waterfall plot in '{msa_name}.shap.pdf'. "
-             "When using this option, make sure you understand what shapley values are and how to interpret this plot."
-             "For details on shapley values refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values.",
-        action="store_true"
+        "When using this option, make sure you understand what shapley values are and how to interpret this plot."
+        "For details on shapley values refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values.",
+        action="store_true",
     )
 
     parser.add_argument(
@@ -253,7 +251,9 @@ def main():
     msa = MSA(msa_file)
     final_warning_string = None
 
-    if msa.contains_duplicate_sequences() and not (args.removeDuplicates or args.forceDuplicates):
+    if msa.contains_duplicate_sequences() and not (
+        args.removeDuplicates or args.forceDuplicates
+    ):
         raise PyPythiaException(
             "The provided MSA contains sequences that are exactly identical (duplicate sequences). "
             "Duplicate sequences influence the topological distances and distort the difficulty."
@@ -291,9 +291,15 @@ def main():
     )
 
     if args.threads is not None:
-        log_runtime_information(f"Using {args.threads} threads for parallel parsimony tree computation.", log_runtime=True)
+        log_runtime_information(
+            f"Using {args.threads} threads for parallel parsimony tree computation.",
+            log_runtime=True,
+        )
     else:
-        log_runtime_information(f"Number of threads not specified, using RAxML-NG autoconfig.", log_runtime=True)
+        log_runtime_information(
+            "Number of threads not specified, using RAxML-NG autoconfig.",
+            log_runtime=True,
+        )
 
     features_start = time.perf_counter()
     msa_features = get_all_features(
@@ -329,14 +335,14 @@ def main():
         logger.info(
             f"Waterfall plot of shapley values saved to {msa.msa_name}.shap.pdf"
         )
-        logger.warning("WARNING: When using this plot make sure you understand what shapley values are and how you can interpret"
-                       " this plot. For details refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values")
+        logger.warning(
+            "WARNING: When using this plot make sure you understand what shapley values are and how you can interpret"
+            " this plot. For details refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values"
+        )
 
     if args.storeTrees:
         logger.info("─" * 20)
-        logger.info(
-            f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees"
-        )
+        logger.info(f"Inferred parsimony trees saved to {msa.msa_name}.parsimony.trees")
 
     if args.verbose:
         logger.info("─" * 20)

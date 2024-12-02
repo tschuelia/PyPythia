@@ -1,7 +1,7 @@
+import pytest
 import pathlib
 import tempfile
 
-from tests.fixtures import *
 from pypythia.raxmlng import run_raxmlng_command
 from pypythia.custom_errors import RAxMLNGError
 
@@ -11,7 +11,10 @@ from tempfile import TemporaryDirectory
 def test_infer_parsimony_trees(raxmlng, example_msa_path):
     with TemporaryDirectory() as tmpdir:
         file_path = raxmlng.infer_parsimony_trees(
-            msa_file=example_msa_path, model="GTR+G", prefix=pathlib.Path(tmpdir), n_trees=10
+            msa_file=example_msa_path,
+            model="GTR+G",
+            prefix=pathlib.Path(tmpdir),
+            n_trees=10,
         )
 
         trees = file_path.open().readlines()
@@ -56,7 +59,9 @@ def test_run_raxmlng_command(raxmlng_command, example_msa_path):
 
 
 def test_run_raxmlng_command_raises_raxmlng_error_with_error_output(raxmlng_command):
-    with pytest.raises(RAxMLNGError, match="ERROR: Alignment file not found: this_does_no_exist.phy"):
+    with pytest.raises(
+        RAxMLNGError, match="ERROR: Alignment file not found: this_does_no_exist.phy"
+    ):
         with tempfile.TemporaryDirectory() as tmpdir:
             prefix = pathlib.Path(tmpdir) / "test"
             raxmlng_failure = [

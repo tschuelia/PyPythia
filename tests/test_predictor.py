@@ -1,7 +1,7 @@
 import matplotlib.figure
 
-from tests.fixtures import *
 import numpy as np
+import pytest
 
 from pypythia.custom_errors import PyPythiaException
 

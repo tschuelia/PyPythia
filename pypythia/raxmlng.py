@@ -1,9 +1,12 @@
 from pypythia.custom_errors import RAxMLNGError
-from pypythia.raxmlng_parser import *
+from pypythia.raxmlng_parser import (
+    get_patterns_gaps_invariant,
+    get_raxmlng_rfdist_results,
+)
 
 from tempfile import TemporaryDirectory
-import os
 import subprocess
+import pathlib
 
 
 def run_raxmlng_command(cmd: list[str]) -> None:
@@ -31,7 +34,7 @@ class RAxMLNG:
         self.exe_path = exe_path
 
     def _base_cmd(
-            self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
+        self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
     ) -> list[str]:
         additional_settings = []
         for key, value in kwargs.items():
@@ -52,12 +55,14 @@ class RAxMLNG:
         ]
 
     def _run_alignment_parse(
-            self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
+        self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
     ) -> None:
         cmd = self._base_cmd(msa_file, model, prefix, parse=None, **kwargs)
         run_raxmlng_command(cmd)
 
-    def _run_rfdist(self, trees_file: pathlib.Path, prefix: pathlib.Path, **kwargs) -> None:
+    def _run_rfdist(
+        self, trees_file: pathlib.Path, prefix: pathlib.Path, **kwargs
+    ) -> None:
         additional_settings = []
         for key, value in kwargs.items():
             if value is None:
@@ -75,12 +80,12 @@ class RAxMLNG:
         run_raxmlng_command(cmd)
 
     def infer_parsimony_trees(
-            self,
-            msa_file: pathlib.Path,
-            model: str,
-            prefix: pathlib.Path,
-            n_trees: int = 100,
-            **kwargs,
+        self,
+        msa_file: pathlib.Path,
+        model: str,
+        prefix: pathlib.Path,
+        n_trees: int = 100,
+        **kwargs,
     ) -> pathlib.Path:
         """Method that infers n_trees using the RAxML-NG implementation of maximum parsimony.
 
@@ -105,7 +110,7 @@ class RAxMLNG:
         return pathlib.Path(f"{prefix}.raxml.startTree")
 
     def get_rfdistance_results(
-            self, trees_file: pathlib.Path, prefix: pathlib.Path = None, **kwargs
+        self, trees_file: pathlib.Path, prefix: pathlib.Path = None, **kwargs
     ) -> tuple[float, float, float]:
         """Method that computes the number of unique topologies, relative RF-Distance, and absolute RF-Distance for the given set of trees.
 
@@ -127,7 +132,7 @@ class RAxMLNG:
             return get_raxmlng_rfdist_results(log_file)
 
     def get_patterns_gaps_invariant(
-            self, msa_file: pathlib.Path, model: str, prefix: str = None
+        self, msa_file: pathlib.Path, model: str, prefix: str = None
     ) -> tuple[int, float, float]:
         """Method that obtains the number of patterns, proportion of gaps, and proportion of invariant sites in the given MSA.
 

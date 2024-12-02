@@ -1,5 +1,5 @@
 # Available trained predictors
-You can use any of the provided trained predictors to query Pythia with. 
+You can use any of the provided trained predictors to query Pythia with.
 You can set the predictor to use by passing the respective path via the `-p` switch.
 We recommend you to only use this option for reproducing older results as the default predictor will yield the most accurate results.
 
@@ -60,7 +60,7 @@ We recommend you to only use this option for reproducing older results as the de
     - 979 AA MSAs
     - 460 morphological MSAs
   - MAE = 0.06
-  - MAPE = 
+  - MAPE =
   - The model was trained using the following set of parameters (optimal set of parameters determined using the optuna optimizer):
     - learning_rate: 0.1149633834134289
     - max_depth: 10

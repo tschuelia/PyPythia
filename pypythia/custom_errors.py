@@ -12,6 +12,7 @@ class RAxMLNGError(Exception):
     or only the lines containing the cause for the RAxML-NG error if the RAxML-NG output contains
     lines starting with "ERROR"
     """
+
     def __init__(self, subprocess_exception: subprocess.CalledProcessError):
         error_information = []
 
@@ -20,10 +21,10 @@ class RAxMLNGError(Exception):
                 error_information.append(line.strip())
 
         if len(error_information) > 0:
-            error_details = f"RAxML-NG exited with the following error:\n"
+            error_details = "RAxML-NG exited with the following error:\n"
             error_details += "\t" + "\n\t".join(error_information)
         else:
-            error_details = f"check the following RAxML-NG log for further information on the error(s):\n"
+            error_details = "check the following RAxML-NG log for further information on the error(s):\n"
             error_details += subprocess_exception.output
 
         cmd = " ".join(subprocess_exception.cmd)

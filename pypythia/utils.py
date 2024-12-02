@@ -7,4 +7,3 @@ def get_value_from_line(line: str, search_string: str) -> float:
     raise ValueError(
         f"The given line '{line}' does not contain the search string '{search_string}'."
     )
-

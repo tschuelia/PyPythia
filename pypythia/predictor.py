@@ -32,7 +32,7 @@ class DifficultyPredictor:
         features: Names of the features the predictor was trained with.
     """
 
-    def __init__(self, predictor_handle, features: list[str]=None) -> None:
+    def __init__(self, predictor_handle, features: list[str] = None) -> None:
         self.predictor = pickle.load(predictor_handle)
 
         # Pythia version < 1.0.0 was a scikit-learn based predictor
@@ -75,8 +75,10 @@ class DifficultyPredictor:
 
         df = df.reindex(columns=self.features)
         if np.all(np.isinf(df)):
-            raise PyPythiaException("All features in this set are infinite. "
-                                    "Something went wrong during feature computation.")
+            raise PyPythiaException(
+                "All features in this set are infinite. "
+                "Something went wrong during feature computation."
+            )
 
         return df
 
@@ -118,7 +120,9 @@ class DifficultyPredictor:
             import shap
 
         if isinstance(self.predictor, RandomForestRegressor):
-            raise PyPythiaException("Cannot infer shapley values for scikit-learn predictors")
+            raise PyPythiaException(
+                "Cannot infer shapley values for scikit-learn predictors"
+            )
 
         explainer = shap.TreeExplainer(self.predictor)
         df = self._check_and_pack_query(query)
@@ -127,11 +131,7 @@ class DifficultyPredictor:
 
         return shap.plots.waterfall(
             shap.Explanation(
-                values=shap_values[0],
-                base_values=base_values,
-                data=df.iloc[0]
+                values=shap_values[0], base_values=base_values, data=df.iloc[0]
             ),
-            show=False
+            show=False,
         ).figure
-
-

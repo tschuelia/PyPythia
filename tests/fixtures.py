@@ -49,10 +49,7 @@ def msa_without_duplicate_sequences(small_msa_with_signal):
 
 @pytest.fixture
 def all_msa_files_with_model():
-    morph_models = {
-        "0.phy": "MULTI3_GTR",
-        "1.phy": "MULTI2_GTR"
-    }
+    morph_models = {"0.phy": "MULTI3_GTR", "1.phy": "MULTI2_GTR"}
 
     files_and_models = []
 
@@ -79,7 +76,9 @@ def predictor():
 
 @pytest.fixture
 def sklearn_predictor():
-    return DifficultyPredictor(open("pypythia/predictors/predictor_sklearn_rf_v0.0.1.pckl", "rb"))
+    return DifficultyPredictor(
+        open("pypythia/predictors/predictor_sklearn_rf_v0.0.1.pckl", "rb")
+    )
 
 
 @pytest.fixture
