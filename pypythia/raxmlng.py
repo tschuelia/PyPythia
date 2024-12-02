@@ -1,12 +1,12 @@
+import pathlib
+import subprocess
+from tempfile import TemporaryDirectory
+
 from pypythia.custom_errors import RAxMLNGError
 from pypythia.raxmlng_parser import (
     get_patterns_gaps_invariant,
     get_raxmlng_rfdist_results,
 )
-
-from tempfile import TemporaryDirectory
-import subprocess
-import pathlib
 
 
 def run_raxmlng_command(cmd: list[str]) -> None:

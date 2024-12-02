@@ -1,16 +1,16 @@
 import argparse
+import logging
 import os.path
 import pathlib
 import shutil
 import time
-import logging
 from tempfile import TemporaryDirectory
 
+from pypythia import __version__
 from pypythia.custom_errors import PyPythiaException
 from pypythia.msa import MSA
 from pypythia.predictor import DifficultyPredictor
 from pypythia.raxmlng import RAxMLNG
-from pypythia import __version__
 
 logging.basicConfig(level=logging.WARNING, format="%(message)s")
 logger = logging.getLogger(__name__)

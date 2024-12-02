@@ -2,11 +2,11 @@ import pathlib
 
 import pytest
 
-from .test_config import RAXMLNG_COMMAND
-
 from pypythia.msa import MSA
-from pypythia.raxmlng import RAxMLNG
 from pypythia.predictor import DifficultyPredictor
+from pypythia.raxmlng import RAxMLNG
+
+from .test_config import RAXMLNG_COMMAND
 
 
 @pytest.fixture

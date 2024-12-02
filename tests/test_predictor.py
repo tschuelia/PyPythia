@@ -1,5 +1,4 @@
 import matplotlib.figure
-
 import numpy as np
 import pytest
 

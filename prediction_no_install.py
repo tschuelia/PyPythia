@@ -1,9 +1,9 @@
 import pathlib
 
-from pypythia.predictor import DifficultyPredictor
-from pypythia.prediction import get_all_features
-from pypythia.raxmlng import RAxMLNG
 from pypythia.msa import MSA
+from pypythia.prediction import get_all_features
+from pypythia.predictor import DifficultyPredictor
+from pypythia.raxmlng import RAxMLNG
 
 
 def predict_difficulty(

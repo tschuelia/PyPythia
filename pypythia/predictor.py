@@ -1,10 +1,10 @@
 import pickle
 import warnings
 
-from lightgbm import LGBMRegressor
-from matplotlib.figure import Figure
 import numpy as np
 import pandas as pd
+from lightgbm import LGBMRegressor
+from matplotlib.figure import Figure
 from sklearn.ensemble import RandomForestRegressor
 
 from pypythia.custom_errors import PyPythiaException

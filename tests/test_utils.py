@@ -1,4 +1,5 @@
 import pytest
+
 from pypythia.utils import get_value_from_line
 
 

@@ -3,17 +3,17 @@ import os
 import pathlib
 import random
 import statistics
+import warnings
 from collections import Counter
 from itertools import product
 from tempfile import NamedTemporaryFile
-import warnings
 
 from Bio import AlignIO, SeqIO
 from Bio.Align import MultipleSeqAlignment
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 
-from pypythia.custom_types import DataType, FileFormat
 from pypythia.custom_errors import PyPythiaException
+from pypythia.custom_types import DataType, FileFormat
 
 STATE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,/:;<=>@[\\]^_{|}~"
 DNA_CHARS = "ATUCGMRWSYKVHDBN"

@@ -1,11 +1,11 @@
-import pytest
 import pathlib
 import tempfile
-
-from pypythia.raxmlng import run_raxmlng_command
-from pypythia.custom_errors import RAxMLNGError
-
 from tempfile import TemporaryDirectory
+
+import pytest
+
+from pypythia.custom_errors import RAxMLNGError
+from pypythia.raxmlng import run_raxmlng_command
 
 
 def test_infer_parsimony_trees(raxmlng, example_msa_path):

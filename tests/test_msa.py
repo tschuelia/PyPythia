@@ -1,8 +1,10 @@
 import pathlib
+
 import pytest
+
+from pypythia.custom_errors import PyPythiaException
 from pypythia.custom_types import DataType, FileFormat
 from pypythia.msa import MSA
-from pypythia.custom_errors import PyPythiaException
 
 
 class TestMSAFeatures:
