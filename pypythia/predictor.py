@@ -1,11 +1,9 @@
-import pickle
+import pathlib
 import warnings
 
-import numpy as np
+import lightgbm as lgb
 import pandas as pd
-from lightgbm import LGBMRegressor
 from matplotlib.figure import Figure
-from sklearn.ensemble import RandomForestRegressor
 
 from pypythia.custom_errors import PyPythiaException
 
@@ -16,7 +14,7 @@ class DifficultyPredictor:
     This class provides methods for predicting the difficulty of an MSA.
 
     Args:
-        predictor_handle (file object):
+        predictor_file (file object):
             Open file handle for the trained predictor. We do not guarantee the functionality of this class
             for predictors other than lightGBM Regressors and scikit-learn RandomForestRegressors
         features (optional list[string]):
@@ -32,57 +30,11 @@ class DifficultyPredictor:
         features: Names of the features the predictor was trained with.
     """
 
-    def __init__(self, predictor_handle, features: list[str] = None) -> None:
-        self.predictor = pickle.load(predictor_handle)
+    def __init__(self, model_file: pathlib.Path, features: list[str] = None) -> None:
+        self.predictor = lgb.Booster(model_file=model_file)
+        self.features = self.predictor.feature_name() if features is None else features
 
-        # Pythia version < 1.0.0 was a scikit-learn based predictor
-        # starting from version 1.0.0 we have a lightGBM based predictor
-        # so we need to distinguish the predictor type to obtain the feature names
-        if isinstance(self.predictor, RandomForestRegressor):
-            self.features = list(self.predictor.feature_names_in_)
-        elif isinstance(self.predictor, LGBMRegressor):
-            self.features = list(self.predictor.feature_name_)
-        else:
-            if features is None:
-                raise PyPythiaException(
-                    "If passing a predictor other than a lightGMB Regressor or scikit-learn RandomForestRegressor, "
-                    "you also need to pass a list of features the predictor was trained with."
-                )
-            self.features = features
-
-    def _check_and_pack_query(self, query: dict[str, float]) -> pd.DataFrame:
-        """
-        Checks whether the given query is in correct format and packs the features as pandas Dataframe
-        """
-        df = pd.DataFrame()
-        for feature in self.features:
-            value = query.get(feature)
-            if value is None:
-                raise PyPythiaException(
-                    f"The value for feature {feature} is not present in the query. "
-                    f"Make sure to pass the correct set of features."
-                    f"The required set of features is: {self.features}."
-                )
-            elif isinstance(value, list):
-                if len(value) != 1:
-                    raise PyPythiaException(
-                        f"The value for feature {feature} is a list of length {len(value)}. "
-                        f"Either provide a single value or a list with a single value only."
-                    )
-                else:
-                    value = value[0]
-            df[feature] = [value]
-
-        df = df.reindex(columns=self.features)
-        if np.all(np.isinf(df)):
-            raise PyPythiaException(
-                "All features in this set are infinite. "
-                "Something went wrong during feature computation."
-            )
-
-        return df
-
-    def predict(self, query: dict[str, float]) -> float:
+    def predict(self, query: pd.DataFrame) -> float:
         """Predicts the difficulty for the given set of MSA features.
 
         Args:
@@ -96,17 +48,14 @@ class DifficultyPredictor:
         Raises:
             PyPythiaException: If not all features the predictor was trained with are present in the given query.
         """
-        df = self._check_and_pack_query(query)
+        if not set(self.features).issubset(query.columns):
+            raise PyPythiaException(
+                "The provided query does not contain all features the predictor was trained with."
+            )
 
         try:
-            if isinstance(self.predictor, LGBMRegressor):
-                # Required for compatibility with lightGBM > 4.0.0
-                self.predictor._n_classes = -1
-                prediction = self.predictor.predict(df, num_threads=1, verbose=-1)
-            else:
-                prediction = self.predictor.predict(df)
-
-            prediction = prediction.clip(min=0.0, max=1.0)[0]
+            prediction = self.predictor.predict(query[self.features])
+            prediction = prediction.clip(min=0.0, max=1.0)
         except Exception as e:
             raise PyPythiaException(
                 "An error occurred predicting the difficulty for the provided set of MSA features."
@@ -114,18 +63,19 @@ class DifficultyPredictor:
 
         return prediction
 
-    def plot_shapley_values(self, query: dict[str, float]) -> Figure:
+    def plot_shapley_values(self, query: pd.DataFrame) -> Figure:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             import shap
 
-        if isinstance(self.predictor, RandomForestRegressor):
+        if not set(self.features).issubset(query.columns):
             raise PyPythiaException(
-                "Cannot infer shapley values for scikit-learn predictors"
+                "The provided query does not contain all features the predictor was trained with."
             )
 
+        df = query[self.features]
+
         explainer = shap.TreeExplainer(self.predictor)
-        df = self._check_and_pack_query(query)
         shap_values = explainer.shap_values(df)
         base_values = explainer.expected_value
 

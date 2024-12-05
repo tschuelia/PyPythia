@@ -1,6 +1,5 @@
 import argparse
 import logging
-import os.path
 import pathlib
 import shutil
 import time
@@ -153,17 +152,16 @@ def main():
     parser.add_argument(
         "-p",
         "--predictor",
-        type=argparse.FileType("rb"),
-        default=os.path.join(os.path.dirname(__file__), "predictors/latest.pckl"),
+        type=pathlib.Path,
+        default=pathlib.Path(__file__) / "predictors/latest.txt",
         required=False,
-        help="Filepath of the predictor to use. If not set, "
-        "assume it is 'predictors/latest.pckl' in the project directory.",
+        help="Filepath of the alternative predictor to use. Uses the latest Pythia predictor per default.",
     )
 
     parser.add_argument(
         "-o",
         "--output",
-        type=argparse.FileType("w"),
+        type=pathlib.Path,
         required=False,
         help="Option to specify a filepath where the result will be written to. "
         "The file will contain a single line with only the difficulty.",
@@ -367,7 +365,7 @@ def main():
         )
 
     if args.output:
-        args.output.write(str(round(difficulty, args.precision)))
+        args.output.write_text(str(round(difficulty, args.precision)))
 
 
 if __name__ == "__main__":
