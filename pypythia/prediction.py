@@ -5,6 +5,8 @@ import shutil
 import time
 from tempfile import TemporaryDirectory
 
+import pandas as pd
+
 from pypythia import __version__
 from pypythia.custom_errors import PyPythiaException
 from pypythia.msa import MSA
@@ -24,7 +26,8 @@ def get_all_features(
     store_trees: bool = False,
     log_info: bool = True,
     threads: int = None,
-) -> dict[str, float]:
+    seed: int = 0,
+) -> pd.DataFrame:
     """Helper function to collect all features required for predicting the difficulty of the MSA.
 
     Args:
@@ -56,14 +59,15 @@ def get_all_features(
         n_pars_trees = 100
         if log_info:
             log_runtime_information(
-                f"Inferring {n_pars_trees} parsimony trees", log_runtime=True
+                f"Inferring {n_pars_trees} parsimony trees with random seed {seed}",
+                log_runtime=True,
             )
         trees = raxmlng.infer_parsimony_trees(
             msa_file,
             model,
             pathlib.Path(tmpdir) / "pars",
             redo=None,
-            seed=0,
+            seed=seed,
             n_trees=n_pars_trees,
             **dict(threads=threads) if threads else {},
         )
@@ -80,7 +84,7 @@ def get_all_features(
             )
         num_topos, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
 
-        return {
+        features = {
             "num_taxa": ntaxa,
             "num_sites": nsites,
             "num_patterns": patterns,
@@ -95,6 +99,7 @@ def get_all_features(
             "avg_rfdist_parsimony": rel_rfdist,
             "proportion_unique_topos_parsimony": num_topos / n_pars_trees,
         }
+        return pd.DataFrame(features, index=[0])
 
 
 def print_header():
@@ -150,10 +155,18 @@ def main():
     )
 
     parser.add_argument(
+        "-s",
+        "--seed",
+        type=int,
+        required=False,
+        help="Seed for the RAxML-NG parsimony tree inference. Default is 0.",
+    )
+
+    parser.add_argument(
         "-p",
         "--predictor",
         type=pathlib.Path,
-        default=pathlib.Path(__file__) / "predictors/latest.txt",
+        default=pathlib.Path(__file__).parent / "predictors/latest.txt",
         required=False,
         help="Filepath of the alternative predictor to use. Uses the latest Pythia predictor per default.",
     )
@@ -306,13 +319,14 @@ def main():
         store_trees=args.storeTrees,
         log_info=True,
         threads=args.threads,
+        seed=args.seed,
     )
     features_end = time.perf_counter()
 
     log_runtime_information("Predicting the difficulty", log_runtime=True)
 
     prediction_start = time.perf_counter()
-    difficulty = predictor.predict(msa_features)
+    difficulty = predictor.predict(msa_features)[0]
     prediction_end = time.perf_counter()
 
     script_end = time.perf_counter()
