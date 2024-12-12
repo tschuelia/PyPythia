@@ -56,7 +56,7 @@ def get_all_features(
         ntaxa = msa.number_of_taxa()
         nsites = msa.number_of_sites()
 
-        n_pars_trees = 100
+        n_pars_trees = 24
         if log_info:
             log_runtime_information(
                 f"Inferring {n_pars_trees} parsimony trees with random seed {seed}",
