@@ -47,6 +47,11 @@ jobs:
             python=${{ matrix.python-version }}
           generate-run-shell: false
           post-cleanup: none
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install Pythia  # Install Pythia manually to get the correct branch
+        run: |
+          pip install -e .[test]
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Test Pythia installation by running the CLI
