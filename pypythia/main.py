@@ -83,31 +83,11 @@ def _parse_cli() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "--removeDuplicates",
-        help="Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
-        "If this option is set, PyPythia removes the duplicate sequences, "
-        "stores the reduced MSA as '{prefix.reduced.phy' in phylip format "
-        "and predicts the difficulty for the reduced alignment (default: True).",
-        action="store_true",
-        default=True,
-    )
-
-    parser.add_argument(
         "--forceDuplicates",
         help="Per default, Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
         "Only set this option if you are absolutely sure that you want to predict the difficulty "
         "for this MSA (default: False). ",
         action="store_true",
-    )
-
-    parser.add_argument(
-        "--removeFullGaps",
-        help="Pythia refuses to predict the difficulty for MSAs containing sequences with only gaps. "
-        "If this option is set, PyPythia removes the full gap sequences, "
-        "stores the reduced MSA as '{prefix.reduced.phy' in phylip format "
-        "and predicts the difficulty for the reduced alignment (default: True).",
-        action="store_true",
-        default=True,
     )
 
     parser.add_argument(

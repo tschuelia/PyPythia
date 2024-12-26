@@ -1,1 +1,35 @@
+nav:
+- Home: index.md
+- Install: install.md
+- User Guide: usage.md
+- API Reference:
+  - api/custom_errors.md
+  - api/custom_types.md
+  - api/logger.md
+  - api/msa.md
+  - api/prediction.md
+  - api/predictor.md
+  - api/raxmlng.md
+plugins:
+- search
+- mkdocstrings
 site_name: PyPythia
+site_url: https://tschuelia.github.io/PyPythia/
+theme:
+  name: material
+  palette:
+  - media: (prefers-color-scheme)
+    scheme: default
+    toggle:
+      icon: material/lightbulb
+      name: Switch to light mode
+  - media: '(prefers-color-scheme: light)'
+    scheme: default
+    toggle:
+      icon: material/lightbulb-outline
+      name: Switch to dark mode
+  - media: '(prefers-color-scheme: dark)'
+    scheme: slate
+    toggle:
+      icon: material/lightbulb-auto-outline
+      name: Switch to system preference
