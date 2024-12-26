@@ -29,7 +29,8 @@ def _setup_argparse() -> argparse.ArgumentParser:
         type=str,
         default=DEFAULT_RAXMLNG_EXE,
         required=DEFAULT_RAXMLNG_EXE is None,
-        help="Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng.",
+        help="Path to the binary of RAxML-NG. For install instructions see https://github.com/amkozlov/raxml-ng."
+        "(default: 'raxml-ng' if in $PATH, otherwise this option is mandatory).",
     )
 
     parser.add_argument(
@@ -37,9 +38,7 @@ def _setup_argparse() -> argparse.ArgumentParser:
         "--threads",
         type=int,
         required=False,
-        help="Number of threads to use for parallel parsimony tree inference. "
-        "If none is set, Pythia uses the parallelization scheme of RAxML-NG "
-        "that automatically detects the optimal number of threads for your machine.",
+        help="Number of threads to use for parallel parsimony tree inference (default: RAxML-NG autoconfig).",
     )
 
     parser.add_argument(
@@ -64,7 +63,7 @@ def _setup_argparse() -> argparse.ArgumentParser:
         type=str,
         default=DEFAULT_MODEL_FILE,
         required=False,
-        help="Filepath of the alternative predictor to use. Uses the latest Pythia predictor per default.",
+        help="Filepath of the alternative predictor to use (default: latest Pythia).",
     )
 
     parser.add_argument(
@@ -73,13 +72,13 @@ def _setup_argparse() -> argparse.ArgumentParser:
         type=int,
         default=2,
         required=False,
-        help="Set the number of decimals the difficulty should be rounded to. Recommended and default is 2.",
+        help="Set the number of decimals the difficulty should be rounded to (default: 2).",
     )
 
     parser.add_argument(
         "-sT",
         "--storeTrees",
-        help="If set, stores the parsimony trees as '{msa_name}.parsimony.trees' file.",
+        help="If set, stores the parsimony trees as '{prefix}.pythia.trees' file (default: False).",
         action="store_true",
     )
 
@@ -87,37 +86,39 @@ def _setup_argparse() -> argparse.ArgumentParser:
         "--removeDuplicates",
         help="Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
         "If this option is set, PyPythia removes the duplicate sequences, "
-        "stores the reduced MSA as '{msa_name}.{phy/fasta}.pythia.reduced' "
-        "and predicts the difficulty for the reduced alignment.",
+        "stores the reduced MSA as '{prefix}.{phy/fasta}.pythia.reduced' "
+        "and predicts the difficulty for the reduced alignment (default: False).",
         action="store_true",
     )
 
     parser.add_argument(
         "--forceDuplicates",
         help="Per default, Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
-        "Set this option if you are absolutely sure that you want to predict the difficulty for this MSA. ",
+        "Only set this option if you are absolutely sure that you want to predict the difficulty "
+        "for this MSA (default: False). ",
         action="store_true",
     )
 
     parser.add_argument(
         "--shap",
-        help="If set, computes the shapley values of the prediction as waterfall plot in '{msa_name}.shap.pdf'. "
+        help="If set, computes the shapley values of the prediction as waterfall plot in '{prefix}.shap.pdf'. "
         "When using this option, make sure you understand what shapley values are and how to interpret this plot."
-        "For details on shapley values refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values.",
+        "For details on shapley values refer to the wiki: "
+        "https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values (default: False).",
         action="store_true",
     )
 
     parser.add_argument(
         "-v",
         "--verbose",
-        help="If set, additionally prints the MSA features.",
+        help="If set, additionally prints the MSA features (default: False).",
         action="store_true",
     )
 
     parser.add_argument(
         "-b",
         "--benchmark",
-        help="If set, time the runtime of the prediction.",
+        help="If set, time the runtime of the prediction (default: False).",
         action="store_true",
     )
 
