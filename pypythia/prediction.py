@@ -6,9 +6,9 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from build.lib.pypythia.custom_errors import PyPythiaException
+from pypythia.custom_errors import PyPythiaException
 from pypythia.logger import log_runtime_information, logger
-from pypythia.msa import MSA, parse
+from pypythia.msa import MSA, deduplicate_sequences, parse, remove_full_gap_sequences
 from pypythia.predictor import DEFAULT_MODEL_FILE, DifficultyPredictor
 from pypythia.raxmlng import DEFAULT_RAXMLNG_EXE, RAxMLNG
 
@@ -19,6 +19,9 @@ def predict_difficulty(
     raxmlng: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE,
     threads: int = None,
     seed: int = 0,
+    deduplicate: bool = True,
+    remove_full_gaps: bool = True,
+    reduced_msa_file: Optional[pathlib.Path] = None,
 ) -> np.float64:
     """
     Predicts the difficulty of an MSA using the given difficulty predictor.
@@ -48,6 +51,15 @@ def predict_difficulty(
 
     raxmlng = RAxMLNG(**{"exe_path": raxmlng} if raxmlng else {})
     msa = parse(msa_file)
+
+    if deduplicate and msa.contains_duplicate_sequences():
+        msa = deduplicate_sequences(msa)
+    if remove_full_gaps and msa.contains_full_gap_sequences():
+        msa = remove_full_gap_sequences(msa)
+
+    if reduced_msa_file:
+        msa.write(reduced_msa_file)
+
     msa_features = collect_features(
         msa, msa_file, raxmlng, log_info=False, threads=threads, seed=seed
     )

@@ -242,7 +242,7 @@ class MSA:
         else:
             raise PyPythiaException("Unsupported data type: ", self.data_type)
 
-    def save(
+    def write(
         self, output_file: pathlib.Path, file_format: FileFormat = FileFormat.PHYLIP
     ):
         _biopython_sequences = [

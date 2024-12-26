@@ -1,16 +1,16 @@
 import argparse
 import pathlib
+import sys
 import time
 
-from pypythia.custom_errors import PyPythiaException
-from pypythia.logger import SCRIPT_START, get_header, log_runtime_information, logger
-from pypythia.msa import parse
+from pypythia.logger import get_header, log_runtime_information, logger
+from pypythia.msa import MSA, deduplicate_sequences, parse, remove_full_gap_sequences
 from pypythia.prediction import collect_features
 from pypythia.predictor import DEFAULT_MODEL_FILE, DifficultyPredictor
 from pypythia.raxmlng import DEFAULT_RAXMLNG_EXE, RAxMLNG
 
 
-def _setup_argparse() -> argparse.ArgumentParser:
+def _parse_cli() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Parser for Pythia command line options."
     )
@@ -86,14 +86,33 @@ def _setup_argparse() -> argparse.ArgumentParser:
         "--removeDuplicates",
         help="Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
         "If this option is set, PyPythia removes the duplicate sequences, "
-        "stores the reduced MSA as '{prefix}.{phy/fasta}.pythia.reduced' "
-        "and predicts the difficulty for the reduced alignment (default: False).",
+        "stores the reduced MSA as '{prefix.reduced.phy' in phylip format "
+        "and predicts the difficulty for the reduced alignment (default: True).",
         action="store_true",
+        default=True,
     )
 
     parser.add_argument(
         "--forceDuplicates",
         help="Per default, Pythia refuses to predict the difficulty for MSAs containing duplicate sequences. "
+        "Only set this option if you are absolutely sure that you want to predict the difficulty "
+        "for this MSA (default: False). ",
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "--removeFullGaps",
+        help="Pythia refuses to predict the difficulty for MSAs containing sequences with only gaps. "
+        "If this option is set, PyPythia removes the full gap sequences, "
+        "stores the reduced MSA as '{prefix.reduced.phy' in phylip format "
+        "and predicts the difficulty for the reduced alignment (default: True).",
+        action="store_true",
+        default=True,
+    )
+
+    parser.add_argument(
+        "--forceFullGaps",
+        help="Per default, Pythia refuses to predict the difficulty for MSAs containing sequences with only gaps. "
         "Only set this option if you are absolutely sure that you want to predict the difficulty "
         "for this MSA (default: False). ",
         action="store_true",
@@ -115,20 +134,46 @@ def _setup_argparse() -> argparse.ArgumentParser:
         action="store_true",
     )
 
-    parser.add_argument(
-        "-b",
-        "--benchmark",
-        help="If set, time the runtime of the prediction (default: False).",
-        action="store_true",
-    )
+    return parser.parse_args()
 
-    return parser
+
+def _handle_duplicates(msa: MSA, force_duplicates: bool) -> MSA:
+    if msa.contains_duplicate_sequences() and force_duplicates:
+        logger.warning(
+            "WARNING: The provided MSA contains duplicate sequences. "
+            "The setting 'forceDuplicates' is set, Pythia will predict the difficulty for the MSA with duplicates."
+        )
+        return msa
+
+    if msa.contains_duplicate_sequences():
+        log_runtime_information(
+            "The input MSA contains duplicate sequences. Removing duplicates before predicting the difficulty."
+        )
+        return deduplicate_sequences(msa)
+    else:
+        return msa
+
+
+def _handle_full_gap_sequences(msa: MSA, force_full_gaps: bool) -> MSA:
+    if msa.contains_full_gap_sequences() and force_full_gaps:
+        log_runtime_information(
+            "WARNING: The provided MSA contains sequences with only gaps. "
+            "The setting 'forceFullGaps' is set, Pythia will predict the difficulty for the MSA with full gap sequences."
+        )
+        return msa
+
+    if msa.contains_full_gap_sequences():
+        log_runtime_information(
+            "The input MSA contains sequences with only gaps. Removing full gap sequences before predicting the difficulty."
+        )
+        return remove_full_gap_sequences(msa)
+    else:
+        return msa
 
 
 def main():
     logger.info(get_header())
-    parser = _setup_argparse()
-    args = parser.parse_args()
+    args = _parse_cli()
 
     # Format all paths to pathlib.Path objects and set a default value if not provided
     msa_file = pathlib.Path(args.msa)
@@ -144,8 +189,20 @@ def main():
     results_file = pathlib.Path(f"{prefix}.pythia.csv")
     pars_trees_file = pathlib.Path(f"{prefix}.pythia.trees")
     shap_file = pathlib.Path(f"{prefix}.shap.pdf")
+    reduced_msa_file = pathlib.Path(f"{prefix}.reduced.phy")
 
-    log_runtime_information(message="Starting prediction.", log_runtime=True)
+    # Start the actual prediction
+    SCRIPT_START = time.perf_counter()
+
+    logger.info(
+        f"Pythia was called at {time.strftime('%d-%b-%Y %H:%M:%S')} as follows:\n"
+    )
+    logger.info(" ".join(sys.argv))
+    logger.info("")
+
+    log_runtime_information(
+        message=f"Starting prediction for MSA {msa_file}.", log_runtime=True
+    )
 
     raxmlng = RAxMLNG(raxmlng_executable)
 
@@ -154,47 +211,29 @@ def main():
     )
     predictor = DifficultyPredictor(predictor_file)
 
-    log_runtime_information(message="Checking MSA", log_runtime=True)
+    log_runtime_information(message="Loading MSA", log_runtime=True)
 
     msa = parse(msa_file)
-    final_warning_string = None
 
-    if msa.contains_duplicate_sequences() and not (
-        args.removeDuplicates or args.forceDuplicates
-    ):
-        raise PyPythiaException(
-            "The provided MSA contains sequences that are exactly identical (duplicate sequences). "
-            "Duplicate sequences influence the topological distances and distort the difficulty. "
-            "If you are absolutely sure that you want to predict the difficulty for this MSA, "
-            "set the option --forceDuplicates."
-        )
+    # First, deduplicate the MSA if necessary
+    reduced_msa = _handle_duplicates(msa, args.forceDuplicates)
 
-    if not msa.contains_duplicate_sequences() and args.removeDuplicates:
-        logger.warning(
-            "WARNING: The provided MSA does not contain duplicate sequences. "
-            "The setting 'removeDuplicates' has no effect."
-        )
+    # Second, remove full gap sequences if necessary
+    reduced_msa = _handle_full_gap_sequences(reduced_msa, args.forceFullGaps)
 
-    if msa.contains_duplicate_sequences() and args.removeDuplicates:
-        reduced_msa = msa_file + ".pythia.reduced"
+    # check if the reduced MSA is different from the original MSA
+    is_reduced = msa != reduced_msa
+    if is_reduced:
+        reduced_msa.write(reduced_msa_file)
+        msa = reduced_msa
+        msa_file = reduced_msa_file
+
         log_runtime_information(
-            f"The input alignment {msa_file} contains duplicate sequences: "
-            f"saving a reduced alignment as {reduced_msa}\n",
+            "The input MSA contained duplicate sequences and/or sequences containing only gaps. "
+            f"Saving a reduced alignment as {reduced_msa_file}.\n"
+            "WARNING: This predicted difficulty is only applicable to the reduced MSA (duplicate sequences removed). "
+            f"We recommend to only use the reduced alignment {reduced_msa_file} for your subsequent analyses.\n",
             log_runtime=True,
-        )
-        # TODO: save reduced MSA
-        # msa.save_reduced_alignment(reduced_msa_file=reduced_msa, replace_original=True)
-        # msa_file = reduced_msa
-
-        final_warning_string = (
-            f"WARNING: This predicted difficulty is only applicable to the reduced MSA (duplicate sequences removed). "
-            f"We recommend to only use the reduced alignment {msa_file} for your subsequent analyses.\n"
-        )
-
-    if msa.contains_duplicate_sequences() and args.forceDuplicates:
-        logger.warning(
-            "WARNING: The provided MSA contains duplicate sequences. "
-            "The setting 'forceDuplicates' is set, Pythia will predict the difficulty for the MSA with duplicates."
         )
 
     log_runtime_information(
@@ -234,9 +273,6 @@ def main():
 
     log_runtime_information("Done")
 
-    if final_warning_string:
-        logger.warning(final_warning_string)
-
     if args.shap:
         fig = predictor.plot_shapley_values(msa_features)
         fig.tight_layout()
@@ -248,42 +284,41 @@ def main():
         for feat, val in msa_features.items():
             logger.info(f"{feat}: {round(val[0], args.precision)}")
 
-    if args.benchmark:
-        feature_time = round(features_end - features_start, 3)
-        prediction_time = round(prediction_end - prediction_start, 3)
-        runtime_script = round(script_end - SCRIPT_START, 3)
-
-        logger.info(
-            f"{'─' * 20}\n"
-            f"RUNTIME SUMMARY:\n"
-            f"Feature computation runtime:\t{feature_time} seconds\n"
-            f"Prediction:\t\t\t{prediction_time} seconds\n"
-            f"----\n"
-            f"Total script runtime:\t\t{runtime_script} seconds\n"
-            f"Note that all runtimes include the overhead for python and python subprocess calls.\n"
-            f"For a more accurate and fine grained benchmark, call the respective feature computations from code."
-        )
-
-        msa_features["feature_computation_time"] = feature_time
-        msa_features["prediction_time"] = prediction_time
-        msa_features["script_runtime"] = runtime_script
-
     msa_features["difficulty"] = difficulty
     msa_features["msa_file"] = str(msa_file)
 
     msa_features.to_csv(results_file, index=False)
     logger.info("")
-    logger.info(f"Results saved to {results_file}.")
+    logger.info(f"Results: {results_file}.")
+
+    if is_reduced:
+        logger.info(f"Reduced MSA: {reduced_msa_file}.")
 
     if args.storeTrees:
-        logger.info(f"Inferred parsimony trees saved to {pars_trees_file}")
+        logger.info(f"Inferred parsimony trees: {pars_trees_file}.")
 
     if args.shap:
-        logger.info(f"Waterfall plot of shapley values saved to {shap_file}")
+        logger.info(f"SHAP waterfall plot: {shap_file}.")
         logger.warning(
             "WARNING: When using shap plots, make sure you understand what shapley values are and how you can interpret"
             " this plot. For details refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values"
         )
+
+    logger.info("")
+    total_runtime = script_end - SCRIPT_START
+    hours, remainder = divmod(total_runtime, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    if hours > 0:
+        logger.info(
+            f"Total runtime: {int(hours):02d}:{int(minutes):02d}:{seconds:02d} hours ({round(total_runtime)} seconds)."
+        )
+    elif minutes > 0:
+        logger.info(
+            f"Total runtime: {int(minutes):02d}:{int(seconds):02d} minutes ({round(total_runtime)} seconds)."
+        )
+    else:
+        logger.info(f"Total runtime: {seconds:.2f} seconds.")
 
     logger.info(
         f"\nThe predicted difficulty for MSA {msa_file} is: {round(difficulty, args.precision)}\n"
