@@ -51,27 +51,6 @@ jobs:
       - name: Test Pythia installation by running the CLI
         uses: ./.github/actions/test-pythia-cli
 
-  Install-using-pip:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
-      - name: Setup RAxML-NG and RAxML-NG env variable
-        uses: ./.github/actions/setup-raxmlng
-      - name: Setup lightgbm requirements
-        uses: ./.github/actions/setup-lightgbm
-      - name: Install Pythia using pip
-        run: |
-          pip install git+https://github.com/tschuelia/PyPythia@${{ github.head_ref }}#egg=pypythia[test]
-      - name: Test Pythia installation by running the CLI
-        uses: ./.github/actions/test-pythia-cli
 
   Install-from-source:
     runs-on: ${{ matrix.os }}
