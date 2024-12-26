@@ -45,6 +45,7 @@ jobs:
           cache-environment: true
           create-args:
             python=${{ matrix.python-version }}
+          generate-run-shell: false
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Test Pythia installation by running the CLI
@@ -68,7 +69,7 @@ jobs:
         uses: ./.github/actions/setup-lightgbm
       - name: Install Pythia using pip
         run: |
-          pip install git+https://github.com/tschuelia/PyPythia.git
+          pip install git+https://github.com/tschuelia/PyPythia@${{ github.head_ref }}#egg=pypythia[test]
       - name: Test Pythia installation by running the CLI
         uses: ./.github/actions/test-pythia-cli
 
