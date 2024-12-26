@@ -1,8 +1,9 @@
 import pathlib
 
+import pandas as pd
 import pytest
 
-from pypythia.msa import MSA
+from pypythia.msa import MSA, parse
 from pypythia.predictor import DifficultyPredictor
 from pypythia.raxmlng import RAxMLNG
 
@@ -10,31 +11,53 @@ from .test_config import RAXMLNG_COMMAND
 
 
 @pytest.fixture
-def example_msa_path():
+def msa_test_data():
+    df = pd.read_parquet("tests/data/msa_test_data.parquet")
+    df["msa_file"] = df["msa_file"].apply(
+        lambda x: pathlib.Path.cwd() / "tests" / "data" / x
+    )
+    return df
+
+
+@pytest.fixture
+def phylip_msa_file():
     return pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.phy"
 
 
 @pytest.fixture
-def dna_phylip_msa(example_msa_path):
-    return MSA(example_msa_path)
+def fasta_msa_file():
+    return pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.fasta"
 
 
 @pytest.fixture
-def dna_fasta_msa():
-    pth = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.fasta"
-    return MSA(pth)
+def small_msa_file():
+    return pathlib.Path.cwd() / "tests" / "data" / "DNA" / "small.fasta"
 
 
 @pytest.fixture
-def small_msa():
-    pth = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "small.fasta"
-    return MSA(pth)
+def msa_with_duplicates_and_full_gap_sequences():
+    return pathlib.Path.cwd() / "tests" / "data" / "DNA" / "5.phy"
+
+
+@pytest.fixture
+def dna_phylip_msa(phylip_msa_file):
+    return parse(phylip_msa_file)
+
+
+@pytest.fixture
+def dna_fasta_msa(fasta_msa_file):
+    return parse(fasta_msa_file)
+
+
+@pytest.fixture
+def small_msa(small_msa_file):
+    return parse(small_msa_file)
 
 
 @pytest.fixture
 def small_msa_with_signal():
     pth = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "3.phy"
-    return MSA(pth)
+    return parse(pth)
 
 
 @pytest.fixture
