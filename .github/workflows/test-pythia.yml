@@ -46,6 +46,7 @@ jobs:
           create-args:
             python=${{ matrix.python-version }}
           generate-run-shell: false
+          post-cleanup: none
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Test Pythia installation by running the CLI
