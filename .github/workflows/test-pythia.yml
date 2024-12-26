@@ -1,6 +1,9 @@
 name: Build and test PyPythia
 run-name: Build and run the tests of the PyPythia python library.
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
 jobs:
   Run-Pythia-Tests:
     runs-on: ${{ matrix.os }}
