@@ -1,13 +1,16 @@
 name: Build and test PyPythia
 run-name: Build and run the tests of the PyPythia python library.
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
 jobs:
   Run-Pythia-Tests:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.8", "3.11"]
+        python-version: ["3.9", "3.12"]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -21,57 +24,43 @@ jobs:
         uses: ./.github/actions/setup-lightgbm
       - name: Install Pythia and setup requirements
         run: |
-          pip install -e .
-          pip install pytest
+          pip install -e .[test]
           rm tests/test_config.py
           echo "RAXMLNG_COMMAND = '${{ env.raxmlng }}'" > tests/test_config.py
           cat tests/test_config.py
       - name: Run Pythia tests
         run: |
           PYTHONPATH=. pytest
-  
+
   Install-using-conda:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.8", "3.11"]
+        python-version: ["3.9", "3.12"]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Setup Conda
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: etc/environment.yml
           cache-environment: true
           create-args:
             python=${{ matrix.python-version }}
+          generate-run-shell: false
+          post-cleanup: none
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install Pythia  # Install Pythia manually to get the correct branch
+        run: |
+          pip install -e .[test] --no-deps
+        shell: bash -el {0}
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Test Pythia installation by running the CLI
         uses: ./.github/actions/test-pythia-cli
 
-  Install-using-pip:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Setup RAxML-NG and RAxML-NG env variable
-        uses: ./.github/actions/setup-raxmlng
-      - name: Setup lightgbm requirements
-        uses: ./.github/actions/setup-lightgbm
-      - name: Install Pythia using pip
-        run: |
-          pip install git+https://github.com/tschuelia/PyPythia.git
-      - name: Test Pythia installation by running the CLI
-        uses: ./.github/actions/test-pythia-cli
 
   Install-from-source:
     runs-on: ${{ matrix.os }}
@@ -84,7 +73,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11' 
+          python-version: '3.12'
       - name: Setup RAxML-NG and RAxML-NG env variable
         uses: ./.github/actions/setup-raxmlng
       - name: Setup lightgbm requirements

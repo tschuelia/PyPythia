@@ -1,10 +1,5 @@
-from typing import List, Tuple, Dict, Union
+import pathlib
 from enum import Enum
-
-FilePath = str
-Command = List[str]
-Model = Union[str, FilePath]
-Executable = str
 
 
 class DataType(Enum):
@@ -13,6 +8,7 @@ class DataType(Enum):
     - AA = Protein data
     - MORPH = morphological data
     """
+
     DNA = "DNA"
     AA = "AA"
     MORPH = "MORPH"
@@ -23,5 +19,6 @@ class FileFormat(Enum):
     - PHYLIP = phylip-relaxed
     - FASTA = fasta
     """
+
     PHYLIP = "phylip-relaxed"
     FASTA = "fasta"
