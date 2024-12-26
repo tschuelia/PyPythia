@@ -3,7 +3,7 @@ import pathlib
 import pandas as pd
 import pytest
 
-from pypythia.msa import MSA, parse
+from pypythia.msa import parse
 from pypythia.predictor import DifficultyPredictor
 from pypythia.raxmlng import RAxMLNG
 
@@ -25,83 +25,13 @@ def phylip_msa_file():
 
 
 @pytest.fixture
-def fasta_msa_file():
-    return pathlib.Path.cwd() / "tests" / "data" / "DNA" / "0.fasta"
-
-
-@pytest.fixture
 def small_msa_file():
     return pathlib.Path.cwd() / "tests" / "data" / "DNA" / "small.fasta"
 
 
 @pytest.fixture
-def msa_with_duplicates_and_full_gap_sequences():
-    return pathlib.Path.cwd() / "tests" / "data" / "DNA" / "5.phy"
-
-
-@pytest.fixture
-def dna_phylip_msa(phylip_msa_file):
-    return parse(phylip_msa_file)
-
-
-@pytest.fixture
-def dna_fasta_msa(fasta_msa_file):
-    return parse(fasta_msa_file)
-
-
-@pytest.fixture
-def small_msa(small_msa_file):
-    return parse(small_msa_file)
-
-
-@pytest.fixture
-def small_msa_with_signal():
-    pth = pathlib.Path.cwd() / "tests" / "data" / "DNA" / "3.phy"
-    return parse(pth)
-
-
-@pytest.fixture
-def msa_with_duplicate_sequences(dna_phylip_msa):
-    return dna_phylip_msa
-
-
-@pytest.fixture
-def msa_without_duplicate_sequences(small_msa_with_signal):
-    return small_msa_with_signal
-
-
-@pytest.fixture
-def all_msa_files_with_model():
-    morph_models = {"0.phy": "MULTI3_GTR", "1.phy": "MULTI2_GTR"}
-
-    files_and_models = []
-
-    for data_type in ["DNA", "AA", "MORPH"]:
-        base_dir = pathlib.Path.cwd() / "tests" / "data" / data_type
-        for f in base_dir.iterdir():
-            model = ""
-            if data_type == "DNA":
-                model = "GTR+G"
-            elif data_type == "AA":
-                model = "LG+G"
-            elif data_type == "MORPH":
-                model = morph_models[f.name]
-
-            files_and_models.append((f, model))
-
-    return files_and_models
-
-
-@pytest.fixture
 def predictor():
-    return DifficultyPredictor(open("pypythia/predictors/latest.pckl", "rb"))
-
-
-@pytest.fixture
-def sklearn_predictor():
-    return DifficultyPredictor(
-        open("pypythia/predictors/predictor_sklearn_rf_v0.0.1.pckl", "rb")
-    )
+    return DifficultyPredictor(pathlib.Path("pypythia/predictors/latest.txt"))
 
 
 @pytest.fixture

@@ -102,14 +102,14 @@ def _get_file_format(msa_file: pathlib.Path) -> FileFormat:
         _num2 = int(_num2)
         # in case these conversions worked, the file is (most likely) in phylip format
         return FileFormat.PHYLIP
-    except Exception:
-        raise ValueError(
+    except Exception as e:
+        raise PyPythiaException(
             f"The file type of {msa_file} could not be determined. "
             f"Please check that the file contains data in phylip or fasta format."
-        )
+        ) from e
 
 
-def _guess_dtype(sequences: npt.NDArray):
+def _guess_dtype(sequences: npt.NDArray) -> DataType:
     seq_chars = np.unique(sequences)
 
     # First, check if any character is a digit, if yes: morphological data
@@ -124,7 +124,7 @@ def _guess_dtype(sequences: npt.NDArray):
     if np.all(np.isin(seq_chars, AA_CHARS)):
         return DataType.AA
 
-    raise ValueError(
+    raise PyPythiaException(
         f"Data type for character set could not be inferred: {[c.decode() for c in seq_chars]}."
         f" Invalid characters for DNA: {[c.decode() for c in set(seq_chars) - set(DNA_CHARS)]}."
         f" Invalid characters for AA: {[c.decode() for c in set(seq_chars) - set(AA_CHARS)]}."
@@ -240,7 +240,7 @@ class MSA:
             num_states = int(max(unique)) + 1
             return f"MULTI{num_states}_GTR"
         else:
-            raise ValueError("Unsupported data type: ", self.data_type)
+            raise PyPythiaException("Unsupported data type: ", self.data_type)
 
     def save(
         self, output_file: pathlib.Path, file_format: FileFormat = FileFormat.PHYLIP

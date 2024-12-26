@@ -1,11 +1,16 @@
 import pathlib
 import warnings
+from typing import Optional
 
 import lightgbm as lgb
+import numpy as np
 import pandas as pd
 from matplotlib.figure import Figure
+from numpy import typing as npt
 
 from pypythia.custom_errors import PyPythiaException
+
+DEFAULT_MODEL_FILE = pathlib.Path(__file__).parent / "predictors/latest.txt"
 
 
 class DifficultyPredictor:
@@ -30,12 +35,32 @@ class DifficultyPredictor:
         features: Names of the features the predictor was trained with.
     """
 
-    def __init__(self, model_file: pathlib.Path, features: list[str] = None) -> None:
+    def __init__(
+        self,
+        model_file: Optional[pathlib.Path] = DEFAULT_MODEL_FILE,
+        features: list[str] = None,
+    ) -> None:
+        self.model_file = model_file
         self.predictor = lgb.Booster(model_file=model_file)
         self.features = self.predictor.feature_name() if features is None else features
 
-    def predict(self, query: pd.DataFrame) -> float:
+    def __str__(self):
+        return f"DifficultyPredictor(model_file={self.model_file}, features={self.features})"
+
+    def __repr__(self):
+        return self.__str__()
+
+    def _check_query(self, query: pd.DataFrame):
+        if not set(self.features).issubset(query.columns):
+            missing_features = set(self.features) - set(query.columns)
+            raise PyPythiaException(
+                "The provided query does not contain all features the predictor was trained with. "
+                "Missing features: " + ", ".join(missing_features)
+            )
+
+    def predict(self, query: pd.DataFrame) -> npt.NDArray[np.float64]:
         """Predicts the difficulty for the given set of MSA features.
+        TODO: adjust documentation -> also allows batch prediction!
 
         Args:
             query (Dict): Dict containing the features of the MSA to predict the difficulty for.
@@ -48,30 +73,23 @@ class DifficultyPredictor:
         Raises:
             PyPythiaException: If not all features the predictor was trained with are present in the given query.
         """
-        if not set(self.features).issubset(query.columns):
-            raise PyPythiaException(
-                "The provided query does not contain all features the predictor was trained with."
-            )
+        self._check_query(query)
 
         try:
             prediction = self.predictor.predict(query[self.features])
             prediction = prediction.clip(min=0.0, max=1.0)
+            return prediction
         except Exception as e:
             raise PyPythiaException(
                 "An error occurred predicting the difficulty for the provided set of MSA features."
             ) from e
-
-        return prediction
 
     def plot_shapley_values(self, query: pd.DataFrame) -> Figure:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             import shap
 
-        if not set(self.features).issubset(query.columns):
-            raise PyPythiaException(
-                "The provided query does not contain all features the predictor was trained with."
-            )
+        self._check_query(query)
 
         df = query[self.features]
 

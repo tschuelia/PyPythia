@@ -1,12 +1,10 @@
 import pathlib
+import shutil
 import subprocess
 from tempfile import TemporaryDirectory
+from typing import Optional, Union
 
 from pypythia.custom_errors import RAxMLNGError
-from pypythia.raxmlng_parser import (
-    get_patterns_gaps_invariant,
-    get_raxmlng_rfdist_results,
-)
 
 
 def run_raxmlng_command(cmd: list[str]) -> None:
@@ -16,6 +14,61 @@ def run_raxmlng_command(cmd: list[str]) -> None:
         raise RAxMLNGError(subprocess_exception=e)
     except Exception as e:
         raise RuntimeError("Running RAxML-NG command failed.") from e
+
+
+_raxmlng = shutil.which("raxml-ng")
+DEFAULT_RAXMLNG_EXE = pathlib.Path(_raxmlng) if _raxmlng else None
+
+
+def _get_value_from_line(line: str, search_string: str) -> float:
+    line = line.strip()
+    if search_string in line:
+        _, value = line.rsplit(" ", 1)
+        return float(value)
+
+    raise ValueError(
+        f"The given line '{line}' does not contain the search string '{search_string}'."
+    )
+
+
+def _get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[float, float, float]:
+    """Method that parses the number of unique topologies, relative RF-Distance, and absolute RF-Distance in the given log file.
+
+    Args:
+        log_file (str): Filepath of a RAxML-NG log file.
+
+    Returns:
+        num_topos (int): Number of unique topologies of the given set of trees.
+        rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
+        abs_rfdist (float): Absolute RF-Distance of the given set of trees.
+
+    Raises:
+        ValueError: If the given log file does not contain the unique topologies, relative RF-Distance, or absolute RF-Distance.
+    """
+    abs_rfdist = None
+    rel_rfdist = None
+    num_topos = None
+
+    for line in log_file.open().readlines():
+        line = line.strip()
+
+        if "Average absolute RF distance in this tree set:" in line:
+            abs_rfdist = _get_value_from_line(
+                line, "Average absolute RF distance in this tree set:"
+            )
+        elif "Average relative RF distance in this tree set:" in line:
+            rel_rfdist = _get_value_from_line(
+                line, "Average relative RF distance in this tree set:"
+            )
+        elif "Number of unique topologies in this tree set:" in line:
+            num_topos = _get_value_from_line(
+                line, "Number of unique topologies in this tree set:"
+            )
+
+    if abs_rfdist is None or rel_rfdist is None or num_topos is None:
+        raise ValueError("Error parsing raxml-ng log.")
+
+    return num_topos, rel_rfdist, abs_rfdist
 
 
 class RAxMLNG:
@@ -30,7 +83,7 @@ class RAxMLNG:
         exe_path (Executable): Path to an executable of RAxML-NG.
     """
 
-    def __init__(self, exe_path: pathlib.Path):
+    def __init__(self, exe_path: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE):
         self.exe_path = exe_path
 
     def _base_cmd(
@@ -84,7 +137,7 @@ class RAxMLNG:
         msa_file: pathlib.Path,
         model: str,
         prefix: pathlib.Path,
-        n_trees: int = 100,
+        n_trees: int = 24,
         **kwargs,
     ) -> pathlib.Path:
         """Method that infers n_trees using the RAxML-NG implementation of maximum parsimony.
@@ -129,26 +182,4 @@ class RAxMLNG:
                 prefix = tmpdir / "rfdist"
             self._run_rfdist(trees_file, prefix, **kwargs)
             log_file = pathlib.Path(f"{prefix}.raxml.log")
-            return get_raxmlng_rfdist_results(log_file)
-
-    def get_patterns_gaps_invariant(
-        self, msa_file: pathlib.Path, model: str, prefix: str = None
-    ) -> tuple[int, float, float]:
-        """Method that obtains the number of patterns, proportion of gaps, and proportion of invariant sites in the given MSA.
-
-        Args:
-            msa_file (str): Filepath of the MSA to compute the parsimony trees for.
-            model (str): String representation of the substitution model to use. Needs to be a valid RAxML-NG model. For example "GTR+G" for DNA data or "LG+G" for protein data.
-            prefix (str): Optional prefix to use when running RAxML-NG
-
-        Returns:
-            n_patterns (int): Number of unique patterns in the given MSA.
-            prop_gaps (float): Proportion of gaps in the given MSA.
-            prop_inv (float): Proportion of invariant sites in the given MSA.
-        """
-        with TemporaryDirectory() as tmpdir:
-            if not prefix:
-                prefix = pathlib.Path(tmpdir) / "parse"
-            self._run_alignment_parse(msa_file, model, prefix)
-            log_file = pathlib.Path(f"{prefix}.raxml.log")
-            return get_patterns_gaps_invariant(log_file)
+            return _get_raxmlng_rfdist_results(log_file)

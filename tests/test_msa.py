@@ -97,7 +97,10 @@ def test_get_file_format(msa_test_data):
 
 
 def test_get_msa_file_format_raises_value_error(raxmlng_inference_log):
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        PyPythiaException,
+        match=f"The file type of {raxmlng_inference_log} could not be determined.",
+    ):
         _get_file_format(raxmlng_inference_log)
 
 
@@ -106,6 +109,26 @@ def test_guess_dtype(msa_test_data):
         msa_file = pathlib.Path(row.msa_file)
         msa = parse(msa_file)
         assert _guess_dtype(msa.sequences).value == row.data_type
+
+
+def test_guess_dtype_fails():
+    sequences = np.array(
+        [
+            [b"A", b"C", b"G", b"T"],
+            [b"A", b"C", b"G", b"T"],
+            [
+                b"J",
+                b"C",
+                b"G",
+                b"T",
+            ],  # contains the character J which is neither DNA nor AA
+        ]
+    )
+
+    with pytest.raises(
+        PyPythiaException, match="Data type for character set could not be inferred"
+    ):
+        _guess_dtype(sequences)
 
 
 def test_get_raxmlng_model(msa_test_data):
