@@ -25,4 +25,4 @@ jobs:
         restore-keys: |
           mkdocs-material-
     - run: pip install mkdocs-material mkdocstrings-python mike markdown-callouts
-    - run: mike deploy --push develop
+    - run: mike deploy --push dev
