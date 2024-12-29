@@ -6,6 +6,7 @@ extra_javascript:
 - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 markdown_extensions:
 - def_list
+- github-callouts
 - pymdownx.arithmatex:
     generic: true
 nav:
