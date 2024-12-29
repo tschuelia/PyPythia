@@ -1,10 +1,10 @@
 
-::: pypythia.logger.get_header
+::: pypythia.config.DEFAULT_MODEL_FILE
 
     options:
         show_root_heading: true
 
-::: pypythia.logger.log_runtime_information
+::: pypythia.config.DEFAULT_RAXMLNG_EXE
 
     options:
         show_root_heading: true

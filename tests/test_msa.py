@@ -161,13 +161,13 @@ class TestMSAFeatures:
         for idx, row in msa_test_data.iterrows():
             msa_file = pathlib.Path(row.msa_file)
             msa = parse(msa_file)
-            assert msa.percentage_gaps == row.percentage_gaps
+            assert msa.proportion_gaps == row.proportion_gaps
 
     def test_percentage_invariant(self, msa_test_data):
         for idx, row in msa_test_data.iterrows():
             msa_file = pathlib.Path(row.msa_file)
             msa = parse(msa_file)
-            assert msa.percentage_invariant == row.percentage_invariant
+            assert msa.proportion_invariant == row.proportion_invariant
 
     def test_entropy(self, msa_test_data):
         for idx, row in msa_test_data.iterrows():

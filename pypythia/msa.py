@@ -17,7 +17,7 @@ GAP = b"-"
 GAP_ORD = ord(GAP)
 GAP_CHARS = [GAP, b"?", b".", b"X", b"*"]
 
-NUCLEOTIDES = [b"A", b"C", b"G", b"T"]
+NUCLEOTIDES = [b"A", b"C", b"G", b"T", b"U"]
 DNA_GAP_CHARS = GAP_CHARS + [b"N"]
 
 DNA_AMBIGUITY_CODES = {
@@ -132,6 +132,31 @@ def _guess_dtype(sequences: npt.NDArray) -> DataType:
 
 
 class MSA:
+    """Multiple Sequence Alignment class
+
+    Args:
+        taxa (npt.NDArray): Array of taxa names
+        sequences (npt.NDArray): The data matrix containing the sequence data.
+            The order of the rows corresponds to the order of the taxa in the taxa array.
+            The data is stored as a 2D numpy array of bytes using the S1 numpy data type.
+        data_type (DataType): Data type of the sequences
+        name (str): Name of the MSA
+
+    Attributes:
+        taxa (npt.NDArray): Array of taxa names
+        sequences (npt.NDArray): The data matrix containing the sequence data.
+            The order of the rows corresponds to the order of the taxa in the taxa array.
+            The data is stored as a 2D numpy array of bytes using the S1 numpy data type.
+        data_type (DataType): Data type of the sequences
+        name (str): Name of the MSA
+        n_taxa (int): Number of taxa
+        n_sites (int): Number of sites
+
+    Raises:
+        PyPythiaException: If the number of taxa in `taxa` and the number of sequences in `sequences` do not match.
+
+    """
+
     def __init__(
         self, taxa: npt.NDArray, sequences: npt.NDArray, data_type: DataType, name: str
     ):
@@ -154,27 +179,64 @@ class MSA:
     def __repr__(self):
         return str(self)
 
-    def contains_full_gap_sequences(self):
+    def contains_full_gap_sequences(self) -> bool:
+        """Check if the MSA contains full-gap sequences.
+
+        A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.
+
+        Returns:
+            True if full-gap sequences are present, False otherwise.
+        """
         return np.any(np.all(self.sequences == GAP, axis=1))
 
-    def contains_duplicate_sequences(self):
+    def contains_duplicate_sequences(self) -> bool:
+        """Check if the MSA contains duplicate sequences.
+
+        Returns:
+            True if duplicate sequences are present, False otherwise.
+        """
         unique_sequences = np.unique(self.sequences, axis=0)
         return unique_sequences.shape[0] < self.sequences.shape[0]
 
     @property
-    def n_patterns(self):
+    def n_patterns(self) -> int:
+        """Returns the number of unique patterns in the MSA.
+
+        A pattern is a unique combination of characters at a site in the MSA.
+        A full-gap site is not considered a pattern.
+
+        Returns:
+            Number of unique patterns
+        """
         un = set([c.tobytes() for c in self.sequences.T])
         return len(un) - ((GAP * self.n_taxa) in un)
 
     @property
-    def percentage_gaps(self):
+    def proportion_gaps(self) -> float:
+        """Returns the proportion of gap characters in the MSA.
+        Note that prior to calculating the percentage, full-gap sites are removed.
+
+        Returns:
+            Proportion of gap characters in the MSA
+        """
         full_gap_sites_removed = self.sequences[
             :, ~np.all(self.sequences.T == GAP, axis=1)
         ]
         return np.sum(full_gap_sites_removed == GAP) / full_gap_sites_removed.size
 
     @property
-    def percentage_invariant(self):
+    def proportion_invariant(self) -> float:
+        """Returns the proportion of invariant sites in the MSA.
+        A site is considered invariant if all sequences have the same character at that site.
+        Full-gap sites are not counted as invariant.
+        A site is also counted as invariant, if there is a possible assignment of ambiguous characters such that the
+        site is invariant.
+        For example, the DNA site `AAAMA` is considered invariant because it can be resolved to `AAAAA`.
+
+        Returns:
+            Proportion of invariant sites in the MSA
+
+        """
         if self.data_type == DataType.DNA:
             charmap = DNA_AMBIGUITY_MAP
         elif self.data_type == DataType.AA:
@@ -200,7 +262,16 @@ class MSA:
 
         return invariant_count / non_gap_site_count
 
-    def entropy(self):
+    def entropy(self) -> float:
+        """Returns the entropy of the MSA.
+
+        The entropy is calculated as the mean entropy of all sites in the MSA.
+        and the site-entropy is calculated as the Shannon entropy of the site.
+
+        Returns:
+            Entropy of the MSA.
+        """
+
         def _site_entropy(site):
             site_counter = Counter(site.tobytes())
             site_counter.pop(GAP_ORD, None)
@@ -211,24 +282,50 @@ class MSA:
 
         return np.mean([_site_entropy(site) for site in self.sequences.T])
 
-    def pattern_entropy(self):
+    def pattern_entropy(self) -> float:
+        """Returns an entropy-like metric based on the number of occurrences of all patterns of the MSA.
+
+        The pattern entropy is calculated as
+        $$
+        \sum_{i=1}^{p} N_i \log(N_i)
+        $$
+        with $N_i$ being the number of occurrences of pattern $i$ and $p$ being the number of unique patterns in the MSA.
+
+        Returns:
+            Entropy-like metric based on the number of occurrences of all patterns of the MSA.
+        """
         patterns = [c.tobytes() for c in self.sequences.T]
         pattern_counter = Counter(patterns)
         pattern_counts = np.array(list(pattern_counter.values()))
         return np.sum(pattern_counts * np.log(pattern_counts))
 
-    def bollback_multinomial(self):
+    def bollback_multinomial(self) -> float:
+        """
+        Returns the Bollback multinomial metric for the MSA.
+
+        The Bollback multinomial metric is calculated as
+        $$
+        \sum_{i=1}^{p} N_i \log(N_i) - n \log(n)
+        $$
+        with $N_i$ being the number of occurrences of pattern $i$,
+        $p$ being the number of unique patterns in the MSA, and $n$ being the number of sites in the MSA.
+
+        Returns:
+            Bollback multinomial metric for the MSA.
+        """
         pattern_entropy = self.pattern_entropy()
         return pattern_entropy - self.n_sites * math.log(self.n_sites)
 
     def get_raxmlng_model(self) -> str:
-        """Returns a RAxML-NG model string based on the data type
+        """Returns a RAxML-NG model string based on the data type.
+
+        Returns the following models:
+            * For DNA data: GTR+G
+            * For Protein (AA) data: LG+G
+            * For morphological data: MULTIx_GTR where x refers to the maximum state value in the alignment
 
         Returns:
-             model_string (string): RAxML-NG model string
-                For DNA data: GTR+G
-                For Protein (AA) data: LG+G
-                For morphological data: MULTIx_GTR where x refers to the maximum state value in the alignment
+             RAxML-NG model string
         """
         if self.data_type == DataType.DNA:
             return "GTR+G"
@@ -245,6 +342,12 @@ class MSA:
     def write(
         self, output_file: pathlib.Path, file_format: FileFormat = FileFormat.PHYLIP
     ):
+        """Write the MSA to a file.
+
+        Args:
+            output_file (pathlib.Path): Path to the output file
+            file_format (FileFormat): File format to use for writing the MSA. Defaults to FileFormat.PHYLIP
+        """
         _biopython_sequences = [
             SeqRecord(Seq(seq.tobytes()), id=taxon)
             for seq, taxon in zip(self.sequences, self.taxa)
@@ -257,6 +360,27 @@ def parse(
     file_format: Optional[FileFormat] = None,
     data_type: Optional[DataType] = None,
 ) -> MSA:
+    """Parse a multiple sequence alignment file. Note that the file needs to be in FASTA or PHYLIP format.
+
+    Note that per default, the file format and data type are inferred from the file content.
+
+    If the file format cannot be determined, a PyPythiaException is raised. In this case, make sure the file is in
+    proper FASTA or PHYLIP format. If you are absolutely sure it is, you can provide the file format manually.
+
+    Similarly, if the data type cannot be inferred, a PyPythiaException is raised including information about the
+    characters that could not be assigned to a data type. In this case, you can provide the data type manually.
+    Note that we check for the data type in the following order: DNA -> AA -> MORPH. In case your MSA contains AA data,
+    but coincidentally only contains characters that are nucleotides or ambiguous DNA characters, the data is assumed
+    to be DNA. In this case, please provide the correct data type (`DataType.AA`) manually.
+
+    Args:
+        msa_file (pathlib.Path): Path to the MSA file
+        file_format (FileFormat): File format of the MSA file. Defaults to None. In this case, the file format is determined automatically.
+        data_type (DataType): Data type of the sequences. Defaults to None. In this case, the data type is inferred from the sequences.
+
+    Returns:
+        The parsed MSA object.
+    """
     file_format = file_format or _get_file_format(msa_file)
     msa_content = StringIO(msa_file.read_text().upper())
     _msa = AlignIO.read(msa_content, format=file_format.value)
@@ -283,6 +407,20 @@ def parse(
 
 
 def remove_full_gap_sequences(msa: MSA, msa_name: Optional[str] = None) -> MSA:
+    """Remove full-gap sequences from the MSA.
+
+    A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.
+
+    Args:
+        msa (MSA): MSA object to remove full-gap sequences from
+        msa_name (str): Name of the new MSA. Defaults to None. In this case, the new MSA is named the same as the input MSA.
+
+    Returns:
+        MSA object without full-gap sequences.
+
+    Raises:
+        PyPythiaException: If the MSA does not contain any full-gap sequences.
+    """
     if not msa.contains_full_gap_sequences():
         raise PyPythiaException("No full-gap sequences found in MSA.")
 
@@ -296,6 +434,21 @@ def remove_full_gap_sequences(msa: MSA, msa_name: Optional[str] = None) -> MSA:
 
 
 def deduplicate_sequences(msa: MSA, msa_name: Optional[str] = None) -> MSA:
+    """Remove duplicate sequences from the MSA.
+
+    Note that in case of duplicate sequences, the first occurrence (including the first taxon name) is kept
+    and all subsequent occurrences are removed.
+
+    Args:
+        msa (MSA): MSA object to remove duplicate sequences from
+        msa_name (str): Name of the new MSA. Defaults to None. In this case, the new MSA is named the same as the input MSA.
+
+    Returns:
+        MSA object without duplicate sequences.
+
+    Raises:
+        PyPythiaException: If the MSA does not contain any duplicate sequences.
+    """
     if not msa.contains_duplicate_sequences():
         raise PyPythiaException("No duplicates found in MSA.")
 

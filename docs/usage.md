@@ -74,7 +74,21 @@ options:
 ## From Code
 
 You can also use the library as a regular python library by installing it in your current environment.
-See TODO for the API docs.
+The following code snippet shows how to predict the difficulty for an MSA using PyPythia:
+
+```python
+from pypythia.prediction import predict_difficulty
+import pathlib
+
+msa = pathlib.Path("examples/example.phy")
+difficulty = predict_difficulty(msa)
+print(f"The predicted difficulty for MSA {msa} is: {round(difficulty, 2)}.")
+```
+
+And the output will be the same as for the CLI: `The predicted difficulty for MSA examples/example.phy is: 0.02.`.
+
+If you want to get all features, or do more specific analyses of your MSA, see the API Reference for further details on all available classes and methods.
+
 
 # Input data
 ### Supported file types

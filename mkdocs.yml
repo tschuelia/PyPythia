@@ -1,18 +1,29 @@
+extra:
+  version:
+    provider: mike
+extra_javascript:
+- javascripts/mathjax.js
+- https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+markdown_extensions:
+- def_list
+- pymdownx.arithmatex:
+    generic: true
 nav:
 - Home: index.md
 - Install: install.md
 - User Guide: usage.md
 - API Reference:
-  - api/custom_errors.md
-  - api/custom_types.md
-  - api/logger.md
-  - api/msa.md
-  - api/prediction.md
-  - api/predictor.md
-  - api/raxmlng.md
+  - msa: api/msa.md
+  - raxmlng: api/raxmlng.md
+  - prediction: api/prediction.md
+  - predictor: api/predictor.md
+  - custom_types: api/custom_types.md
+  - config: api/config.md
 plugins:
 - search
 - mkdocstrings
+- mike:
+    canonical_version: latest
 site_name: PyPythia
 site_url: https://tschuelia.github.io/PyPythia/
 theme:

@@ -1,23 +1,28 @@
 import pathlib
-import shutil
 import subprocess
 from tempfile import TemporaryDirectory
-from typing import Optional, Union
+from typing import Optional
 
+from pypythia.config import DEFAULT_RAXMLNG_EXE
 from pypythia.custom_errors import RAxMLNGError
 
 
 def run_raxmlng_command(cmd: list[str]) -> None:
+    """Helper method to run a RAxML-NG command.
+
+    Args:
+        cmd (list): List of strings representing the RAxML-NG command to run.
+
+    Raises:
+        RAxMLNGError: If the RAxML-NG command fails with a CalledProcessError.
+        RuntimeError: If the RAxML-NG command fails with any other error.
+    """
     try:
         subprocess.check_output(cmd, encoding="utf-8")
     except subprocess.CalledProcessError as e:
         raise RAxMLNGError(subprocess_exception=e)
     except Exception as e:
         raise RuntimeError("Running RAxML-NG command failed.") from e
-
-
-_raxmlng = shutil.which("raxml-ng")
-DEFAULT_RAXMLNG_EXE = pathlib.Path(_raxmlng) if _raxmlng else None
 
 
 def _get_value_from_line(line: str, search_string: str) -> float:
@@ -32,19 +37,6 @@ def _get_value_from_line(line: str, search_string: str) -> float:
 
 
 def _get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[float, float, float]:
-    """Method that parses the number of unique topologies, relative RF-Distance, and absolute RF-Distance in the given log file.
-
-    Args:
-        log_file (str): Filepath of a RAxML-NG log file.
-
-    Returns:
-        num_topos (int): Number of unique topologies of the given set of trees.
-        rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
-        abs_rfdist (float): Absolute RF-Distance of the given set of trees.
-
-    Raises:
-        ValueError: If the given log file does not contain the unique topologies, relative RF-Distance, or absolute RF-Distance.
-    """
     abs_rfdist = None
     rel_rfdist = None
     num_topos = None
@@ -72,15 +64,13 @@ def _get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[float, float, f
 
 
 class RAxMLNG:
-    """Class structure for features computed using RAxML-NG.
-
-    This class provides methods for computing MSA attributes using RAxML-NG.
+    """Class to interact with the RAxML-NG binary.
 
     Args:
-        exe_path (Executable): Path to an executable of RAxML-NG. See https://github.com/amkozlov/raxml-ng for install instructions.
+        exe_path (pathlib.Path, optional): Path to the RAxML-NG executable. Defaults to the binary found in the PATH environment variable.
 
     Attributes:
-        exe_path (Executable): Path to an executable of RAxML-NG.
+        exe_path (pathlib.Path): Path to the RAxML-NG executable.
     """
 
     def __init__(self, exe_path: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE):
@@ -143,18 +133,18 @@ class RAxMLNG:
         """Method that infers n_trees using the RAxML-NG implementation of maximum parsimony.
 
         Args:
-            msa_file (str): Filepath of the MSA to compute the parsimony trees for.
-            model (str): String representation of the substitution model to use. Needs to be a valid RAxML-NG model. For example "GTR+G" for DNA data or "LG+G" for protein data.
-            prefix (str): Prefix of where to store the RAxML-NG results.
-            n_trees (int): Number of parsimony trees to compute.
-            **kwargs: Optional additional RAxML-NG settings.
+            msa_file (pathlib.Path): Filepath pointing to the MSA file.
+            model (str): String representation of the substitution model to use. Needs to be a valid RAxML-NG model.
+                For example "GTR+G" for DNA data or "LG+G" for protein data.
+            prefix (pathlib.Path): Prefix to use when running RAxML-NG.
+            n_trees (int): Number of trees to infer. Defaults to 24.
+            **kwargs: Additional arguments to pass to the RAxML-NG command.
                 The name of the kwarg needs to be a valid RAxML-NG flag.
                 For flags with a value pass it like this: "flag=value", for flags without a value pass it like this: "flag=None".
                 See https://github.com/amkozlov/raxml-ng for all options.
 
         Returns:
-            output_trees_file (str): Filepath pointing to the computed trees.
-
+            Filepath pointing to the inferred maximum parsimony trees.
         """
         cmd = self._base_cmd(
             msa_file, model, prefix, start=None, tree=f"pars{{{n_trees}}}", **kwargs
@@ -168,8 +158,12 @@ class RAxMLNG:
         """Method that computes the number of unique topologies, relative RF-Distance, and absolute RF-Distance for the given set of trees.
 
         Args:
-            trees_file: Filepath of a file containing > 1 Newick strings.
-            prefix (str): Optional prefix to use when running RAxML-NG
+            trees_file (pathlib.Path): Filepath pointing to the file containing the trees.
+            prefix (pathlib.Path, optional): Prefix to use when running RAxML-NG. Defaults to None. If None, a temporary directory is used.
+            **kwargs: Additional arguments to pass to the RAxML-NG command.
+                The name of the kwarg needs to be a valid RAxML-NG flag.
+                For flags with a value pass it like this: "flag=value", for flags without a value pass it like this: "flag=None".
+                See
 
         Returns:
             num_topos (float): Number of unique topologies of the given set of trees.

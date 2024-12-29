@@ -8,27 +8,21 @@ import pandas as pd
 from matplotlib.figure import Figure
 from numpy import typing as npt
 
+from pypythia.config import DEFAULT_MODEL_FILE
 from pypythia.custom_errors import PyPythiaException
-
-DEFAULT_MODEL_FILE = pathlib.Path(__file__).parent / "predictors/latest.txt"
 
 
 class DifficultyPredictor:
     """Class structure for the trained difficulty predictor.
 
-    This class provides methods for predicting the difficulty of an MSA.
+    This class provides methods for predicting the difficulty and plot the shapley values for an MSA.
 
     Args:
-        predictor_file (file object):
-            Open file handle for the trained predictor. We do not guarantee the functionality of this class
-            for predictors other than lightGBM Regressors and scikit-learn RandomForestRegressors
-        features (optional list[string]):
-            Names of the features the passed predictor was trained with.
-            If you are using a LightGBM based predictor, the order of the features needs to be the same
-            order as the order the predictor was trained with!
-            If no list is passed and the predictor is either a lightGBM Regressor or scikit-learn RandomForestRegressor,
-            the features will be automatically determined.
-            For any other predictor type features cannot be None.
+        model_file (pathlib.Path, optional): Path to the trained difficulty predictor model.
+            Defaults to the latest model shipped with PyPythia.
+            Note that this model file must be in the LightGBM .txt format.
+        features (list[str], optional): Names of the features the predictor was trained with.
+            Defaults to None. In this case, the features are inferred from the model file.
 
     Attributes:
         predictor: Loaded trained predictor.
@@ -59,19 +53,16 @@ class DifficultyPredictor:
             )
 
     def predict(self, query: pd.DataFrame) -> npt.NDArray[np.float64]:
-        """Predicts the difficulty for the given set of MSA features.
-        TODO: adjust documentation -> also allows batch prediction!
+        """Predict the difficulty for a set of MSAs defined by rows in the given query dataframe.
 
         Args:
-            query (Dict): Dict containing the features of the MSA to predict the difficulty for.
-                query needs to contain at least the features the predictor was trained with.
-                You can check this using the DifficultyPredictor.features attribute
+            query (pd.DataFrame): DataFrame containing the features for which to predict the difficulty.
+                Each row in the DataFrame corresponds to a single MSA and the columns correspond to the features.
 
         Returns:
-            difficulty (float): The predicted difficulty for the given set of MSA features.
+            A numpy array of predicted difficulties for the provided set of MSAs in float64 format.
+            The difficulties are values in the range [0, 1] where higher values indicate higher difficulty.
 
-        Raises:
-            PyPythiaException: If not all features the predictor was trained with are present in the given query.
         """
         self._check_query(query)
 
@@ -85,6 +76,16 @@ class DifficultyPredictor:
             ) from e
 
     def plot_shapley_values(self, query: pd.DataFrame) -> Figure:
+        """Plot the shapley values for the **first** MSA in the given query dataframe.
+
+        Please read our notes on SHAP values in the documentation to understand the plot.
+
+        Args:
+            query (pd.DataFrame): DataFrame containing the features for which to plot the shapley values.
+
+        Returns:
+            A matplotlib Figure object containing the waterfall plot of the shapley values for the first MSA in the query.
+        """
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             import shap

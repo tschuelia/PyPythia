@@ -3,11 +3,12 @@ import pathlib
 import sys
 import time
 
+from pypythia.config import DEFAULT_MODEL_FILE, DEFAULT_RAXMLNG_EXE
 from pypythia.logger import get_header, log_runtime_information, logger
 from pypythia.msa import MSA, deduplicate_sequences, parse, remove_full_gap_sequences
 from pypythia.prediction import collect_features
-from pypythia.predictor import DEFAULT_MODEL_FILE, DifficultyPredictor
-from pypythia.raxmlng import DEFAULT_RAXMLNG_EXE, RAxMLNG
+from pypythia.predictor import DifficultyPredictor
+from pypythia.raxmlng import RAxMLNG
 
 
 def _parse_cli() -> argparse.Namespace:

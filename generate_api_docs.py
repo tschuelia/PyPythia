@@ -9,13 +9,20 @@ api_docs.mkdir(exist_ok=True)
 
 src = pathlib.Path("pypythia")
 
-api_files = []
+api_files = {
+    "msa": None,
+    "raxmlng": None,
+    "prediction": None,
+    "predictor": None,
+    "custom_types": None,
+    "config": None,
+}
 
-for file in src.rglob("*.py"):
-    if file.stem.startswith("__") or file.name == "main.py":
-        continue
-    api_file = api_docs / (file.stem + ".md")
-    api_files.append(api_file)
+for file_name in api_files:
+    file = src / f"{file_name}.py"
+    api_file = api_docs / (file_name + ".md")
+
+    api_files[file_name] = api_file
 
     node = ast.parse(file.read_text())
 
@@ -52,11 +59,25 @@ for file in src.rglob("*.py"):
             """)
             )
 
+    if file_name == "config":
+        with api_file.open("a") as f:
+            f.write(
+                textwrap.dedent(f"""
+            ::: pypythia.{file.stem}.DEFAULT_MODEL_FILE\n
+                options:
+                    show_root_heading: true
+
+            ::: pypythia.{file.stem}.DEFAULT_RAXMLNG_EXE\n
+                options:
+                    show_root_heading: true
+            """)
+            )
+
 mkdocs_cfg_file = pathlib.Path("mkdocs.yml")
 mkdocs_cfg = yaml.safe_load(mkdocs_cfg_file.read_text())
 
 
-api_nav = {"API Reference": [f"api/{f.name}" for f in sorted(api_files)]}
+api_nav = {"API Reference": [{name: f"api/{f.name}"} for name, f in api_files.items()]}
 
 nav = []
 
