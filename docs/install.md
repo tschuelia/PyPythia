@@ -1,3 +1,5 @@
+# Installing PyPythia
+
 ## Requirements
 In order to use this difficulty prediction, you need RAxML-NG installed somewhere on your system. You can find the install instructions [here](https://github.com/amkozlov/raxml-ng).
 
