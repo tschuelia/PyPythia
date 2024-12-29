@@ -3,6 +3,7 @@ import pathlib
 import sys
 import time
 
+from pypythia import __version__
 from pypythia.config import DEFAULT_MODEL_FILE, DEFAULT_RAXMLNG_EXE
 from pypythia.logger import get_header, log_runtime_information, logger
 from pypythia.msa import MSA, deduplicate_sequences, parse, remove_full_gap_sequences
@@ -115,6 +116,8 @@ def _parse_cli() -> argparse.Namespace:
         action="store_true",
     )
 
+    parser.add_argument("-V", "--version", action="version", version=__version__)
+
     return parser.parse_args()
 
 
@@ -153,8 +156,11 @@ def _handle_full_gap_sequences(msa: MSA, force_full_gaps: bool) -> MSA:
 
 
 def main():
-    logger.info(get_header())
     args = _parse_cli()
+    if args.version:
+        return
+
+    logger.info(get_header())
 
     # Format all paths to pathlib.Path objects and set a default value if not provided
     msa_file = pathlib.Path(args.msa)

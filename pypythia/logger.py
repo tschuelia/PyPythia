@@ -1,7 +1,6 @@
 import sys
 import textwrap
 import time
-from syslog import LOG_INFO
 
 import loguru
 
