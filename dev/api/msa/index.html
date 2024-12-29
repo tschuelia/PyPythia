@@ -1,0 +1,2780 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://tschuelia.github.io/PyPythia/latest/api/msa/">
+      
+      
+        <link rel="prev" href="../../usage/">
+      
+      
+        <link rel="next" href="../raxmlng/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>msa - PyPythia</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pypythia.msa.MSA" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PyPythia" class="md-header__button md-logo" aria-label="PyPythia" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyPythia
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              msa
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 2c3.87 0 7 3.13 7 7 0 2.38-1.19 4.47-3 5.74V17c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-2.26C3.19 13.47 2 11.38 2 9c0-3.87 3.13-7 7-7M6 21v-1h6v1c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1M9 4C6.24 4 4 6.24 4 9c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58 0-2.76-2.24-5-5-5m10 9h-2l-3.2 9h1.9l.7-2h3.2l.7 2h1.9zm-2.15 5.65L18 15l1.15 3.65z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PyPythia" class="md-nav__button md-logo" aria-label="PyPythia" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PyPythia
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Install
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    msa
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    msa
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSA
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MSA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.n_patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      n_patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.proportion_gaps" class="md-nav__link">
+    <span class="md-ellipsis">
+      proportion_gaps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.proportion_invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      proportion_invariant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.bollback_multinomial" class="md-nav__link">
+    <span class="md-ellipsis">
+      bollback_multinomial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.contains_duplicate_sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      contains_duplicate_sequences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.contains_full_gap_sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      contains_full_gap_sequences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.entropy" class="md-nav__link">
+    <span class="md-ellipsis">
+      entropy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.get_raxmlng_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_raxmlng_model
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.pattern_entropy" class="md-nav__link">
+    <span class="md-ellipsis">
+      pattern_entropy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.write" class="md-nav__link">
+    <span class="md-ellipsis">
+      write
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pypythia.msa.parse" class="md-nav__link">
+    <span class="md-ellipsis">
+      parse
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pypythia.msa.remove_full_gap_sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      remove_full_gap_sequences
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pypythia.msa.deduplicate_sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      deduplicate_sequences
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../raxmlng/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    raxmlng
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    prediction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../predictor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    predictor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    custom_types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSA
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MSA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.n_patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      n_patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.proportion_gaps" class="md-nav__link">
+    <span class="md-ellipsis">
+      proportion_gaps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.proportion_invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      proportion_invariant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.bollback_multinomial" class="md-nav__link">
+    <span class="md-ellipsis">
+      bollback_multinomial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.contains_duplicate_sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      contains_duplicate_sequences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.contains_full_gap_sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      contains_full_gap_sequences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.entropy" class="md-nav__link">
+    <span class="md-ellipsis">
+      entropy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.get_raxmlng_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_raxmlng_model
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.pattern_entropy" class="md-nav__link">
+    <span class="md-ellipsis">
+      pattern_entropy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pypythia.msa.MSA.write" class="md-nav__link">
+    <span class="md-ellipsis">
+      write
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pypythia.msa.parse" class="md-nav__link">
+    <span class="md-ellipsis">
+      parse
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pypythia.msa.remove_full_gap_sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      remove_full_gap_sequences
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pypythia.msa.deduplicate_sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      deduplicate_sequences
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>msa</h1>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="pypythia.msa.MSA" class="doc doc-heading">
+            <code>pypythia.msa.MSA</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents first">
+
+
+        <p>Multiple Sequence Alignment class</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>taxa</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Array of taxa names</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sequences</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The data matrix containing the sequence data.
+The order of the rows corresponds to the order of the taxa in the taxa array.
+The data is stored as a 2D numpy array of bytes using the S1 numpy data type.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>data_type</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.custom_types.DataType" href="../custom_types/#pypythia.custom_types.DataType">DataType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Data type of the sequences</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>name</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the MSA</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="pypythia.msa.MSA.taxa">taxa</span></code></td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Array of taxa names</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pypythia.msa.MSA.sequences">sequences</span></code></td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The data matrix containing the sequence data.
+The order of the rows corresponds to the order of the taxa in the taxa array.
+The data is stored as a 2D numpy array of bytes using the S1 numpy data type.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pypythia.msa.MSA.data_type">data_type</span></code></td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.custom_types.DataType" href="../custom_types/#pypythia.custom_types.DataType">DataType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Data type of the sequences</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pypythia.msa.MSA.name">name</span></code></td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the MSA</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pypythia.msa.MSA.n_taxa">n_taxa</span></code></td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of taxa</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pypythia.msa.MSA.n_sites">n_sites</span></code></td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of sites</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.custom_errors.PyPythiaException" href="../custom_errors/#pypythia.custom_errors.PyPythiaException">PyPythiaException</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the number of taxa in <code>taxa</code> and the number of sequences in <code>sequences</code> do not match.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>pypythia/msa.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">MSA</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Multiple Sequence Alignment class</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        taxa (npt.NDArray): Array of taxa names</span>
+<span class="sd">        sequences (npt.NDArray): The data matrix containing the sequence data.</span>
+<span class="sd">            The order of the rows corresponds to the order of the taxa in the taxa array.</span>
+<span class="sd">            The data is stored as a 2D numpy array of bytes using the S1 numpy data type.</span>
+<span class="sd">        data_type (DataType): Data type of the sequences</span>
+<span class="sd">        name (str): Name of the MSA</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        taxa (npt.NDArray): Array of taxa names</span>
+<span class="sd">        sequences (npt.NDArray): The data matrix containing the sequence data.</span>
+<span class="sd">            The order of the rows corresponds to the order of the taxa in the taxa array.</span>
+<span class="sd">            The data is stored as a 2D numpy array of bytes using the S1 numpy data type.</span>
+<span class="sd">        data_type (DataType): Data type of the sequences</span>
+<span class="sd">        name (str): Name of the MSA</span>
+<span class="sd">        n_taxa (int): Number of taxa</span>
+<span class="sd">        n_sites (int): Number of sites</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        PyPythiaException: If the number of taxa in `taxa` and the number of sequences in `sequences` do not match.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">taxa</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">sequences</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="n">DataType</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">taxa</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">PyPythiaException</span><span class="p">(</span>
+                <span class="s2">&quot;Number of taxa and sequences do not match: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">taxa</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">taxa</span> <span class="o">=</span> <span class="n">taxa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span> <span class="o">=</span> <span class="n">sequences</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_taxa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_sites</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;MSA(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, n_taxa=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_taxa</span><span class="si">}</span><span class="s2">, n_sites=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_sites</span><span class="si">}</span><span class="s2">, data_type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">contains_full_gap_sequences</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the MSA contains full-gap sequences.</span>
+
+<span class="sd">        A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if full-gap sequences are present, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span> <span class="o">==</span> <span class="n">GAP</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">contains_duplicate_sequences</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the MSA contains duplicate sequences.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if duplicate sequences are present, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">unique_sequences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">unique_sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the number of unique patterns in the MSA.</span>
+
+<span class="sd">        A pattern is a unique combination of characters at a site in the MSA.</span>
+<span class="sd">        A full-gap site is not considered a pattern.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Number of unique patterns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">un</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">T</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">un</span><span class="p">)</span> <span class="o">-</span> <span class="p">((</span><span class="n">GAP</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_taxa</span><span class="p">)</span> <span class="ow">in</span> <span class="n">un</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">proportion_gaps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the proportion of gap characters in the MSA.</span>
+<span class="sd">        Note that prior to calculating the percentage, full-gap sites are removed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Proportion of gap characters in the MSA</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">full_gap_sites_removed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="p">[</span>
+            <span class="p">:,</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">T</span> <span class="o">==</span> <span class="n">GAP</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">full_gap_sites_removed</span> <span class="o">==</span> <span class="n">GAP</span><span class="p">)</span> <span class="o">/</span> <span class="n">full_gap_sites_removed</span><span class="o">.</span><span class="n">size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">proportion_invariant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the proportion of invariant sites in the MSA.</span>
+<span class="sd">        A site is considered invariant if all sequences have the same character at that site.</span>
+<span class="sd">        Full-gap sites are not counted as invariant.</span>
+<span class="sd">        A site is also counted as invariant, if there is a possible assignment of ambiguous characters such that the</span>
+<span class="sd">        site is invariant.</span>
+<span class="sd">        For example, the DNA site `AAAMA` is considered invariant because it can be resolved to `AAAAA`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Proportion of invariant sites in the MSA</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">DNA</span><span class="p">:</span>
+            <span class="n">charmap</span> <span class="o">=</span> <span class="n">DNA_AMBIGUITY_MAP</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span>
+            <span class="n">charmap</span> <span class="o">=</span> <span class="n">AA_AMBIGUITY_MAP</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">charmap</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">non_gap_site_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">invariant_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+            <span class="n">site</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">site</span> <span class="o">==</span> <span class="p">{</span><span class="n">GAP_ORD</span><span class="p">}:</span>
+                <span class="c1"># full-gap sites are not counted as invariant</span>
+                <span class="k">continue</span>
+
+            <span class="n">non_gap_site_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">for</span> <span class="n">allowed</span> <span class="ow">in</span> <span class="n">charmap</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">site</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">allowed</span><span class="p">):</span>
+                    <span class="n">invariant_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">invariant_count</span> <span class="o">/</span> <span class="n">non_gap_site_count</span>
+
+    <span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the entropy of the MSA.</span>
+
+<span class="sd">        The entropy is calculated as the mean entropy of all sites in the MSA.</span>
+<span class="sd">        and the site-entropy is calculated as the Shannon entropy of the site.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Entropy of the MSA.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">_site_entropy</span><span class="p">(</span><span class="n">site</span><span class="p">):</span>
+            <span class="n">site_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+            <span class="n">site_counter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">GAP_ORD</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">site_counter</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+            <span class="n">probabilities</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probabilities</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">probabilities</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">_site_entropy</span><span class="p">(</span><span class="n">site</span><span class="p">)</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">T</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">pattern_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an entropy-like metric based on the number of occurrences of all patterns of the MSA.</span>
+
+<span class="sd">        The pattern entropy is calculated as</span>
+<span class="sd">        $$</span>
+<span class="sd">        \sum_{i=1}^{p} N_i \log(N_i)</span>
+<span class="sd">        $$</span>
+<span class="sd">        with $N_i$ being the number of occurrences of pattern $i$ and $p$ being the number of unique patterns in the MSA.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Entropy-like metric based on the number of occurrences of all patterns of the MSA.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+        <span class="n">pattern_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">patterns</span><span class="p">)</span>
+        <span class="n">pattern_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pattern_counter</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pattern_counts</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pattern_counts</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">bollback_multinomial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the Bollback multinomial metric for the MSA.</span>
+
+<span class="sd">        The Bollback multinomial metric is calculated as</span>
+<span class="sd">        $$</span>
+<span class="sd">        \sum_{i=1}^{p} N_i \log(N_i) - n \log(n)</span>
+<span class="sd">        $$</span>
+<span class="sd">        with $N_i$ being the number of occurrences of pattern $i$,</span>
+<span class="sd">        $p$ being the number of unique patterns in the MSA, and $n$ being the number of sites in the MSA.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Bollback multinomial metric for the MSA.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pattern_entropy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern_entropy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">pattern_entropy</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_sites</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_sites</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_raxmlng_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a RAxML-NG model string based on the data type.</span>
+
+<span class="sd">        Returns the following models:</span>
+<span class="sd">            * For DNA data: GTR+G</span>
+<span class="sd">            * For Protein (AA) data: LG+G</span>
+<span class="sd">            * For morphological data: MULTIx_GTR where x refers to the maximum state value in the alignment</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">             RAxML-NG model string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">DNA</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;GTR+G&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;LG+G&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">MORPH</span><span class="p">:</span>
+            <span class="n">unique</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="p">)</span>
+            <span class="c1"># the number of unique states is irrelevant for RAxML-NG, it only cares about the max state value...</span>
+            <span class="n">num_states</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">unique</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;MULTI</span><span class="si">{</span><span class="n">num_states</span><span class="si">}</span><span class="s2">_GTR&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PyPythiaException</span><span class="p">(</span><span class="s2">&quot;Unsupported data type: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">file_format</span><span class="p">:</span> <span class="n">FileFormat</span> <span class="o">=</span> <span class="n">FileFormat</span><span class="o">.</span><span class="n">PHYLIP</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write the MSA to a file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            output_file (pathlib.Path): Path to the output file</span>
+<span class="sd">            file_format (FileFormat): File format to use for writing the MSA. Defaults to FileFormat.PHYLIP</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_biopython_sequences</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">SeqRecord</span><span class="p">(</span><span class="n">Seq</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()),</span> <span class="nb">id</span><span class="o">=</span><span class="n">taxon</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">seq</span><span class="p">,</span> <span class="n">taxon</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">taxa</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">SeqIO</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_biopython_sequences</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">file_format</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="pypythia.msa.MSA.n_patterns" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">n_patterns</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the number of unique patterns in the MSA.</p>
+<p>A pattern is a unique combination of characters at a site in the MSA.
+A full-gap site is not considered a pattern.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of unique patterns</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="pypythia.msa.MSA.proportion_gaps" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">proportion_gaps</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the proportion of gap characters in the MSA.
+Note that prior to calculating the percentage, full-gap sites are removed.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Proportion of gap characters in the MSA</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="pypythia.msa.MSA.proportion_invariant" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">proportion_invariant</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the proportion of invariant sites in the MSA.
+A site is considered invariant if all sequences have the same character at that site.
+Full-gap sites are not counted as invariant.
+A site is also counted as invariant, if there is a possible assignment of ambiguous characters such that the
+site is invariant.
+For example, the DNA site <code>AAAMA</code> is considered invariant because it can be resolved to <code>AAAAA</code>.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Proportion of invariant sites in the MSA</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pypythia.msa.MSA.bollback_multinomial" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">bollback_multinomial</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the Bollback multinomial metric for the MSA.</p>
+<p>The Bollback multinomial metric is calculated as
+$$
+\sum_{i=1}^{p} N_i \log(N_i) - n \log(n)
+$$
+with <span class="arithmatex">\(N_i\)</span> being the number of occurrences of pattern <span class="arithmatex">\(i\)</span>,
+<span class="arithmatex">\(p\)</span> being the number of unique patterns in the MSA, and <span class="arithmatex">\(n\)</span> being the number of sites in the MSA.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Bollback multinomial metric for the MSA.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">bollback_multinomial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the Bollback multinomial metric for the MSA.</span>
+
+<span class="sd">    The Bollback multinomial metric is calculated as</span>
+<span class="sd">    $$</span>
+<span class="sd">    \sum_{i=1}^{p} N_i \log(N_i) - n \log(n)</span>
+<span class="sd">    $$</span>
+<span class="sd">    with $N_i$ being the number of occurrences of pattern $i$,</span>
+<span class="sd">    $p$ being the number of unique patterns in the MSA, and $n$ being the number of sites in the MSA.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Bollback multinomial metric for the MSA.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pattern_entropy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern_entropy</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pattern_entropy</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_sites</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_sites</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pypythia.msa.MSA.contains_duplicate_sequences" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">contains_duplicate_sequences</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Check if the MSA contains duplicate sequences.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>True if duplicate sequences are present, False otherwise.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_duplicate_sequences</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the MSA contains duplicate sequences.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if duplicate sequences are present, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">unique_sequences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">unique_sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pypythia.msa.MSA.contains_full_gap_sequences" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">contains_full_gap_sequences</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Check if the MSA contains full-gap sequences.</p>
+<p>A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>True if full-gap sequences are present, False otherwise.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_full_gap_sequences</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the MSA contains full-gap sequences.</span>
+
+<span class="sd">    A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if full-gap sequences are present, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span> <span class="o">==</span> <span class="n">GAP</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pypythia.msa.MSA.entropy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">entropy</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the entropy of the MSA.</p>
+<p>The entropy is calculated as the mean entropy of all sites in the MSA.
+and the site-entropy is calculated as the Shannon entropy of the site.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Entropy of the MSA.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the entropy of the MSA.</span>
+
+<span class="sd">    The entropy is calculated as the mean entropy of all sites in the MSA.</span>
+<span class="sd">    and the site-entropy is calculated as the Shannon entropy of the site.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Entropy of the MSA.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_site_entropy</span><span class="p">(</span><span class="n">site</span><span class="p">):</span>
+        <span class="n">site_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+        <span class="n">site_counter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">GAP_ORD</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">site_counter</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="n">probabilities</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probabilities</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">probabilities</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">_site_entropy</span><span class="p">(</span><span class="n">site</span><span class="p">)</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">T</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pypythia.msa.MSA.get_raxmlng_model" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_raxmlng_model</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns a RAxML-NG model string based on the data type.</p>
+
+
+<details class="returns-the-following-models" open>
+  <summary>Returns the following models</summary>
+  <ul>
+<li>For DNA data: GTR+G</li>
+<li>For Protein (AA) data: LG+G</li>
+<li>For morphological data: MULTIx_GTR where x refers to the maximum state value in the alignment</li>
+</ul>
+</details>
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>RAxML-NG model string</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_raxmlng_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a RAxML-NG model string based on the data type.</span>
+
+<span class="sd">    Returns the following models:</span>
+<span class="sd">        * For DNA data: GTR+G</span>
+<span class="sd">        * For Protein (AA) data: LG+G</span>
+<span class="sd">        * For morphological data: MULTIx_GTR where x refers to the maximum state value in the alignment</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         RAxML-NG model string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">DNA</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;GTR+G&quot;</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;LG+G&quot;</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">MORPH</span><span class="p">:</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="p">)</span>
+        <span class="c1"># the number of unique states is irrelevant for RAxML-NG, it only cares about the max state value...</span>
+        <span class="n">num_states</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">unique</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;MULTI</span><span class="si">{</span><span class="n">num_states</span><span class="si">}</span><span class="s2">_GTR&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PyPythiaException</span><span class="p">(</span><span class="s2">&quot;Unsupported data type: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pypythia.msa.MSA.pattern_entropy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pattern_entropy</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns an entropy-like metric based on the number of occurrences of all patterns of the MSA.</p>
+<p>The pattern entropy is calculated as
+$$
+\sum_{i=1}^{p} N_i \log(N_i)
+$$
+with <span class="arithmatex">\(N_i\)</span> being the number of occurrences of pattern <span class="arithmatex">\(i\)</span> and <span class="arithmatex">\(p\)</span> being the number of unique patterns in the MSA.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Entropy-like metric based on the number of occurrences of all patterns of the MSA.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pattern_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an entropy-like metric based on the number of occurrences of all patterns of the MSA.</span>
+
+<span class="sd">    The pattern entropy is calculated as</span>
+<span class="sd">    $$</span>
+<span class="sd">    \sum_{i=1}^{p} N_i \log(N_i)</span>
+<span class="sd">    $$</span>
+<span class="sd">    with $N_i$ being the number of occurrences of pattern $i$ and $p$ being the number of unique patterns in the MSA.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Entropy-like metric based on the number of occurrences of all patterns of the MSA.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">patterns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+    <span class="n">pattern_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">patterns</span><span class="p">)</span>
+    <span class="n">pattern_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pattern_counter</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pattern_counts</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pattern_counts</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="pypythia.msa.MSA.write" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">write</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="n">FileFormat</span><span class="o">.</span><span class="n">PHYLIP</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Write the MSA to a file.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>output_file</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Path to the output file</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_format</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.custom_types.FileFormat" href="../custom_types/#pypythia.custom_types.FileFormat">FileFormat</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>File format to use for writing the MSA. Defaults to FileFormat.PHYLIP</p>
+              </div>
+            </td>
+            <td>
+                  <code><span title="pypythia.custom_types.FileFormat.PHYLIP">PHYLIP</span></code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">file_format</span><span class="p">:</span> <span class="n">FileFormat</span> <span class="o">=</span> <span class="n">FileFormat</span><span class="o">.</span><span class="n">PHYLIP</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write the MSA to a file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        output_file (pathlib.Path): Path to the output file</span>
+<span class="sd">        file_format (FileFormat): File format to use for writing the MSA. Defaults to FileFormat.PHYLIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_biopython_sequences</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">SeqRecord</span><span class="p">(</span><span class="n">Seq</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()),</span> <span class="nb">id</span><span class="o">=</span><span class="n">taxon</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">seq</span><span class="p">,</span> <span class="n">taxon</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequences</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">taxa</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">SeqIO</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_biopython_sequences</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">file_format</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="pypythia.msa.parse" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pypythia</span><span class="o">.</span><span class="n">msa</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">msa_file</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents first">
+
+        <p>Parse a multiple sequence alignment file. Note that the file needs to be in FASTA or PHYLIP format.</p>
+<p>Note that per default, the file format and data type are inferred from the file content.</p>
+<p>If the file format cannot be determined, a PyPythiaException is raised. In this case, make sure the file is in
+proper FASTA or PHYLIP format. If you are absolutely sure it is, you can provide the file format manually.</p>
+<p>Similarly, if the data type cannot be inferred, a PyPythiaException is raised including information about the
+characters that could not be assigned to a data type. In this case, you can provide the data type manually.
+Note that we check for the data type in the following order: DNA -&gt; AA -&gt; MORPH. In case your MSA contains AA data,
+but coincidentally only contains characters that are nucleotides or ambiguous DNA characters, the data is assumed
+to be DNA. In this case, please provide the correct data type (<code>DataType.AA</code>) manually.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>msa_file</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Path to the MSA file</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_format</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.custom_types.FileFormat" href="../custom_types/#pypythia.custom_types.FileFormat">FileFormat</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>File format of the MSA file. Defaults to None. In this case, the file format is determined automatically.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>data_type</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.custom_types.DataType" href="../custom_types/#pypythia.custom_types.DataType">DataType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Data type of the sequences. Defaults to None. In this case, the data type is inferred from the sequences.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.msa.MSA" href="#pypythia.msa.MSA">MSA</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The parsed MSA object.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span>
+    <span class="n">msa_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">file_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FileFormat</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">data_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MSA</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a multiple sequence alignment file. Note that the file needs to be in FASTA or PHYLIP format.</span>
+
+<span class="sd">    Note that per default, the file format and data type are inferred from the file content.</span>
+
+<span class="sd">    If the file format cannot be determined, a PyPythiaException is raised. In this case, make sure the file is in</span>
+<span class="sd">    proper FASTA or PHYLIP format. If you are absolutely sure it is, you can provide the file format manually.</span>
+
+<span class="sd">    Similarly, if the data type cannot be inferred, a PyPythiaException is raised including information about the</span>
+<span class="sd">    characters that could not be assigned to a data type. In this case, you can provide the data type manually.</span>
+<span class="sd">    Note that we check for the data type in the following order: DNA -&gt; AA -&gt; MORPH. In case your MSA contains AA data,</span>
+<span class="sd">    but coincidentally only contains characters that are nucleotides or ambiguous DNA characters, the data is assumed</span>
+<span class="sd">    to be DNA. In this case, please provide the correct data type (`DataType.AA`) manually.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msa_file (pathlib.Path): Path to the MSA file</span>
+<span class="sd">        file_format (FileFormat): File format of the MSA file. Defaults to None. In this case, the file format is determined automatically.</span>
+<span class="sd">        data_type (DataType): Data type of the sequences. Defaults to None. In this case, the data type is inferred from the sequences.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The parsed MSA object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_format</span> <span class="o">=</span> <span class="n">file_format</span> <span class="ow">or</span> <span class="n">_get_file_format</span><span class="p">(</span><span class="n">msa_file</span><span class="p">)</span>
+    <span class="n">msa_content</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">msa_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+    <span class="n">_msa</span> <span class="o">=</span> <span class="n">AlignIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">msa_content</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">file_format</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">sequences</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">rec</span><span class="o">.</span><span class="n">seq</span><span class="o">.</span><span class="n">_data</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">_msa</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;S1&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">_msa</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">taxon_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rec</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">_msa</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data_type</span><span class="p">:</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="n">_guess_dtype</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>
+
+    <span class="n">char_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">GAP</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">GAP_CHARS</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="n">DataType</span><span class="o">.</span><span class="n">DNA</span><span class="p">:</span>
+        <span class="c1"># replace all U characters with a T for convenience</span>
+        <span class="n">char_mapping</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">b</span><span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="sa">b</span><span class="s2">&quot;T&quot;</span><span class="p">})</span>
+        <span class="n">char_mapping</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">c</span><span class="p">:</span> <span class="n">GAP</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">DNA_GAP_CHARS</span><span class="p">})</span>
+
+    <span class="k">for</span> <span class="n">old_char</span><span class="p">,</span> <span class="n">new_char</span> <span class="ow">in</span> <span class="n">char_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">sequences</span><span class="p">[</span><span class="n">sequences</span> <span class="o">==</span> <span class="n">old_char</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_char</span>
+
+    <span class="k">return</span> <span class="n">MSA</span><span class="p">(</span><span class="n">taxon_names</span><span class="p">,</span> <span class="n">sequences</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">msa_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="pypythia.msa.remove_full_gap_sequences" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pypythia</span><span class="o">.</span><span class="n">msa</span><span class="o">.</span><span class="n">remove_full_gap_sequences</span><span class="p">(</span><span class="n">msa</span><span class="p">,</span> <span class="n">msa_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents first">
+
+        <p>Remove full-gap sequences from the MSA.</p>
+<p>A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>msa</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.msa.MSA" href="#pypythia.msa.MSA">MSA</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>MSA object to remove full-gap sequences from</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>msa_name</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the new MSA. Defaults to None. In this case, the new MSA is named the same as the input MSA.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.msa.MSA" href="#pypythia.msa.MSA">MSA</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>MSA object without full-gap sequences.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.custom_errors.PyPythiaException" href="../custom_errors/#pypythia.custom_errors.PyPythiaException">PyPythiaException</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the MSA does not contain any full-gap sequences.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">remove_full_gap_sequences</span><span class="p">(</span><span class="n">msa</span><span class="p">:</span> <span class="n">MSA</span><span class="p">,</span> <span class="n">msa_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MSA</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove full-gap sequences from the MSA.</span>
+
+<span class="sd">    A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msa (MSA): MSA object to remove full-gap sequences from</span>
+<span class="sd">        msa_name (str): Name of the new MSA. Defaults to None. In this case, the new MSA is named the same as the input MSA.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        MSA object without full-gap sequences.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        PyPythiaException: If the MSA does not contain any full-gap sequences.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">msa</span><span class="o">.</span><span class="n">contains_full_gap_sequences</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">PyPythiaException</span><span class="p">(</span><span class="s2">&quot;No full-gap sequences found in MSA.&quot;</span><span class="p">)</span>
+
+    <span class="n">is_full_gap_sequence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">msa</span><span class="o">.</span><span class="n">sequences</span> <span class="o">==</span> <span class="n">GAP</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">non_full_gap_sequences</span> <span class="o">=</span> <span class="n">msa</span><span class="o">.</span><span class="n">sequences</span><span class="p">[</span><span class="o">~</span><span class="n">is_full_gap_sequence</span><span class="p">]</span>
+    <span class="n">non_full_gap_taxa</span> <span class="o">=</span> <span class="n">msa</span><span class="o">.</span><span class="n">taxa</span><span class="p">[</span><span class="o">~</span><span class="n">is_full_gap_sequence</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">MSA</span><span class="p">(</span>
+        <span class="n">non_full_gap_taxa</span><span class="p">,</span> <span class="n">non_full_gap_sequences</span><span class="p">,</span> <span class="n">msa</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="n">msa_name</span> <span class="ow">or</span> <span class="n">msa</span><span class="o">.</span><span class="n">name</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="pypythia.msa.deduplicate_sequences" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pypythia</span><span class="o">.</span><span class="n">msa</span><span class="o">.</span><span class="n">deduplicate_sequences</span><span class="p">(</span><span class="n">msa</span><span class="p">,</span> <span class="n">msa_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents first">
+
+        <p>Remove duplicate sequences from the MSA.</p>
+<p>Note that in case of duplicate sequences, the first occurrence (including the first taxon name) is kept
+and all subsequent occurrences are removed.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>msa</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.msa.MSA" href="#pypythia.msa.MSA">MSA</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>MSA object to remove duplicate sequences from</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>msa_name</code>
+            </td>
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the new MSA. Defaults to None. In this case, the new MSA is named the same as the input MSA.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.msa.MSA" href="#pypythia.msa.MSA">MSA</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>MSA object without duplicate sequences.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.custom_errors.PyPythiaException" href="../custom_errors/#pypythia.custom_errors.PyPythiaException">PyPythiaException</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the MSA does not contain any duplicate sequences.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/msa.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deduplicate_sequences</span><span class="p">(</span><span class="n">msa</span><span class="p">:</span> <span class="n">MSA</span><span class="p">,</span> <span class="n">msa_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MSA</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove duplicate sequences from the MSA.</span>
+
+<span class="sd">    Note that in case of duplicate sequences, the first occurrence (including the first taxon name) is kept</span>
+<span class="sd">    and all subsequent occurrences are removed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msa (MSA): MSA object to remove duplicate sequences from</span>
+<span class="sd">        msa_name (str): Name of the new MSA. Defaults to None. In this case, the new MSA is named the same as the input MSA.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        MSA object without duplicate sequences.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        PyPythiaException: If the MSA does not contain any duplicate sequences.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">msa</span><span class="o">.</span><span class="n">contains_duplicate_sequences</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">PyPythiaException</span><span class="p">(</span><span class="s2">&quot;No duplicates found in MSA.&quot;</span><span class="p">)</span>
+
+    <span class="n">unique_sequences</span><span class="p">,</span> <span class="n">unique_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+        <span class="n">msa</span><span class="o">.</span><span class="n">sequences</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">unique_taxa</span> <span class="o">=</span> <span class="n">msa</span><span class="o">.</span><span class="n">taxa</span><span class="p">[</span><span class="n">unique_indices</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">MSA</span><span class="p">(</span><span class="n">unique_taxa</span><span class="p">,</span> <span class="n">unique_sequences</span><span class="p">,</span> <span class="n">msa</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="n">msa_name</span> <span class="ow">or</span> <span class="n">msa</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
