@@ -289,15 +289,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#c-library" class="md-nav__link">
-    <span class="md-ellipsis">
-      C Library
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#support" class="md-nav__link">
     <span class="md-ellipsis">
       Support
@@ -319,6 +310,15 @@
   <a href="#references" class="md-nav__link">
     <span class="md-ellipsis">
       References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpythia" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPythia
     </span>
   </a>
   
@@ -567,15 +567,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#c-library" class="md-nav__link">
-    <span class="md-ellipsis">
-      C Library
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#support" class="md-nav__link">
     <span class="md-ellipsis">
       Support
@@ -602,6 +593,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cpythia" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPythia
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -618,39 +618,54 @@
 
 
 <h1 id="home">Home</h1>
-<p>Welcome to the PyPythia documentation. Pythia is a lightweight python library to predict the difficulty of Multiple Sequence Alignments (MSAs).</p>
-<h3 id="c-library">C Library</h3>
-<p>The same functionality is also available as C library <a href="https://github.com/tschuelia/difficulty_prediction">here</a>.
-Since the C library depends on <a href="https://codeberg.org/Exelixis-Lab/coraxlib">Coraxlib</a> it is not as easy and fast to use as this python library.
-If you are only interested in the difficulty of your MSA, we recommend using this Python library.
-If you want to incorporate the difficulty prediction in a phylogenetic tool, we recommend using the faster C library.</p>
+<p>Welcome to the PyPythia documentation.</p>
+<p>Pythia is a lightweight python library to predict the difficulty of Multiple Sequence Alignments (MSA). Phylogenetic
+analyzes under the Maximum-Likelihood (ML) model are time and resource intensive. To adequately capture the vastness of
+tree space, one needs to infer multiple independent trees. On some datasets, multiple tree inferences converge to
+similar tree topologies, on others to multiple, topologically highly distinct yet statistically indistinguishable
+topologies. Pythia predicts the degree of difficulty of analyzing a dataset prior to initiating ML-based tree
+inferences. Predicting the difficulty using Pythia is substantially faster than inferring multiple ML trees using
+RAxML-NG. Pythia can be used to increase user awareness with respect to the amount of signal and uncertainty to be
+expected in phylogenetic analyzes, and hence inform an appropriate (post-)analysis setup. Further, it can be used to
+select appropriate search algorithms for easy-, intermediate-, and hard-to-analyze datasets. Pythia supports DNA, AA,
+and morphological data in Phylip and FASTA format.</p>
 <h3 id="support">Support</h3>
-<p>If you encounter any trouble using Pythia, have a question, or you find a bug, please feel free to open an issue here.</p>
+<p>If you encounter any trouble using Pythia, have a question, or you find a bug, please feel free to open an
+issue <a href="https://github.com/tschuelia/PyPythia/issues">here</a>.</p>
 <h3 id="publication">Publication</h3>
 <p>The paper explaining the details of Pythia is published in MBE:
-Haag, J., Höhler, D., Bettisworth, B., &amp; Stamatakis, A. (2022). <strong>From Easy to Hopeless - Predicting the Difficulty of Phylogenetic Analyses.</strong> <em>Molecular Biology and Evolution</em>, 39(12). <a href="https://doi.org/10.1093/molbev/msac254">https://doi.org/10.1093/molbev/msac254</a></p>
+Haag, J., Höhler, D., Bettisworth, B., &amp; Stamatakis, A. (2022). <strong>From Easy to Hopeless - Predicting the Difficulty of
+Phylogenetic Analyses.</strong> <em>Molecular Biology and Evolution</em>, 39(
+12). <a href="https://doi.org/10.1093/molbev/msac254">https://doi.org/10.1093/molbev/msac254</a></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Since this publication, we made some considerable changes to Pythia.
-The most important change is that we switched from using a Random Forest Regressor to using a LightGBM Gradient Boosted Tree Regressor.
-This affects all Pythia versions &gt;= 1. If you use Pythia in your work, please state the correct learning algorithm. If you are unsure, feel free to reach out to me 🙂</p>
+The most important change is that we switched from using a Random Forest Regressor to using a LightGBM Gradient
+Boosted Tree Regressor.
+This affects all Pythia versions &gt;= 1. If you use Pythia in your work, please state the correct learning algorithm. If
+you are unsure, feel free to reach out to me 🙂</p>
 </div>
 <h3 id="references">References</h3>
 <ul>
 <li>
 <p>A. M. Kozlov, D. Darriba, T. Flouri, B. Morel, and A. Stamatakis (2019)
-<strong>RAxML-NG: a fast, scalable and user-friendly tool for maximum likelihood phylogenetic inference</strong>
-<em>Bioinformatics</em>, 35(21): 4453–4455.
-<a href="https://doi.org/10.1093/bioinformatics/btz305">https://doi.org/10.1093/bioinformatics/btz305</a></p>
+  <strong>RAxML-NG: a fast, scalable and user-friendly tool for maximum likelihood phylogenetic inference</strong>
+  <em>Bioinformatics</em>, 35(21): 4453–4455.
+  <a href="https://doi.org/10.1093/bioinformatics/btz305">https://doi.org/10.1093/bioinformatics/btz305</a></p>
 </li>
 <li>
 <p>D. Höhler, W. Pfeiffer, V. Ioannidis, H. Stockinger, A. Stamatakis (2022)
-<strong>RAxML Grove: an empirical phylogenetic tree database</strong>
-<em>Bioinformatics</em>, 38(6):1741–1742.
-<a href="https://doi.org/10.1093/bioinformatics/btab863">https://doi.org/10.1093/bioinformatics/btab863</a></p>
+  <strong>RAxML Grove: an empirical phylogenetic tree database</strong>
+  <em>Bioinformatics</em>, 38(6):1741–1742.
+  <a href="https://doi.org/10.1093/bioinformatics/btab863">https://doi.org/10.1093/bioinformatics/btab863</a></p>
 </li>
 </ul>
-<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
+<h3 id="cpythia">CPythia</h3>
+<p>The same functionality is also available as C library <a href="https://github.com/tschuelia/difficulty_prediction">here</a>.
+Since the C library depends on <a href="https://codeberg.org/Exelixis-Lab/coraxlib">Coraxlib</a> it is not as easy and fast to use
+as this python library.
+If you are only interested in the difficulty of your MSA, we recommend using this Python library.
+If you want to incorporate the difficulty prediction in a phylogenetic tool, we recommend using the faster C library.</p>
 
 
 

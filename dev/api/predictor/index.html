@@ -692,16 +692,18 @@ Defaults to None. In this case, the features are inferred from the model file.</
           <tr class="doc-section-item">
             <td><code><span title="pypythia.predictor.DifficultyPredictor.predictor">predictor</span></code></td>
             <td>
+                  <code><span title="lightgbm.Booster">Booster</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Loaded trained predictor.</p>
+                <p>The trained LightGBM model used for predicting the difficulty.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
             <td><code><span title="pypythia.predictor.DifficultyPredictor.features">features</span></code></td>
             <td>
+                  <code>list[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -823,8 +825,8 @@ Defaults to None. In this case, the features are inferred from the model file.</
 <span class="sd">            Defaults to None. In this case, the features are inferred from the model file.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        predictor: Loaded trained predictor.</span>
-<span class="sd">        features: Names of the features the predictor was trained with.</span>
+<span class="sd">        predictor (lgb.Booster): The trained LightGBM model used for predicting the difficulty.</span>
+<span class="sd">        features (list[str]): Names of the features the predictor was trained with.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>

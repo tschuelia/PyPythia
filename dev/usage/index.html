@@ -348,6 +348,108 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#input-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-file-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported file types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported data types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taxon-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Taxon names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#msas-with-duplicate-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSAs with duplicate sequences
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predictors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predictors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shap-waterfall-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      SHAP Waterfall Plot
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SHAP Waterfall Plot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shapley-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shapley Values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waterfall-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Waterfall plot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      More Details
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -568,6 +670,108 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#input-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-file-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported file types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported data types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taxon-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Taxon names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#msas-with-duplicate-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSAs with duplicate sequences
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predictors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predictors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shap-waterfall-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      SHAP Waterfall Plot
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SHAP Waterfall Plot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shapley-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shapley Values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waterfall-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Waterfall plot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      More Details
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -584,13 +788,18 @@
 
 
 <h1 id="using-pypythia">Using PyPythia</h1>
-<p>This library can be used in two ways: either directly as command line tool, or the prediction can be called from other python code.</p>
+<p>This library can be used in two ways: either directly as command line tool, or the prediction can be called from other
+python code.</p>
 <h2 id="command-line-interface">Command Line Interface</h2>
-<p>If you only want to predict the difficulty for a single MSA, you can query the predictor using the command line interface, for example like this:</p>
+<p>If you only want to predict the difficulty for a single MSA, you can query the predictor using the command line
+interface, for example like this:</p>
 <pre><code class="language-commandline">pythia --msa examples/example.phy --raxmlng /path/to/raxml-ng
 </code></pre>
-<p>Note that when you installed PyPythia using conda, you will have to download the <code>example.phy</code> and adjust the path accordingly.</p>
-<p>The output will be something like <code>The predicted difficulty for MSA examples/example.phy is: 0.02.</code>, telling us that example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak. Depending on the predictor version you are using, the actual value might slightly differ. This is expected and nothing to worry about 🙂</p>
+<p>Note that when you installed PyPythia using conda, you will have to download the <code>example.phy</code> and adjust the path
+accordingly.</p>
+<p>The output will be something like <code>The predicted difficulty for MSA examples/example.phy is: 0.02.</code>, telling us that
+example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak. Depending on the predictor
+version you are using, the actual value might slightly differ. This is expected and nothing to worry about 🙂</p>
 <p><em>Note that Pythia can also handle FASTA input files, see section Input Data below.</em></p>
 <p>The following options are available:</p>
 <pre><code class="language-commandline">PyPythia version 2.0.0 released by The Exelixis Lab
@@ -657,48 +866,85 @@ difficulty = predict_difficulty(msa)
 print(f&quot;The predicted difficulty for MSA {msa} is: {round(difficulty, 2)}.&quot;)
 </code></pre>
 <p>And the output will be the same as for the CLI: <code>The predicted difficulty for MSA examples/example.phy is: 0.02.</code>.</p>
-<p>If you want to get all features, or do more specific analyses of your MSA, see the API Reference for further details on all available classes and methods.</p>
-<h1 id="input-data">Input data</h1>
+<p>If you want to get all features, or do more specific analyses of your MSA, see the API Reference for further details on
+all available classes and methods.</p>
+<h2 id="input-data">Input data</h2>
 <h3 id="supported-file-types">Supported file types</h3>
 <p>The input for Pythia is an MSA file in either Phylip or FASTA format.</p>
 <h3 id="supported-data-types">Supported  data types</h3>
 <p>Pythia supports DNA, AA, and morphological data.</p>
-<p>Please note that by morphological data we refer to biological data. According to our analyses, the attributes of biological morphological data are similar to the attributes of DNA and AA data.
-However, when analyzing language data (cognate, sound-class, and morphosyntactic data) we observed substantially distinct attributes and concluded that morphological language data is not
-comparable to DNA, AA, or biological morphological data. Thus, at the moment Pythia is not able to reliably predict the difficulty for language alignments.</p>
+<p>Please note that by morphological data we refer to biological data. According to our analyses, the attributes of
+biological morphological data are similar to the attributes of DNA and AA data.
+However, when analyzing language data (cognate, sound-class, and morphosyntactic data) we observed substantially
+distinct attributes and concluded that morphological language data is not
+comparable to DNA, AA, or biological morphological data. Thus, at the moment Pythia is not able to reliably predict the
+difficulty for language alignments.</p>
 <h3 id="taxon-names">Taxon names</h3>
 <p>Make sure that the MSA only contains RAxML-NG compatible taxon names.
 In particular, taxon labels with spaces, tabs, newlines, commas, colons, semicolons and parenthesis are invalid.</p>
 <h3 id="msas-with-duplicate-sequences">MSAs with duplicate sequences</h3>
-<p>Pythia refuses to predict the difficulty for MSAs containing duplicate sequences or MSAs containing sequences containing only gaps.
-As of version 2.0.0, Pythia removes duplicates and full-gap sequences per default and predicts the difficulty for this reduced MSA.
-If you absolutely want to predict the difficulty for the original MSA, set the command line flags <code>--forceDuplicates</code> and <code>--forceFullGaps</code>.</p>
-<p>As of version 1.0.0 Pythia refuses to predict the difficulty for MSAs containing multiple exactly identical sequences (duplicate sequences).
-The reason for this is that duplicate sequences can have a substantial impact on the resulting topologies during the maximum parsimony tree inference
+<p>Pythia refuses to predict the difficulty for MSAs containing duplicate sequences or MSAs containing sequences containing
+only gaps.
+As of version 2.0.0, Pythia removes duplicates and full-gap sequences per default and predicts the difficulty for this
+reduced MSA.
+If you absolutely want to predict the difficulty for the original MSA, set the command line flags <code>--forceDuplicates</code>
+and <code>--forceFullGaps</code>.</p>
+<p>As of version 1.0.0 Pythia refuses to predict the difficulty for MSAs containing multiple exactly identical sequences (
+duplicate sequences).
+The reason for this is that duplicate sequences can have a substantial impact on the resulting topologies during the
+maximum parsimony tree inference
 and therefore on the topological distance measures.</p>
-<p>If you set the command line option <code>--removeDuplicates</code>, Pythia will create a reduced alignment with all duplicates removed and predict the difficulty for this reduced alignment.
+<p>If you set the command line option <code>--removeDuplicates</code>, Pythia will create a reduced alignment with all duplicates
+removed and predict the difficulty for this reduced alignment.
 For duplicate sequences, the first occurrence of the sequence is kept.
-WARNING: The resulting predicted difficulty is only applicable to the reduced MSA! We recommend to only use the created reduced alignment for your subsequent analyses.</p>
-<h1 id="predictors">Predictors</h1>
-<p>To continuously and automatically improve the prediction accuracy of Pythia, we regularly extend the training data set and subsequently retrain the predictor.
-We extend the training data using the anonymized MSAs that we continuously obtain during our RAxML Grove database updates.
+WARNING: The resulting predicted difficulty is only applicable to the reduced MSA! We recommend to only use the created
+reduced alignment for your subsequent analyses.</p>
+<h2 id="predictors">Predictors</h2>
+<p>To continuously and automatically improve the prediction accuracy of Pythia, we regularly extend the training data set
+and subsequently retrain the predictor.
+We extend the training data using the anonymized MSAs that we continuously obtain during our RAxML Grove database
+updates.
 Note that these MSAs are only available internally in RAxML Grove and are not publicly available.
-As per default, PyPythia uses the lastest predictor <code>predictors/latest.pckl</code>. Older versions of the trained predictors are available in the <code>predictors</code> directory and can be passed to Pythia (see Usage instructions above). All predictors of versions &gt;= 1.0.0 are trained using DNA, AA, and morphological MSAs.</p>
+As per default, PyPythia uses the lastest predictor <code>predictors/latest.pckl</code>. Older versions of the trained predictors
+are available in the <code>predictors</code> directory and can be passed to Pythia (see Usage instructions above). All predictors
+of versions &gt;= 1.0.0 are trained using DNA, AA, and morphological MSAs.</p>
 <p>Note that the predictions for the same MSA can be different when using different versions of Pythia.</p>
-<h1 id="shapley-values">Shapley Values</h1>
-<p>As of version 1.1.0, Pythia includes an option to plot Shapley values for a prediction. The interpretation of Shapley values is not straight-forward and we emphasize the importance of learning about these values before drawing conclusions based on the resulting plot!
+<h2 id="shap-waterfall-plot">SHAP Waterfall Plot</h2>
+<p>As of version 1.1.0, Pythia includes an option to plot Shapley values for a prediction. The interpretation of Shapley
+values is not straight-forward, and we emphasize the importance of learning about these values before drawing conclusions
+based on the resulting plot!
 We provide the Shapley values as waterfall plot.
-In the following, we briefly describe what Shapley values are, what a waterfall plot is, and how you can interpret this plot.
-It is important to note that Shapley values are not the same as feature importances. Predicting the difficulty of two distinct MSAs will lead to two distinct waterfall plots.</p>
-<h2 id="shapley-values_1">Shapley Values</h2>
-<p>Based on the training data, our difficulty predictor Pythia has learned a base line difficulty. This base line difficulty is the expected value for every new prediction. Starting off this base line, Pythia adjusts its prediction using the features of the MSA. To determine how much each feature contributes to this change, ultimately leading to the final prediction is estimated by Shapley values. Since Pythia is a tree-based regressor, computing the Shapley values requires some advanced mathematics that I won't go into detail about here. If you are interested in this check out the links in the More Details section below. Due to the calculation of Shapley values, the value for one feature is NOT the difference in prediction when removing this feature. The Shapley value for one feature can only be interpreted considering all feature values together for a specific set of feature values.</p>
-<h2 id="waterfall-plot">Waterfall plot</h2>
+In the following, we briefly describe what Shapley values are, what a waterfall plot is, and how you can interpret this
+plot.
+It is important to note that Shapley values are not the same as feature importances. Predicting the difficulty of two
+distinct MSAs will lead to two distinct waterfall plots.</p>
+<h3 id="shapley-values">Shapley Values</h3>
+<p>Based on the training data, our difficulty predictor Pythia has learned a base line difficulty. This base line
+difficulty is the expected value for every new prediction. Starting off this base line, Pythia adjusts its prediction
+using the features of the MSA. To determine how much each feature contributes to this change, ultimately leading to the
+final prediction is estimated by Shapley values. Since Pythia is a tree-based regressor, computing the Shapley values
+requires some advanced mathematics that I won't go into detail about here. If you are interested in this check out the
+links in the More Details section below. Due to the calculation of Shapley values, the value for one feature is NOT the
+difference in prediction when removing this feature. The Shapley value for one feature can only be interpreted
+considering all feature values together for a specific set of feature values.</p>
+<h3 id="waterfall-plot">Waterfall plot</h3>
 <p>The following figure shows an exemplary waterfall plot output for the MSA <code>example/example.py</code> and Pythia version 1.1.0.</p>
-<p>The x-axis depicts the difficulty and the y-axis the features alongside the respective feature value. The features are sorted by their Shapley value with the highest contribution on top. You can read the plot as follows. The base line difficulty that Pythia v1.1.0 learned is 0.35, as indicated by the <code>E[f(x)] = 0.35</code> on the x-axis. The <code>proportion_invariant</code> feature contributed to the overall prediction with a shift towards <code>1.0</code> (more difficult) of <code>0.01</code>, so <em>in combination with the other features</em>, a <code>proportion_invariant</code> of <code>0.341</code> indicates that the MSA is slightly more difficult than the average difficulty in the training set. We emphasize that the <em>combination with the other features</em> part, since the same value for <code>proportion_invariant</code> with a different MSA and different feature values for the remaining features might lead to a substantially different contribution to the overall prediction.
-The feature with the highest impact for this example is the patterns-over-taxa ratio (<code>num_patterns/num_taxa</code>). The overall contribution is 0.23 towards <code>0.0</code>, meaning it shifts the overall prediction towards <code>easy</code>.</p>
+<p>The x-axis depicts the difficulty and the y-axis the features alongside the respective feature value. The features are
+sorted by their Shapley value with the highest contribution on top. You can read the plot as follows. The base line
+difficulty that Pythia v1.1.0 learned is 0.35, as indicated by the <code>E[f(x)] = 0.35</code> on the x-axis. The
+<code>proportion_invariant</code> feature contributed to the overall prediction with a shift towards <code>1.0</code> (more difficult) of
+<code>0.01</code>, so <em>in combination with the other features</em>, a <code>proportion_invariant</code> of <code>0.341</code> indicates that the MSA is
+slightly more difficult than the average difficulty in the training set. We emphasize that the <em>combination with the
+other features</em> part, since the same value for <code>proportion_invariant</code> with a different MSA and different feature values
+for the remaining features might lead to a substantially different contribution to the overall prediction.
+The feature with the highest impact for this example is the patterns-over-taxa ratio (<code>num_patterns/num_taxa</code>). The
+overall contribution is 0.23 towards <code>0.0</code>, meaning it shifts the overall prediction towards <code>easy</code>.</p>
 <p><img src="../img/example.phy.shap.pdf" width="700"></p>
-<h2 id="more-details">More Details</h2>
-<p>For further information please refer to <a href="https://christophm.github.io/interpretable-ml-book/shapley.html">this great book on interpretable ML</a>, the <a href="https://shap.readthedocs.io/en/latest/index.html">documentation of the <code>shap</code> package</a>, especially <a href="https://shap.readthedocs.io/en/latest/example_notebooks/overviews/Be%20careful%20when%20interpreting%20predictive%20models%20in%20search%20of%20causal%C2%A0insights.html#Be-careful-when-interpreting-predictive-models-in-search-of-causal%C2%A0insights">their notes on the interpretability of Shapley values</a>.</p>
+<h3 id="more-details">More Details</h3>
+<p>For further information please refer
+to <a href="https://christophm.github.io/interpretable-ml-book/shapley.html">this great book on interpretable ML</a>,
+the <a href="https://shap.readthedocs.io/en/latest/index.html">documentation of the <code>shap</code> package</a>,
+especially <a href="https://shap.readthedocs.io/en/latest/example_notebooks/overviews/Be%20careful%20when%20interpreting%20predictive%20models%20in%20search%20of%20causal%C2%A0insights.html#Be-careful-when-interpreting-predictive-models-in-search-of-causal%C2%A0insights">their notes on the interpretability of Shapley values</a>.</p>
 
 
 
