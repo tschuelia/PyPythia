@@ -13,13 +13,7 @@ nav:
 - Home: index.md
 - Install: install.md
 - User Guide: usage.md
-- API Reference:
-  - msa: api/msa.md
-  - raxmlng: api/raxmlng.md
-  - prediction: api/prediction.md
-  - predictor: api/predictor.md
-  - custom_types: api/custom_types.md
-  - config: api/config.md
+
 plugins:
 - search
 - mkdocstrings
