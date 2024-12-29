@@ -47,6 +47,7 @@ for file_name in api_files:
                     show_root_heading: true
                     merge_init_into_class: false
                     group_by_category: true
+                    modernize_annotations: true
             """)
             )
 
@@ -56,6 +57,7 @@ for file_name in api_files:
             ::: pypythia.{file.stem}.{mtd}\n
                 options:
                     show_root_heading: true
+                    modernize_annotations: true
             """)
             )
 
@@ -66,10 +68,12 @@ for file_name in api_files:
             ::: pypythia.{file.stem}.DEFAULT_MODEL_FILE\n
                 options:
                     show_root_heading: true
+                    modernize_annotations: true
 
             ::: pypythia.{file.stem}.DEFAULT_RAXMLNG_EXE\n
                 options:
                     show_root_heading: true
+                    modernize_annotations: true
             """)
             )
 

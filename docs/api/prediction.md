@@ -3,8 +3,10 @@
 
     options:
         show_root_heading: true
+        modernize_annotations: true
 
 ::: pypythia.prediction.collect_features
 
     options:
         show_root_heading: true
+        modernize_annotations: true

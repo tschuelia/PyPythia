@@ -25,8 +25,8 @@ class DifficultyPredictor:
             Defaults to None. In this case, the features are inferred from the model file.
 
     Attributes:
-        predictor: Loaded trained predictor.
-        features: Names of the features the predictor was trained with.
+        predictor (lgb.Booster): The trained LightGBM model used for predicting the difficulty.
+        features (list[str]): Names of the features the predictor was trained with.
     """
 
     def __init__(
