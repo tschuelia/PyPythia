@@ -1,5 +1,44 @@
+[project]
+name = "PyPythiaPhylo"
+description = "Lightweight python library for predicting the difficulty of alignments in phylogenetics"
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [{name = "Julia Haag", email = "info@juliaschmid.com"}]
+version = "2.0.0"
+license = "GPL-3.0-or-later"
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12"
+]
+requires-python = ">= 3.9, <= 3.12"
+
+dependencies = [
+    "pandas",
+    "biopython",
+    "lightgbm>=4.4",
+    "numpy>=2.0",
+    "shap>=0.41",
+    "matplotlib",
+    "loguru"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pyarrow"
+]
+
+[project.urls]
+Homepage = "https://github.com/tschuelia/PyPythia"
+Documentation = "https://tschuelia.github.io/PyPythia/latest/"
+
+[project.scripts]
+pythia = "pypythia.main:main"
+
 [build-system]
-requires = ['setuptools', 'wheel']
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.black]
 exclude = '''
@@ -28,5 +67,7 @@ no_implicit_optional = true
 check_untyped_defs = true
 
 [tool.pytest.ini_options]
-# This will be pytest's future default.
 addopts = "--import-mode=importlib"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pypythia"]
