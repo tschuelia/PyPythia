@@ -5,11 +5,11 @@ from tempfile import TemporaryDirectory
 import pytest
 
 from pypythia.custom_errors import RAxMLNGError
-from pypythia.raxmlng import _get_raxmlng_rfdist_results, run_raxmlng_command
+from pypythia.raxmlng import get_raxmlng_rfdist_results, run_raxmlng_command
 
 
 def test_get_raxmlng_rfdist_results(raxmlng_rfdistance_log):
-    num_topos, rel_rfdist, abs_rfdist = _get_raxmlng_rfdist_results(
+    num_topos, rel_rfdist, abs_rfdist = get_raxmlng_rfdist_results(
         raxmlng_rfdistance_log
     )
 

@@ -157,9 +157,6 @@ def _handle_full_gap_sequences(msa: MSA, force_full_gaps: bool) -> MSA:
 
 def main():
     args = _parse_cli()
-    if args.version:
-        return
-
     logger.info(get_header())
 
     # Format all paths to pathlib.Path objects and set a default value if not provided

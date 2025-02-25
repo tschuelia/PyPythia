@@ -283,7 +283,7 @@ class MSA:
         return np.mean([_site_entropy(site) for site in self.sequences.T])
 
     def pattern_entropy(self) -> float:
-        """Returns an entropy-like metric based on the number of occurrences of all patterns of the MSA.
+        r"""Returns an entropy-like metric based on the number of occurrences of all patterns of the MSA.
 
         The pattern entropy is calculated as
         $$
@@ -300,7 +300,7 @@ class MSA:
         return np.sum(pattern_counts * np.log(pattern_counts))
 
     def bollback_multinomial(self) -> float:
-        """
+        r"""
         Returns the Bollback multinomial metric for the MSA.
 
         The Bollback multinomial metric is calculated as

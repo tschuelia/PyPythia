@@ -36,7 +36,18 @@ def _get_value_from_line(line: str, search_string: str) -> float:
     )
 
 
-def _get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[float, float, float]:
+def get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[int, float, float]:
+    """
+    Method to parse the RAxML-NG log file and extract the number of unique topologies, relative RF-Distance, and absolute RF-Distance.
+    Args:
+        log_file (pathlib.Path): Filepath pointing to the RAxML-NG log file.
+
+    Returns:
+        num_topos (float): Number of unique topologies of the given set of trees.
+        rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
+        abs_rfdist (float): Absolute RF-Distance of the given set of trees.
+
+    """
     abs_rfdist = None
     rel_rfdist = None
     num_topos = None
@@ -60,7 +71,7 @@ def _get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[float, float, f
     if abs_rfdist is None or rel_rfdist is None or num_topos is None:
         raise ValueError("Error parsing raxml-ng log.")
 
-    return num_topos, rel_rfdist, abs_rfdist
+    return int(num_topos), rel_rfdist, abs_rfdist
 
 
 class RAxMLNG:
@@ -176,4 +187,4 @@ class RAxMLNG:
                 prefix = tmpdir / "rfdist"
             self._run_rfdist(trees_file, prefix, **kwargs)
             log_file = pathlib.Path(f"{prefix}.raxml.log")
-            return _get_raxmlng_rfdist_results(log_file)
+            return get_raxmlng_rfdist_results(log_file)
