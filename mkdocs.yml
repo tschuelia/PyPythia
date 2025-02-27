@@ -27,6 +27,8 @@ plugins:
     canonical_version: latest
 site_name: PyPythia
 site_url: https://tschuelia.github.io/PyPythia/
+repo_url: https://github.com/tschuelia/PyPythia
+repo_name: tschuelia/PyPythia
 theme:
   name: material
   palette:
