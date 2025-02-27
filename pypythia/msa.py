@@ -174,7 +174,7 @@ class MSA:
         self.n_taxa, self.n_sites = self.sequences.shape
 
     def __str__(self):
-        return f"MSA(name={self.name}, n_taxa={self.n_taxa}, n_sites={self.n_sites}, data_type={self.data_type})"
+        return f"MSA(name={self.name}, n_taxa={self.n_taxa}, n_sites={self.n_sites}, data_type={self.data_type.name})"
 
     def __repr__(self):
         return str(self)
@@ -450,7 +450,7 @@ def deduplicate_sequences(msa: MSA, msa_name: Optional[str] = None) -> MSA:
         PyPythiaException: If the MSA does not contain any duplicate sequences.
     """
     if not msa.contains_duplicate_sequences():
-        raise PyPythiaException("No duplicates found in MSA.")
+        raise PyPythiaException("No duplicate sequences found in MSA.")
 
     unique_sequences, unique_indices = np.unique(
         msa.sequences, axis=0, return_index=True

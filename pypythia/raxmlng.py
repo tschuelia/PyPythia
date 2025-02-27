@@ -108,12 +108,6 @@ class RAxMLNG:
             *additional_settings,
         ]
 
-    def _run_alignment_parse(
-        self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
-    ) -> None:
-        cmd = self._base_cmd(msa_file, model, prefix, parse=None, **kwargs)
-        run_raxmlng_command(cmd)
-
     def _run_rfdist(
         self, trees_file: pathlib.Path, prefix: pathlib.Path, **kwargs
     ) -> None:

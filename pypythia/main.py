@@ -235,7 +235,6 @@ def main():
             log_runtime=True,
         )
 
-    features_start = time.perf_counter()
     msa_features = collect_features(
         msa=msa,
         msa_file=msa_file,
@@ -245,13 +244,10 @@ def main():
         threads=args.threads,
         seed=args.seed,
     )
-    features_end = time.perf_counter()
 
     log_runtime_information("Predicting the difficulty", log_runtime=True)
 
-    prediction_start = time.perf_counter()
     difficulty = predictor.predict(msa_features)[0]
-    prediction_end = time.perf_counter()
 
     script_end = time.perf_counter()
 

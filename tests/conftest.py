@@ -3,7 +3,6 @@ import pathlib
 import pandas as pd
 import pytest
 
-from pypythia.msa import parse
 from pypythia.predictor import DifficultyPredictor
 from pypythia.raxmlng import RAxMLNG
 
