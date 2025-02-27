@@ -20,8 +20,8 @@ def test_parse(msa_test_data):
     for idx, row in msa_test_data.iterrows():
         msa_file = pathlib.Path(row.msa_file)
         msa = parse(msa_file)
-        assert msa.n_taxa == row.n_taxa
-        assert msa.n_sites == row.n_sites
+        assert msa.n_taxa == row.num_taxa
+        assert msa.n_sites == row.num_sites
         assert msa.data_type.value == row.data_type
         assert msa.name == msa_file.name
 
@@ -207,19 +207,19 @@ class TestMSAFeatures:
         for idx, row in msa_test_data.iterrows():
             msa_file = pathlib.Path(row.msa_file)
             msa = parse(msa_file)
-            assert msa.n_taxa == row.n_taxa
+            assert msa.n_taxa == row.num_taxa
 
     def test_n_sites(self, msa_test_data):
         for idx, row in msa_test_data.iterrows():
             msa_file = pathlib.Path(row.msa_file)
             msa = parse(msa_file)
-            assert msa.n_sites == row.n_sites
+            assert msa.n_sites == row.num_sites
 
     def test_n_patterns(self, msa_test_data):
         for idx, row in msa_test_data.iterrows():
             msa_file = pathlib.Path(row.msa_file)
             msa = parse(msa_file)
-            assert msa.n_patterns == row.n_patterns
+            assert msa.n_patterns == row.num_patterns
 
     def test_percentage_gaps(self, msa_test_data):
         for idx, row in msa_test_data.iterrows():
@@ -249,7 +249,7 @@ class TestMSAFeatures:
         for idx, row in msa_test_data.iterrows():
             msa_file = pathlib.Path(row.msa_file)
             msa = parse(msa_file)
-            assert msa.bollback_multinomial() == row.bollback_multinomial
+            assert msa.bollback_multinomial() == row.bollback
 
 
 def test_remove_full_gap_sequences(msa_test_data):
