@@ -218,8 +218,6 @@ def predict_difficulty(
     # Check if the reduced MSA is different from the original MSA
     is_reduced = msa != reduced_msa
     if is_reduced:
-        reduced_msa_file = reduced_msa_file or pathlib.Path(f"{msa_file}.reduced.phy")
-
         # If the reduced MSA is different from the original MSA, proceed with the reduced MSA
         msa = reduced_msa
 
@@ -247,6 +245,21 @@ def predict_difficulty(
         if threads is None
         else f"Using {threads} threads for parallel parsimony tree computation."
     )
+
+    # If the MSA/reduced MSA contains less than 4 sequences, RAxML-NG will fail as there is only a single possible
+    # tree topology for this MSA. In this case, any phylogenetic inference is meaningless and we raise a
+    # PyPythia exception to inform the user.
+    if msa.n_taxa < 4:
+        error_msg = (
+            "The MSA contains less than 4 sequences. "
+            "Phylogenetic inference is not meaningful for such small MSAs as there exists only a single possible tree topology. "
+        )
+        if is_reduced:
+            error_msg += (
+                "Note that during preprocessing, Pythia reduced the input MSA by removing duplicate sequences and/or "
+                "sequences containing only gaps leading to an MSA with less than 4 sequences. "
+                "You can rerun the prediction and disable deduplication and gap removal to use the original MSA. "
+            )
 
     msa_features = collect_features(
         msa=msa,
