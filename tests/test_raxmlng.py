@@ -24,11 +24,13 @@ def test_raxmlng_init_fails_wrong_exe(raxmlng_command):
     with pytest.raises(
         RuntimeError, match="Your RAxML-NG executable does not seem to work."
     ):
-        with tempfile.NamedTemporaryFile("wb") as tmpfile:
-            # Manually break the RAxML-NG file to trigger the executable-broken error
-            tmpfile.write(b"NonSense" + raxmlng_command.read_bytes())
-            tmpfile.flush()
-            RAxMLNG(pathlib.Path(tmpfile.name))
+        tmpfile = tempfile.NamedTemporaryFile("wb", delete=False)
+        # Manually break the RAxML-NG file to trigger the executable-broken error
+        tmpfile.write(b"NonSense" + raxmlng_command.read_bytes())
+        tmpfile.close()
+        os.chmod(tmpfile.name, 0o777)
+        RAxMLNG(pathlib.Path(tmpfile.name))
+        os.unlink(tmpfile.name)
 
 
 def test_raxmlng_init_fails_non_raxmlng_exe():
@@ -36,12 +38,13 @@ def test_raxmlng_init_fails_non_raxmlng_exe():
         RuntimeError,
         match="The given executable `.*` does not seem to be a RAxML-NG executable.",
     ):
-        with tempfile.NamedTemporaryFile("w", suffix=".sh") as tmpfile:
-            tmpfile.write("#!/bin/bash\n")
-            tmpfile.write("echo test\n")
-            tmpfile.flush()
-            os.chmod(tmpfile.name, 0o777)
-            RAxMLNG(pathlib.Path(tmpfile.name))
+        tmpfile = tempfile.NamedTemporaryFile("w", delete=False)
+        tmpfile.write("#!/bin/bash\n")
+        tmpfile.write("echo test\n")
+        tmpfile.close()
+        os.chmod(tmpfile.name, 0o777)
+        RAxMLNG(pathlib.Path(tmpfile.name))
+        os.unlink(tmpfile.name)
 
 
 def test_get_raxmlng_rfdist_results(raxmlng_rfdistance_log):

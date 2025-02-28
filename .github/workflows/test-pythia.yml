@@ -30,7 +30,7 @@ jobs:
           cat tests/test_config.py
       - name: Run Pythia tests
         run: |
-          PYTHONPATH=. pytest
+          PYTHONPATH=. pytest -svx --color=yes
 
   Install-using-conda:
     runs-on: ${{ matrix.os }}
