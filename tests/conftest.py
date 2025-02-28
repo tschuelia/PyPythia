@@ -8,14 +8,21 @@ from pypythia.raxmlng import RAxMLNG
 
 from .test_config import RAXMLNG_COMMAND
 
-
 df = pd.read_parquet("tests/data/msa_test_data.parquet")
 df["msa_file"] = df["msa_file"].apply(
     lambda x: pathlib.Path.cwd() / "tests" / "data" / x
 )
 
 
-@pytest.fixture(params=df.iterrows(), ids=lambda x: str(x[1].msa_file))
+@pytest.fixture
+def msa_test_data():
+    return df
+
+
+@pytest.fixture(
+    params=df.iterrows(),
+    ids=lambda x: f"{x[1].msa_file.parent.name}/{x[1].msa_file.name}",
+)
 def msa_test_data_row(request):
     idx, row = request.param
     return row

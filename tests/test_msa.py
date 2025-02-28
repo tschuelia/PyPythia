@@ -17,7 +17,7 @@ from pypythia.msa import (
 
 
 def test_parse(msa_test_data_row):
-    msa_file = pathlib.Path(msa_test_data_row.msa_file)
+    msa_file = msa_test_data_row.msa_file
     msa = parse(msa_file)
     assert msa.n_taxa == msa_test_data_row.num_taxa
     assert msa.n_sites == msa_test_data_row.num_sites
@@ -100,14 +100,12 @@ def test_msa_str_and_repr():
 
 
 def test_contains_duplicate_sequences(msa_test_data_row):
-    msa_file = pathlib.Path(msa_test_data_row.msa_file)
-    msa = parse(msa_file)
+    msa = parse(msa_test_data_row.msa_file)
     assert msa.contains_duplicate_sequences() == msa_test_data_row.contains_duplicates
 
 
 def test_contains_full_gap_sequences(msa_test_data_row):
-    msa_file = pathlib.Path(msa_test_data_row.msa_file)
-    msa = parse(msa_file)
+    msa = parse(msa_test_data_row.msa_file)
     assert (
         msa.contains_full_gap_sequences()
         == msa_test_data_row.contains_full_gap_sequences
@@ -115,8 +113,10 @@ def test_contains_full_gap_sequences(msa_test_data_row):
 
 
 def test_get_file_format(msa_test_data_row):
-    msa_file = pathlib.Path(msa_test_data_row.msa_file)
-    assert _get_file_format(msa_file).value == msa_test_data_row.file_format
+    assert (
+        _get_file_format(msa_test_data_row.msa_file).value
+        == msa_test_data_row.file_format
+    )
 
 
 def test_get_msa_file_format_raises_value_error(raxmlng_inference_log):
@@ -128,8 +128,7 @@ def test_get_msa_file_format_raises_value_error(raxmlng_inference_log):
 
 
 def test_guess_dtype(msa_test_data_row):
-    msa_file = pathlib.Path(msa_test_data_row.msa_file)
-    msa = parse(msa_file)
+    msa = parse(msa_test_data_row.msa_file)
     assert _guess_dtype(msa.sequences).value == msa_test_data_row.data_type
 
 
@@ -154,8 +153,7 @@ def test_guess_dtype_fails():
 
 
 def test_get_raxmlng_model(msa_test_data_row):
-    msa_file = pathlib.Path(msa_test_data_row.msa_file)
-    msa = parse(msa_file)
+    msa = parse(msa_test_data_row.msa_file)
     assert msa.get_raxmlng_model() == msa_test_data_row.raxmlng_model
 
 
@@ -201,49 +199,40 @@ def test_write(phylip_msa_file):
 
 class TestMSAFeatures:
     def test_n_taxa(self, msa_test_data_row):
-        msa_file = pathlib.Path(msa_test_data_row.msa_file)
-        msa = parse(msa_file)
+        msa = parse(msa_test_data_row.msa_file)
         assert msa.n_taxa == msa_test_data_row.num_taxa
 
     def test_n_sites(self, msa_test_data_row):
-        msa_file = pathlib.Path(msa_test_data_row.msa_file)
-        msa = parse(msa_file)
+        msa = parse(msa_test_data_row.msa_file)
         assert msa.n_sites == msa_test_data_row.num_sites
 
     def test_n_patterns(self, msa_test_data_row):
-        msa_file = pathlib.Path(msa_test_data_row.msa_file)
-        msa = parse(msa_file)
+        msa = parse(msa_test_data_row.msa_file)
         assert msa.n_patterns == msa_test_data_row.num_patterns
 
     def test_percentage_gaps(self, msa_test_data_row):
-        msa_file = pathlib.Path(msa_test_data_row.msa_file)
-        msa = parse(msa_file)
+        msa = parse(msa_test_data_row.msa_file)
         assert msa.proportion_gaps == msa_test_data_row.proportion_gaps
 
     def test_percentage_invariant(self, msa_test_data_row):
-        msa_file = pathlib.Path(msa_test_data_row.msa_file)
-        msa = parse(msa_file)
+        msa = parse(msa_test_data_row.msa_file)
         assert msa.proportion_invariant == msa_test_data_row.proportion_invariant
 
     def test_entropy(self, msa_test_data_row):
-        msa_file = pathlib.Path(msa_test_data_row.msa_file)
-        msa = parse(msa_file)
+        msa = parse(msa_test_data_row.msa_file)
         assert msa.entropy() == msa_test_data_row.entropy
 
     def test_pattern_entropy(self, msa_test_data_row):
-        msa_file = pathlib.Path(msa_test_data_row.msa_file)
-        msa = parse(msa_file)
+        msa = parse(msa_test_data_row.msa_file)
         assert msa.pattern_entropy() == msa_test_data_row.pattern_entropy
 
     def test_bollback_multinomial(self, msa_test_data_row):
-        msa_file = pathlib.Path(msa_test_data_row.msa_file)
-        msa = parse(msa_file)
+        msa = parse(msa_test_data_row.msa_file)
         assert msa.bollback_multinomial() == msa_test_data_row.bollback
 
 
 def test_remove_full_gap_sequences(msa_test_data_row):
-    msa_file = pathlib.Path(msa_test_data_row.msa_file)
-    msa = parse(msa_file)
+    msa = parse(msa_test_data_row.msa_file)
 
     if msa_test_data_row.contains_full_gap_sequences:
         # If the MSA contains full-gap sequences: expect these sequences to be removed
@@ -261,8 +250,7 @@ def test_remove_full_gap_sequences(msa_test_data_row):
 
 
 def test_deduplicate_sequences(msa_test_data_row):
-    msa_file = pathlib.Path(msa_test_data_row.msa_file)
-    msa = parse(msa_file)
+    msa = parse(msa_test_data_row.msa_file)
 
     if msa_test_data_row.contains_duplicates:
         # If the MSA contains duplicate sequences: expect these sequences to be removed
