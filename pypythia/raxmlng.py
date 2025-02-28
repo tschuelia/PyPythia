@@ -82,9 +82,29 @@ class RAxMLNG:
 
     Attributes:
         exe_path (pathlib.Path): Path to the RAxML-NG executable.
+
+    Raises:
+        FileNotFoundError: If the RAxML-NG executable is not found.
+        RuntimeError: If the RAxML-NG executable is not working or is not a RAxML-NG executable.
+
     """
 
     def __init__(self, exe_path: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE):
+        if not exe_path.exists():
+            raise FileNotFoundError("RAxML-NG executable not found.")
+
+        try:
+            out = subprocess.check_output([str(exe_path.absolute())], encoding="utf-8")
+        except Exception as e:
+            raise RuntimeError(
+                f"Your RAxML-NG executable does not seem to work. Running `{exe_path}` failed: {e}"
+            ) from e
+
+        if not "RAxML-NG" in out:
+            raise RuntimeError(
+                f"The given executable `{exe_path}` does not seem to be a RAxML-NG executable."
+            )
+
         self.exe_path = exe_path
 
     def _base_cmd(

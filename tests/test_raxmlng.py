@@ -1,3 +1,4 @@
+import os
 import pathlib
 import tempfile
 from tempfile import TemporaryDirectory
@@ -5,7 +6,42 @@ from tempfile import TemporaryDirectory
 import pytest
 
 from pypythia.custom_errors import RAxMLNGError
-from pypythia.raxmlng import get_raxmlng_rfdist_results, run_raxmlng_command
+from pypythia.raxmlng import RAxMLNG, get_raxmlng_rfdist_results, run_raxmlng_command
+
+
+def test_raxmlng_init(raxmlng_command):
+    assert raxmlng_command.exists()
+    # Should work without any problems
+    RAxMLNG(raxmlng_command)
+
+
+def test_raxmlng_init_fails_non_existing_exe():
+    with pytest.raises(FileNotFoundError, match="RAxML-NG executable not found."):
+        RAxMLNG(pathlib.Path("this_does_not_exist"))
+
+
+def test_raxmlng_init_fails_wrong_exe(raxmlng_command):
+    with pytest.raises(
+        RuntimeError, match="Your RAxML-NG executable does not seem to work."
+    ):
+        with tempfile.NamedTemporaryFile("wb") as tmpfile:
+            # Manually break the RAxML-NG file to trigger the executable-broken error
+            tmpfile.write(b"NonSense" + raxmlng_command.read_bytes())
+            tmpfile.flush()
+            RAxMLNG(pathlib.Path(tmpfile.name))
+
+
+def test_raxmlng_init_fails_non_raxmlng_exe():
+    with pytest.raises(
+        RuntimeError,
+        match="The given executable `.*` does not seem to be a RAxML-NG executable.",
+    ):
+        with tempfile.NamedTemporaryFile("w", suffix=".sh") as tmpfile:
+            tmpfile.write("#!/bin/bash\n")
+            tmpfile.write("echo test\n")
+            tmpfile.flush()
+            os.chmod(tmpfile.name, 0o777)
+            RAxMLNG(pathlib.Path(tmpfile.name))
 
 
 def test_get_raxmlng_rfdist_results(raxmlng_rfdistance_log):

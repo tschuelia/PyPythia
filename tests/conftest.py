@@ -54,6 +54,11 @@ def raxmlng(raxmlng_command):
 
 
 @pytest.fixture
+def data_dir():
+    return pathlib.Path.cwd() / "tests" / "data"
+
+
+@pytest.fixture
 def multiple_trees_path():
     return pathlib.Path.cwd() / "tests" / "data" / "trees" / "many.trees"
 

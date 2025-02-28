@@ -1,4 +1,5 @@
 import pathlib
+import re
 import tempfile
 import warnings
 
@@ -6,6 +7,7 @@ import pandas as pd
 import pytest
 
 from pypythia import __version__
+from pypythia.custom_errors import PyPythiaException
 from pypythia.msa import parse
 from pypythia.prediction import (
     _handle_duplicates,
@@ -211,3 +213,83 @@ def test_predict_difficulty_with_deduplication_and_gap_removal(
             actual_n_test_cases += 1
 
     assert actual_n_test_cases == expected_n_test_cases, "Not all test cases were run."
+
+
+def test_predict_difficulty_fewer_than_four_taxa(data_dir, raxmlng_command):
+    with pytest.raises(
+        PyPythiaException, match="The MSA contains less than 4 sequences."
+    ):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            prefix = pathlib.Path(tmpdir) / "test"
+            predict_difficulty(
+                msa_file=data_dir / "DNA" / "3_taxa_msa.fasta",
+                raxmlng=raxmlng_command,
+                deduplicate=True,
+                remove_full_gaps=True,
+                result_prefix=prefix,
+                store_results=True,
+            )
+
+
+def test_predict_difficulty_with_deduplication_and_gap_removal_if_reduced_msa_has_fewer_than_four_taxa(
+    data_dir, raxmlng_command
+):
+    # DNA/5.phy contains 10 taxa, but after deduplication and gap removal, only 3 taxa remain
+    # in this case, we expect the general error, but also the hint about the reduced MSA
+    with pytest.raises(
+        PyPythiaException,
+        match=re.compile(
+            r"The MSA contains less than 4 sequences.+reduced the input MSA", re.DOTALL
+        ),
+    ):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            prefix = pathlib.Path(tmpdir) / "test"
+            predict_difficulty(
+                msa_file=data_dir / "DNA" / "5.phy",
+                raxmlng=raxmlng_command,
+                deduplicate=True,
+                remove_full_gaps=True,
+                result_prefix=prefix,
+                store_results=True,
+            )
+
+
+def test_predict_difficulty_msa_files_does_not_exist(raxmlng_command):
+    msa_file = pathlib.Path("this_does_not_exist.fasta")
+    with pytest.raises(
+        PyPythiaException, match=f"The given MSA {msa_file} file does not exist."
+    ):
+        predict_difficulty(
+            msa_file=msa_file,
+            raxmlng=raxmlng_command,
+            deduplicate=True,
+            remove_full_gaps=True,
+            result_prefix=None,
+            store_results=False,
+        )
+
+
+def test_predict_difficulty_raxmlng_executable_none(small_msa_file):
+    with pytest.raises(
+        PyPythiaException, match="Path to the RAxML-NG executable is required"
+    ):
+        predict_difficulty(
+            msa_file=small_msa_file,
+            raxmlng=None,
+            deduplicate=False,
+            remove_full_gaps=False,
+            result_prefix=None,
+            store_results=False,
+        )
+
+
+def test_predict_difficulty_raxmlng_init_fails(small_msa_file):
+    with pytest.raises(PyPythiaException, match="Initializing RAxML-NG failed"):
+        predict_difficulty(
+            msa_file=small_msa_file,
+            raxmlng=pathlib.Path("/path/to/non/existing/raxml-ng"),
+            deduplicate=False,
+            remove_full_gaps=False,
+            result_prefix=None,
+            store_results=False,
+        )

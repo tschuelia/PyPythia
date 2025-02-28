@@ -171,6 +171,9 @@ def predict_difficulty(
     Returns:
         np.float64: Predicted difficulty of the MSA.
     """
+    if not msa_file.exists():
+        raise PyPythiaException(f"The given MSA {msa_file} file does not exist.")
+
     result_prefix = pathlib.Path(result_prefix) if result_prefix else msa_file
 
     pars_trees_file = pathlib.Path(f"{result_prefix}.pythia.trees")
@@ -197,7 +200,10 @@ def predict_difficulty(
             "Path to the RAxML-NG executable is required if 'raxml-ng' is not in $PATH."
         )
 
-    raxmlng = RAxMLNG(**{"exe_path": raxmlng} if raxmlng else {})
+    try:
+        raxmlng = RAxMLNG(**{"exe_path": raxmlng} if raxmlng else {})
+    except Exception as e:
+        raise PyPythiaException("Initializing RAxML-NG failed.") from e
 
     # Init the prediction model
     log_info and log_runtime_information(message=f"Loading predictor {model_file.name}")
@@ -260,6 +266,7 @@ def predict_difficulty(
                 "sequences containing only gaps leading to an MSA with less than 4 sequences. "
                 "You can rerun the prediction and disable deduplication and gap removal to use the original MSA. "
             )
+        raise PyPythiaException(error_msg)
 
     msa_features = collect_features(
         msa=msa,
