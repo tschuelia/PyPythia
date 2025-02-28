@@ -26,6 +26,7 @@ dependencies = [
 [project.optional-dependencies]
 test = [
     "pytest",
+    "pytest-lazy-fixtures",
     "pyarrow"
 ]
 

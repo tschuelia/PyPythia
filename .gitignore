@@ -1,5 +1,7 @@
 **/*.log
 **/*.csv
+**/*.shap.pdf
+**/*.pythia.trees
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

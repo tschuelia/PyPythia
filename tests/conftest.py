@@ -9,13 +9,16 @@ from pypythia.raxmlng import RAxMLNG
 from .test_config import RAXMLNG_COMMAND
 
 
-@pytest.fixture
-def msa_test_data():
-    df = pd.read_parquet("tests/data/msa_test_data.parquet")
-    df["msa_file"] = df["msa_file"].apply(
-        lambda x: pathlib.Path.cwd() / "tests" / "data" / x
-    )
-    return df
+df = pd.read_parquet("tests/data/msa_test_data.parquet")
+df["msa_file"] = df["msa_file"].apply(
+    lambda x: pathlib.Path.cwd() / "tests" / "data" / x
+)
+
+
+@pytest.fixture(params=df.iterrows(), ids=lambda x: str(x[1].msa_file))
+def msa_test_data_row(request):
+    idx, row = request.param
+    return row
 
 
 @pytest.fixture
