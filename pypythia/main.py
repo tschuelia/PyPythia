@@ -101,7 +101,7 @@ def main():
 
     # Format all paths to pathlib.Path objects and set a default value if not provided
     msa_file = pathlib.Path(args.msa)
-    prefix = pathlib.Path(args.prefix) or msa_file
+    prefix = pathlib.Path(args.prefix) if args.prefix else msa_file
 
     store_results = not args.nofiles
 
