@@ -355,15 +355,14 @@ class MSA:
         SeqIO.write(_biopython_sequences, output_file, file_format.value)
 
 
-def parse(
+def parse_msa(
     msa_file: pathlib.Path,
     file_format: Optional[FileFormat] = None,
     data_type: Optional[DataType] = None,
 ) -> MSA:
     """Parse a multiple sequence alignment file. Note that the file needs to be in FASTA or PHYLIP format.
 
-    Note that per default, the file format and data type are inferred from the file content.
-
+    Per default, the file format and data type are inferred from the file content.
     If the file format cannot be determined, a PyPythiaException is raised. In this case, make sure the file is in
     proper FASTA or PHYLIP format. If you are absolutely sure it is, you can provide the file format manually.
 

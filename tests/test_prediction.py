@@ -8,7 +8,7 @@ import pytest
 
 from pypythia import __version__
 from pypythia.custom_errors import PyPythiaException
-from pypythia.msa import parse
+from pypythia.msa import parse_msa
 from pypythia.prediction import (
     _handle_duplicates,
     _handle_full_gap_sequences,
@@ -18,7 +18,7 @@ from pypythia.prediction import (
 
 
 def test_handle_duplicates(msa_test_data_row):
-    msa = parse(msa_test_data_row.msa_file)
+    msa = parse_msa(msa_test_data_row.msa_file)
     reduced_msa = _handle_duplicates(msa, deduplicate=True, log_info=False)
 
     if msa_test_data_row.contains_duplicates:
@@ -29,14 +29,14 @@ def test_handle_duplicates(msa_test_data_row):
 
 
 def test_handle_duplicates_dont_deduplicate(msa_test_data_row):
-    msa = parse(msa_test_data_row.msa_file)
+    msa = parse_msa(msa_test_data_row.msa_file)
     reduced_msa = _handle_duplicates(msa, deduplicate=False, log_info=False)
 
     assert reduced_msa == msa
 
 
 def test_handle_full_gap_sequences(msa_test_data_row):
-    msa = parse(msa_test_data_row.msa_file)
+    msa = parse_msa(msa_test_data_row.msa_file)
     reduced_msa = _handle_full_gap_sequences(msa, remove_full_gaps=True, log_info=False)
 
     if msa_test_data_row.contains_full_gap_sequences:
@@ -47,7 +47,7 @@ def test_handle_full_gap_sequences(msa_test_data_row):
 
 
 def test_handle_full_gap_sequences_dont_remove_full_gaps(msa_test_data_row):
-    msa = parse(msa_test_data_row.msa_file)
+    msa = parse_msa(msa_test_data_row.msa_file)
     reduced_msa = _handle_full_gap_sequences(
         msa, remove_full_gaps=False, log_info=False
     )
@@ -56,7 +56,7 @@ def test_handle_full_gap_sequences_dont_remove_full_gaps(msa_test_data_row):
 
 
 def test_collect_features(msa_test_data_row, raxmlng):
-    msa = parse(msa_test_data_row.msa_file)
+    msa = parse_msa(msa_test_data_row.msa_file)
     features = collect_features(
         msa=msa, msa_file=msa_test_data_row.msa_file, raxmlng=raxmlng
     )
@@ -71,7 +71,7 @@ def test_collect_features(msa_test_data_row, raxmlng):
 
 
 def test_collect_features_stores_trees(phylip_msa_file, raxmlng):
-    msa = parse(phylip_msa_file)
+    msa = parse_msa(phylip_msa_file)
     with tempfile.NamedTemporaryFile("w") as pars_trees_file:
         pars_trees_file = pathlib.Path(pars_trees_file.name)
         collect_features(

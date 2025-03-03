@@ -11,7 +11,12 @@ from pypythia.config import DEFAULT_MODEL_FILE, DEFAULT_RAXMLNG_EXE
 from pypythia.custom_errors import PyPythiaException
 from pypythia.custom_types import DataType, FileFormat
 from pypythia.logger import log_runtime_information, logger
-from pypythia.msa import MSA, deduplicate_sequences, parse, remove_full_gap_sequences
+from pypythia.msa import (
+    MSA,
+    deduplicate_sequences,
+    parse_msa,
+    remove_full_gap_sequences,
+)
 from pypythia.predictor import DifficultyPredictor
 from pypythia.raxmlng import RAxMLNG
 
@@ -213,7 +218,7 @@ def predict_difficulty(
     # Load the MSA
     log_info and log_runtime_information(message="Loading MSA")
 
-    msa = parse(msa_file, file_format=file_format, data_type=data_type)
+    msa = parse_msa(msa_file, file_format=file_format, data_type=data_type)
 
     # Deduplicate the MSA if necessary
     reduced_msa = _handle_duplicates(msa, deduplicate)
