@@ -1,4 +1,5 @@
 import pathlib
+import platform
 
 import pandas as pd
 import pytest
@@ -8,7 +9,15 @@ from pypythia.raxmlng import RAxMLNG
 
 from .test_config import RAXMLNG_COMMAND
 
-df = pd.read_parquet("tests/data/msa_test_data.parquet")
+# RAxML-NG results (RF-Distance, number of unique topologies) and consequently the predicted difficulties
+# are slightly different on MacOS versus on Linux (due to the RNG in RAxML-NG). Therefore, we need to
+# load different test data depending on the platform. Note that the test data are identical except for the
+# RF-Distance, number of unique topologies, and predicted difficulties.
+if platform.system() == "Darwin":
+    df = pd.read_parquet("tests/data/msa_test_data_macOS.parquet")
+else:
+    df = pd.read_parquet("tests/data/msa_test_data_linux.parquet")
+
 df["msa_file"] = df["msa_file"].apply(
     lambda x: pathlib.Path.cwd() / "tests" / "data" / x
 )
