@@ -48,13 +48,10 @@ def test_raxmlng_init_fails_non_raxmlng_exe():
 
 
 def test_get_raxmlng_rfdist_results(raxmlng_rfdistance_log):
-    num_topos, rel_rfdist, abs_rfdist = get_raxmlng_rfdist_results(
-        raxmlng_rfdistance_log
-    )
+    num_topos, rel_rfdist = get_raxmlng_rfdist_results(raxmlng_rfdistance_log)
 
     assert num_topos == 2
     assert rel_rfdist == pytest.approx(1 / 3, abs=0.01)
-    assert abs_rfdist == pytest.approx(2)
 
 
 def test_get_raxmlng_rfdist_results_raises_value_error(raxmlng_inference_log):
@@ -78,12 +75,9 @@ def test_infer_parsimony_trees(raxmlng, phylip_msa_file):
 
 
 def test_get_rfdistance_results(raxmlng, multiple_trees_path):
-    num_topos, rel_rfdist, abs_rfdist = raxmlng.get_rfdistance_results(
-        multiple_trees_path
-    )
+    num_topos, rel_rfdist = raxmlng.get_rfdistance_results(multiple_trees_path)
     assert num_topos == 6
     assert rel_rfdist == pytest.approx(0.114, abs=0.01)
-    assert abs_rfdist == pytest.approx(22.269, abs=0.1)
 
 
 def test_run_raxmlng_command(raxmlng_command, phylip_msa_file):

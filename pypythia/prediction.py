@@ -104,7 +104,7 @@ def collect_features(
         log_info and log_runtime_information(
             "Computing the RF-Distance for the parsimony trees."
         )
-        num_topos, rel_rfdist, _ = raxmlng.get_rfdistance_results(trees, redo=None)
+        num_topos, rel_rfdist = raxmlng.get_rfdistance_results(trees, redo=None)
 
         features = {
             "num_taxa": msa.n_taxa,
