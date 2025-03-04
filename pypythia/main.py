@@ -66,6 +66,15 @@ def _parse_cli() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--shap",
+        help="If set, computes the shapley values of the prediction as waterfall plot in '{prefix}.shap.pdf'. "
+        "When using this option, make sure you understand what shapley values are and how to interpret this plot."
+        "For details on shapley values refer to the documentation: "
+        "https://tschuelia.github.io/PyPythia/latest/usage/#shap-waterfall-plot (default: False).",
+        action="store_true",
+    )
+
+    parser.add_argument(
         "--forceDuplicates",
         help="Per default, Pythia refuses to predict the difficulty for MSAs containing duplicate sequences,"
         "and removes duplicate sequences prior to predicting the difficulty. "
@@ -130,6 +139,7 @@ def main():
         remove_full_gaps=not args.forceFullGaps,
         result_prefix=prefix,
         store_results=store_results,
+        plot_shap=args.shap,
         log_info=True,
     )
 

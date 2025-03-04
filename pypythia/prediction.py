@@ -141,6 +141,7 @@ def predict_difficulty(
     remove_full_gaps: bool = True,
     result_prefix: Optional[pathlib.Path] = None,
     store_results: bool = True,
+    plot_shap: bool = False,
     log_info: bool = False,
 ) -> np.float64:
     """Predict the difficulty of an MSA using the PyPythia difficulty predictor.
@@ -168,9 +169,9 @@ def predict_difficulty(
             In this case, the following files are stored:
             - The reduced MSA in PHYLIP format (if duplicates or full gap sequences were removed) in `{result_prefix}.reduced.phy`
             - The inferred parsimony trees in Newick format in `{result_prefix}.pythia.trees`
-            - The shapley values as waterfall plot in `{result_prefix}.shap.pdf`
+            - The shapley values as waterfall plot in `{result_prefix}.shap.pdf` (if plot_shap=True)
             - The features and predicted difficulty as CSV file in `{result_prefix}.pythia.csv`
-
+        plot_shap (bool, optional): If True, plot the shapley values as waterfall plot. Defaults to False.
         log_info (bool, optional): If True, log intermediate progress information using the default logger. Defaults to False.
 
     Returns:
@@ -287,7 +288,7 @@ def predict_difficulty(
     log_info and log_runtime_information("Predicting the difficulty")
     difficulty = predictor.predict(msa_features)
 
-    if store_results:
+    if plot_shap and store_results:
         # Plot shapley values
         # this only makes sense if store_results=True, otherwise the figure would be lost
         fig = predictor.plot_shapley_values(msa_features)

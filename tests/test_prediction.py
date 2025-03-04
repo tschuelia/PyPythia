@@ -87,7 +87,10 @@ def test_collect_features_stores_trees(phylip_msa_file, raxmlng):
 
 
 @pytest.mark.parametrize("store_results", [True, False])
-def test_predict_difficulty(msa_test_data_row, raxmlng_command, store_results):
+@pytest.mark.parametrize("plot_shap", [True, False])
+def test_predict_difficulty(
+    msa_test_data_row, raxmlng_command, store_results, plot_shap
+):
     # Check if the Pythia version is identical, if not the expected difficulty parquet file might be outdated
     # In this case, raise a warning
     if msa_test_data_row.pythia_version != __version__:
@@ -107,6 +110,7 @@ def test_predict_difficulty(msa_test_data_row, raxmlng_command, store_results):
             remove_full_gaps=False,
             result_prefix=prefix,
             store_results=store_results,
+            plot_shap=plot_shap,
         )
 
         # 1. Check if the predicted difficulty matches the "ground-truth" in our test data
@@ -122,8 +126,11 @@ def test_predict_difficulty(msa_test_data_row, raxmlng_command, store_results):
 
         if store_results:
             assert pars_trees_file.exists()
-            assert shap_file.exists()
             assert results_file.exists()
+            if plot_shap:
+                assert shap_file.exists()
+            else:
+                assert not shap_file.exists()
         else:
             assert not pars_trees_file.exists()
             assert not shap_file.exists()
