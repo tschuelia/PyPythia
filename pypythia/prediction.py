@@ -157,9 +157,9 @@ def predict_difficulty(
             RAxML-NG auto parallelization scheme.
         seed (int, optional): Random seed to use for the parsimony tree inference. Defaults to 0.
         file_format (FileFormat, optional): File format of the MSA file. Defaults to None. In this case, the file format
-            is inferred based on the file content. See `pypythia.msa.parse` for information on when this is required.
+            is inferred based on the file content. See `pypythia.msa.parse_msa` for information on when this is required.
         data_type (DataType, optional): Data type of the MSA sequences. Defaults to None. In this case, the data type
-            is inferred based on the file content. See `pypythia.msa.parse` for information on when this is required.
+            is inferred based on the file content. See `pypythia.msa.parse_msa` for information on when this is required.
         deduplicate (bool, optional): If True, remove duplicate sequences from the MSA. Defaults to True.
         remove_full_gaps (bool, optional): If True, remove full gap sequences from the MSA. Defaults to True.
         result_prefix (pathlib.Path, optional): Prefix for the result files. Defaults to None. In this case, the prefix

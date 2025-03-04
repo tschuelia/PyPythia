@@ -7,7 +7,7 @@
         group_by_category: true
         modernize_annotations: true
 
-::: pypythia.msa.parse
+::: pypythia.msa.parse_msa
 
     options:
         show_root_heading: true

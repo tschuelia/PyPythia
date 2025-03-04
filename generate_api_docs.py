@@ -15,6 +15,7 @@ api_files = {
     "prediction": None,
     "predictor": None,
     "custom_types": None,
+    "custom_errors": None,
     "config": None,
 }
 
