@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pypythia.prediction.predict_difficulty" class="md-skip">
+        <a href="#pypythia.prediction.collect_features" class="md-skip">
           Skip to content
         </a>
       
@@ -458,18 +458,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pypythia.prediction.predict_difficulty" class="md-nav__link">
+  <a href="#pypythia.prediction.collect_features" class="md-nav__link">
     <span class="md-ellipsis">
-      predict_difficulty
+      collect_features
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#pypythia.prediction.collect_features" class="md-nav__link">
+  <a href="#pypythia.prediction.predict_difficulty" class="md-nav__link">
     <span class="md-ellipsis">
-      collect_features
+      predict_difficulty
     </span>
   </a>
   
@@ -535,6 +535,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../custom_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    custom_errors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../config/" class="md-nav__link">
         
   
@@ -582,18 +604,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pypythia.prediction.predict_difficulty" class="md-nav__link">
+  <a href="#pypythia.prediction.collect_features" class="md-nav__link">
     <span class="md-ellipsis">
-      predict_difficulty
+      collect_features
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#pypythia.prediction.collect_features" class="md-nav__link">
+  <a href="#pypythia.prediction.predict_difficulty" class="md-nav__link">
     <span class="md-ellipsis">
-      collect_features
+      predict_difficulty
     </span>
   </a>
   
@@ -619,6 +641,282 @@
 
 
   <h1>prediction</h1>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="pypythia.prediction.collect_features" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pypythia</span><span class="o">.</span><span class="n">prediction</span><span class="o">.</span><span class="n">collect_features</span><span class="p">(</span><span class="n">msa</span><span class="p">,</span> <span class="n">msa_file</span><span class="p">,</span> <span class="n">raxmlng</span><span class="p">,</span> <span class="n">pars_trees_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">threads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents first">
+
+        <p>Helper function to collect all features required for predicting the difficulty of the MSA.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>msa</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.msa.MSA" href="../msa/#pypythia.msa.MSA">MSA</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>MSA object corresponding to the MSA file to compute the features for.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>raxmlng</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="pypythia.raxmlng.RAxMLNG" href="../raxmlng/#pypythia.raxmlng.RAxMLNG">RAxMLNG</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Initialized RAxMLNG object.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>pars_trees_file</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Path to store the inferred parsimony trees. Defaults to None.
+In this case, the trees are not stored.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>log_info</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, log intermediate progress information using the default logger. Defaults to False.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>threads</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of threads to use for parallel parsimony tree inference. Defaults to None.
+Uses the RAxML-NG auto parallelization scheme if none is set.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>seed</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Random seed to use for the parsimony tree inference. Defaults to 0.</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns:
+    Dataframe containing a single row with all features required for predicting the difficulty of the MSA.
+    The columns correspond to the feature names the predictor was trained with.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>pypythia/prediction.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">collect_features</span><span class="p">(</span>
+    <span class="n">msa</span><span class="p">:</span> <span class="n">MSA</span><span class="p">,</span>
+    <span class="n">msa_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">raxmlng</span><span class="p">:</span> <span class="n">RAxMLNG</span><span class="p">,</span>
+    <span class="n">pars_trees_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">log_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to collect all features required for predicting the difficulty of the MSA.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msa (MSA): MSA object corresponding to the MSA file to compute the features for.</span>
+<span class="sd">        raxmlng (RAxMLNG): Initialized RAxMLNG object.</span>
+<span class="sd">        pars_trees_file (pathlib.Path, optional): Path to store the inferred parsimony trees. Defaults to None.</span>
+<span class="sd">            In this case, the trees are not stored.</span>
+<span class="sd">        log_info (bool, optional): If True, log intermediate progress information using the default logger. Defaults to False.</span>
+<span class="sd">        threads (int, optional): The number of threads to use for parallel parsimony tree inference. Defaults to None.</span>
+<span class="sd">            Uses the RAxML-NG auto parallelization scheme if none is set.</span>
+<span class="sd">        seed (int, optional): Random seed to use for the parsimony tree inference. Defaults to 0.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Dataframe containing a single row with all features required for predicting the difficulty of the MSA.</span>
+<span class="sd">        The columns correspond to the feature names the predictor was trained with.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+        <span class="n">msa_file</span> <span class="o">=</span> <span class="n">msa_file</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">msa</span><span class="o">.</span><span class="n">get_raxmlng_model</span><span class="p">()</span>
+
+        <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span><span class="s2">&quot;Retrieving num_taxa, num_sites.&quot;</span><span class="p">)</span>
+
+        <span class="n">n_pars_trees</span> <span class="o">=</span> <span class="mi">24</span>
+        <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Inferring </span><span class="si">{</span><span class="n">n_pars_trees</span><span class="si">}</span><span class="s2"> parsimony trees with random seed </span><span class="si">{</span><span class="n">seed</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">trees</span> <span class="o">=</span> <span class="n">raxmlng</span><span class="o">.</span><span class="n">infer_parsimony_trees</span><span class="p">(</span>
+            <span class="n">msa_file</span><span class="p">,</span>
+            <span class="n">model</span><span class="p">,</span>
+            <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;pars&quot;</span><span class="p">,</span>
+            <span class="n">redo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+            <span class="n">n_trees</span><span class="o">=</span><span class="n">n_pars_trees</span><span class="p">,</span>
+            <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">threads</span><span class="o">=</span><span class="n">threads</span><span class="p">)</span> <span class="k">if</span> <span class="n">threads</span> <span class="k">else</span> <span class="p">{},</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">pars_trees_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Storing the inferred parsimony trees in the file </span><span class="si">{</span><span class="n">pars_trees_file</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">pars_trees_file</span><span class="p">)</span>
+
+        <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span>
+            <span class="s2">&quot;Computing the RF-Distance for the parsimony trees.&quot;</span>
+        <span class="p">)</span>
+        <span class="n">num_topos</span><span class="p">,</span> <span class="n">rel_rfdist</span> <span class="o">=</span> <span class="n">raxmlng</span><span class="o">.</span><span class="n">get_rfdistance_results</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">redo</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">features</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;num_taxa&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_taxa</span><span class="p">,</span>
+            <span class="s2">&quot;num_sites&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_sites</span><span class="p">,</span>
+            <span class="s2">&quot;num_patterns&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_patterns</span><span class="p">,</span>
+            <span class="s2">&quot;num_patterns/num_taxa&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_patterns</span> <span class="o">/</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_taxa</span><span class="p">,</span>
+            <span class="s2">&quot;num_sites/num_taxa&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_sites</span> <span class="o">/</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_taxa</span><span class="p">,</span>
+            <span class="s2">&quot;num_patterns/num_sites&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_patterns</span> <span class="o">/</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_sites</span><span class="p">,</span>
+            <span class="s2">&quot;proportion_gaps&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">proportion_gaps</span><span class="p">,</span>
+            <span class="s2">&quot;proportion_invariant&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">proportion_invariant</span><span class="p">,</span>
+            <span class="s2">&quot;entropy&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">entropy</span><span class="p">(),</span>
+            <span class="s2">&quot;bollback&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">bollback_multinomial</span><span class="p">(),</span>
+            <span class="s2">&quot;pattern_entropy&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">pattern_entropy</span><span class="p">(),</span>
+            <span class="s2">&quot;avg_rfdist_parsimony&quot;</span><span class="p">:</span> <span class="n">rel_rfdist</span><span class="p">,</span>
+            <span class="s2">&quot;proportion_unique_topos_parsimony&quot;</span><span class="p">:</span> <span class="n">num_topos</span> <span class="o">/</span> <span class="n">n_pars_trees</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -739,7 +1037,7 @@ RAxML-NG auto parallelization scheme.</p>
             <td>
               <div class="doc-md-description">
                 <p>File format of the MSA file. Defaults to None. In this case, the file format
-is inferred based on the file content. See <code>pypythia.msa.parse</code> for information on when this is required.</p>
+is inferred based on the file content. See <code>pypythia.msa.parse_msa</code> for information on when this is required.</p>
               </div>
             </td>
             <td>
@@ -756,7 +1054,7 @@ is inferred based on the file content. See <code>pypythia.msa.parse</code> for i
             <td>
               <div class="doc-md-description">
                 <p>Data type of the MSA sequences. Defaults to None. In this case, the data type
-is inferred based on the file content. See <code>pypythia.msa.parse</code> for information on when this is required.</p>
+is inferred based on the file content. See <code>pypythia.msa.parse_msa</code> for information on when this is required.</p>
               </div>
             </td>
             <td>
@@ -877,12 +1175,7 @@ In this case, the following files are stored:
 
             <details class="quote">
               <summary>Source code in <code>pypythia/prediction.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
@@ -1069,7 +1362,12 @@ In this case, the following files are stored:
 <span class="normal">316</span>
 <span class="normal">317</span>
 <span class="normal">318</span>
-<span class="normal">319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">predict_difficulty</span><span class="p">(</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">predict_difficulty</span><span class="p">(</span>
     <span class="n">msa_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">model_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_MODEL_FILE</span><span class="p">,</span>
     <span class="n">raxmlng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_RAXMLNG_EXE</span><span class="p">,</span>
@@ -1097,9 +1395,9 @@ In this case, the following files are stored:
 <span class="sd">            RAxML-NG auto parallelization scheme.</span>
 <span class="sd">        seed (int, optional): Random seed to use for the parsimony tree inference. Defaults to 0.</span>
 <span class="sd">        file_format (FileFormat, optional): File format of the MSA file. Defaults to None. In this case, the file format</span>
-<span class="sd">            is inferred based on the file content. See `pypythia.msa.parse` for information on when this is required.</span>
+<span class="sd">            is inferred based on the file content. See `pypythia.msa.parse_msa` for information on when this is required.</span>
 <span class="sd">        data_type (DataType, optional): Data type of the MSA sequences. Defaults to None. In this case, the data type</span>
-<span class="sd">            is inferred based on the file content. See `pypythia.msa.parse` for information on when this is required.</span>
+<span class="sd">            is inferred based on the file content. See `pypythia.msa.parse_msa` for information on when this is required.</span>
 <span class="sd">        deduplicate (bool, optional): If True, remove duplicate sequences from the MSA. Defaults to True.</span>
 <span class="sd">        remove_full_gaps (bool, optional): If True, remove full gap sequences from the MSA. Defaults to True.</span>
 <span class="sd">        result_prefix (pathlib.Path, optional): Prefix for the result files. Defaults to None. In this case, the prefix</span>
@@ -1158,7 +1456,7 @@ In this case, the following files are stored:
     <span class="c1"># Load the MSA</span>
     <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;Loading MSA&quot;</span><span class="p">)</span>
 
-    <span class="n">msa</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">msa_file</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="n">file_format</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+    <span class="n">msa</span> <span class="o">=</span> <span class="n">parse_msa</span><span class="p">(</span><span class="n">msa_file</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="n">file_format</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
 
     <span class="c1"># Deduplicate the MSA if necessary</span>
     <span class="n">reduced_msa</span> <span class="o">=</span> <span class="n">_handle_duplicates</span><span class="p">(</span><span class="n">msa</span><span class="p">,</span> <span class="n">deduplicate</span><span class="p">)</span>
@@ -1262,282 +1560,6 @@ In this case, the following files are stored:
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">difficulty</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="pypythia.prediction.collect_features" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">pypythia</span><span class="o">.</span><span class="n">prediction</span><span class="o">.</span><span class="n">collect_features</span><span class="p">(</span><span class="n">msa</span><span class="p">,</span> <span class="n">msa_file</span><span class="p">,</span> <span class="n">raxmlng</span><span class="p">,</span> <span class="n">pars_trees_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">threads</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
-
-</h2>
-
-
-    <div class="doc doc-contents first">
-
-        <p>Helper function to collect all features required for predicting the difficulty of the MSA.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>msa</code>
-            </td>
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="pypythia.msa.MSA" href="../msa/#pypythia.msa.MSA">MSA</a></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>MSA object corresponding to the MSA file to compute the features for.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>raxmlng</code>
-            </td>
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="pypythia.raxmlng.RAxMLNG" href="../raxmlng/#pypythia.raxmlng.RAxMLNG">RAxMLNG</a></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Initialized RAxMLNG object.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>pars_trees_file</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Path to store the inferred parsimony trees. Defaults to None.
-In this case, the trees are not stored.</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>log_info</code>
-            </td>
-            <td>
-                  <code><span title="bool">bool</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If True, log intermediate progress information using the default logger. Defaults to False.</p>
-              </div>
-            </td>
-            <td>
-                  <code>False</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>threads</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The number of threads to use for parallel parsimony tree inference. Defaults to None.
-Uses the RAxML-NG auto parallelization scheme if none is set.</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>seed</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Random seed to use for the parsimony tree inference. Defaults to 0.</p>
-              </div>
-            </td>
-            <td>
-                  <code>0</code>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>Returns:
-    Dataframe containing a single row with all features required for predicting the difficulty of the MSA.
-    The columns correspond to the feature names the predictor was trained with.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>pypythia/prediction.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">collect_features</span><span class="p">(</span>
-    <span class="n">msa</span><span class="p">:</span> <span class="n">MSA</span><span class="p">,</span>
-    <span class="n">msa_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
-    <span class="n">raxmlng</span><span class="p">:</span> <span class="n">RAxMLNG</span><span class="p">,</span>
-    <span class="n">pars_trees_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">log_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to collect all features required for predicting the difficulty of the MSA.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        msa (MSA): MSA object corresponding to the MSA file to compute the features for.</span>
-<span class="sd">        raxmlng (RAxMLNG): Initialized RAxMLNG object.</span>
-<span class="sd">        pars_trees_file (pathlib.Path, optional): Path to store the inferred parsimony trees. Defaults to None.</span>
-<span class="sd">            In this case, the trees are not stored.</span>
-<span class="sd">        log_info (bool, optional): If True, log intermediate progress information using the default logger. Defaults to False.</span>
-<span class="sd">        threads (int, optional): The number of threads to use for parallel parsimony tree inference. Defaults to None.</span>
-<span class="sd">            Uses the RAxML-NG auto parallelization scheme if none is set.</span>
-<span class="sd">        seed (int, optional): Random seed to use for the parsimony tree inference. Defaults to 0.</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        Dataframe containing a single row with all features required for predicting the difficulty of the MSA.</span>
-<span class="sd">        The columns correspond to the feature names the predictor was trained with.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
-        <span class="n">msa_file</span> <span class="o">=</span> <span class="n">msa_file</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">msa</span><span class="o">.</span><span class="n">get_raxmlng_model</span><span class="p">()</span>
-
-        <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span><span class="s2">&quot;Retrieving num_taxa, num_sites.&quot;</span><span class="p">)</span>
-
-        <span class="n">n_pars_trees</span> <span class="o">=</span> <span class="mi">24</span>
-        <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Inferring </span><span class="si">{</span><span class="n">n_pars_trees</span><span class="si">}</span><span class="s2"> parsimony trees with random seed </span><span class="si">{</span><span class="n">seed</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">trees</span> <span class="o">=</span> <span class="n">raxmlng</span><span class="o">.</span><span class="n">infer_parsimony_trees</span><span class="p">(</span>
-            <span class="n">msa_file</span><span class="p">,</span>
-            <span class="n">model</span><span class="p">,</span>
-            <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;pars&quot;</span><span class="p">,</span>
-            <span class="n">redo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
-            <span class="n">n_trees</span><span class="o">=</span><span class="n">n_pars_trees</span><span class="p">,</span>
-            <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">threads</span><span class="o">=</span><span class="n">threads</span><span class="p">)</span> <span class="k">if</span> <span class="n">threads</span> <span class="k">else</span> <span class="p">{},</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">pars_trees_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Storing the inferred parsimony trees in the file </span><span class="si">{</span><span class="n">pars_trees_file</span><span class="si">}</span><span class="s2">.&quot;</span>
-            <span class="p">)</span>
-            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">pars_trees_file</span><span class="p">)</span>
-
-        <span class="n">log_info</span> <span class="ow">and</span> <span class="n">log_runtime_information</span><span class="p">(</span>
-            <span class="s2">&quot;Computing the RF-Distance for the parsimony trees.&quot;</span>
-        <span class="p">)</span>
-        <span class="n">num_topos</span><span class="p">,</span> <span class="n">rel_rfdist</span> <span class="o">=</span> <span class="n">raxmlng</span><span class="o">.</span><span class="n">get_rfdistance_results</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">redo</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-        <span class="n">features</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;num_taxa&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_taxa</span><span class="p">,</span>
-            <span class="s2">&quot;num_sites&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_sites</span><span class="p">,</span>
-            <span class="s2">&quot;num_patterns&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_patterns</span><span class="p">,</span>
-            <span class="s2">&quot;num_patterns/num_taxa&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_patterns</span> <span class="o">/</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_taxa</span><span class="p">,</span>
-            <span class="s2">&quot;num_sites/num_taxa&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_sites</span> <span class="o">/</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_taxa</span><span class="p">,</span>
-            <span class="s2">&quot;num_patterns/num_sites&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_patterns</span> <span class="o">/</span> <span class="n">msa</span><span class="o">.</span><span class="n">n_sites</span><span class="p">,</span>
-            <span class="s2">&quot;proportion_gaps&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">proportion_gaps</span><span class="p">,</span>
-            <span class="s2">&quot;proportion_invariant&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">proportion_invariant</span><span class="p">,</span>
-            <span class="s2">&quot;entropy&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">entropy</span><span class="p">(),</span>
-            <span class="s2">&quot;bollback&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">bollback_multinomial</span><span class="p">(),</span>
-            <span class="s2">&quot;pattern_entropy&quot;</span><span class="p">:</span> <span class="n">msa</span><span class="o">.</span><span class="n">pattern_entropy</span><span class="p">(),</span>
-            <span class="s2">&quot;avg_rfdist_parsimony&quot;</span><span class="p">:</span> <span class="n">rel_rfdist</span><span class="p">,</span>
-            <span class="s2">&quot;proportion_unique_topos_parsimony&quot;</span><span class="p">:</span> <span class="n">num_topos</span> <span class="o">/</span> <span class="n">n_pars_trees</span><span class="p">,</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

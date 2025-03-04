@@ -519,9 +519,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pypythia.msa.parse" class="md-nav__link">
+  <a href="#pypythia.msa.parse_msa" class="md-nav__link">
     <span class="md-ellipsis">
-      parse
+      parse_msa
     </span>
   </a>
   
@@ -632,6 +632,28 @@
   
   <span class="md-ellipsis">
     custom_types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    custom_errors
     
   </span>
   
@@ -801,9 +823,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pypythia.msa.parse" class="md-nav__link">
+  <a href="#pypythia.msa.parse_msa" class="md-nav__link">
     <span class="md-ellipsis">
-      parse
+      parse_msa
     </span>
   </a>
   
@@ -2222,8 +2244,8 @@ with <span class="arithmatex">\(N_i\)</span> being the number of occurrences of 
 <div class="doc doc-object doc-function">
 
 
-<h2 id="pypythia.msa.parse" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">pypythia</span><span class="o">.</span><span class="n">msa</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">msa_file</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h2 id="pypythia.msa.parse_msa" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pypythia</span><span class="o">.</span><span class="n">msa</span><span class="o">.</span><span class="n">parse_msa</span><span class="p">(</span><span class="n">msa_file</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
@@ -2231,8 +2253,8 @@ with <span class="arithmatex">\(N_i\)</span> being the number of occurrences of 
     <div class="doc doc-contents first">
 
         <p>Parse a multiple sequence alignment file. Note that the file needs to be in FASTA or PHYLIP format.</p>
-<p>Note that per default, the file format and data type are inferred from the file content.</p>
-<p>If the file format cannot be determined, a PyPythiaException is raised. In this case, make sure the file is in
+<p>Per default, the file format and data type are inferred from the file content.
+If the file format cannot be determined, a PyPythiaException is raised. In this case, make sure the file is in
 proper FASTA or PHYLIP format. If you are absolutely sure it is, you can provide the file format manually.</p>
 <p>Similarly, if the data type cannot be inferred, a PyPythiaException is raised including information about the
 characters that could not be assigned to a data type. In this case, you can provide the data type manually.
@@ -2375,16 +2397,14 @@ to be DNA. In this case, please provide the correct data type (<code>DataType.AA
 <span class="normal">402</span>
 <span class="normal">403</span>
 <span class="normal">404</span>
-<span class="normal">405</span>
-<span class="normal">406</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_msa</span><span class="p">(</span>
     <span class="n">msa_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">file_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FileFormat</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">data_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MSA</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a multiple sequence alignment file. Note that the file needs to be in FASTA or PHYLIP format.</span>
 
-<span class="sd">    Note that per default, the file format and data type are inferred from the file content.</span>
-
+<span class="sd">    Per default, the file format and data type are inferred from the file content.</span>
 <span class="sd">    If the file format cannot be determined, a PyPythiaException is raised. In this case, make sure the file is in</span>
 <span class="sd">    proper FASTA or PHYLIP format. If you are absolutely sure it is, you can provide the file format manually.</span>
 
@@ -2540,7 +2560,8 @@ to be DNA. In this case, please provide the correct data type (<code>DataType.AA
 
             <details class="quote">
               <summary>Source code in <code>pypythia/msa.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">409</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">408</span>
+<span class="normal">409</span>
 <span class="normal">410</span>
 <span class="normal">411</span>
 <span class="normal">412</span>
@@ -2563,8 +2584,7 @@ to be DNA. In this case, please provide the correct data type (<code>DataType.AA
 <span class="normal">429</span>
 <span class="normal">430</span>
 <span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">remove_full_gap_sequences</span><span class="p">(</span><span class="n">msa</span><span class="p">:</span> <span class="n">MSA</span><span class="p">,</span> <span class="n">msa_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MSA</span><span class="p">:</span>
+<span class="normal">432</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">remove_full_gap_sequences</span><span class="p">(</span><span class="n">msa</span><span class="p">:</span> <span class="n">MSA</span><span class="p">,</span> <span class="n">msa_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MSA</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove full-gap sequences from the MSA.</span>
 
 <span class="sd">    A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.</span>
@@ -2705,7 +2725,8 @@ and all subsequent occurrences are removed.</p>
 
             <details class="quote">
               <summary>Source code in <code>pypythia/msa.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">436</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">435</span>
+<span class="normal">436</span>
 <span class="normal">437</span>
 <span class="normal">438</span>
 <span class="normal">439</span>
@@ -2728,8 +2749,7 @@ and all subsequent occurrences are removed.</p>
 <span class="normal">456</span>
 <span class="normal">457</span>
 <span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">deduplicate_sequences</span><span class="p">(</span><span class="n">msa</span><span class="p">:</span> <span class="n">MSA</span><span class="p">,</span> <span class="n">msa_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MSA</span><span class="p">:</span>
+<span class="normal">459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">deduplicate_sequences</span><span class="p">(</span><span class="n">msa</span><span class="p">:</span> <span class="n">MSA</span><span class="p">,</span> <span class="n">msa_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MSA</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove duplicate sequences from the MSA.</span>
 
 <span class="sd">    Note that in case of duplicate sequences, the first occurrence (including the first taxon name) is kept</span>
