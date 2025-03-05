@@ -30,5 +30,5 @@ jobs:
           mkdocs-material-
     - run: pip install mkdocs-material mkdocstrings-python mike markdown-callouts
     - run: |
-        mike deploy --push --update-aliases ${RELEASE_TAG_VERSION} latest
+        mike deploy --push --update-aliases ${{ github.ref_name }} latest
         mike set-default --push latest
