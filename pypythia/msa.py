@@ -1,6 +1,7 @@
 import math
 import pathlib
 from collections import Counter
+from functools import cached_property
 from io import StringIO
 from typing import Optional
 
@@ -35,7 +36,14 @@ DNA_AMBIGUITY_CODES = {
 
 DNA_AMBIGUITY_CHARS = list(DNA_AMBIGUITY_CODES.keys())
 
-DNA_AMBIGUITY_MAP = {
+# This dict provides a set of characters that can all represent the respective nucleotide.
+# The values are provided in ASCII ordinals.
+# This map is needed for the computation of proportion of invariant sites since ambiguous or gap characters are
+# considered invariant if they can be resolved to a single character.
+# An exemplary entry of this map is:
+# A: {45, 65, 68, 72, 77, 82, 86, 87}
+# which corresponds to the characters '-', 'A', 'D', 'H', 'M', 'R', 'V', 'W'
+DNA_AMBIGUITY_MAP: dict[bytes, set[int]] = {
     nt: set(
         map(
             ord,
@@ -45,7 +53,7 @@ DNA_AMBIGUITY_MAP = {
     for nt in NUCLEOTIDES
 }
 
-DNA_CHARS = NUCLEOTIDES + list(DNA_AMBIGUITY_CODES.keys()) + DNA_GAP_CHARS
+DNA_CHARS = NUCLEOTIDES + DNA_AMBIGUITY_CHARS + DNA_GAP_CHARS
 
 
 AMINO_ACIDS = [
@@ -77,7 +85,14 @@ AA_AMBIGUITY_CODES = {
 
 AA_AMBIGUITY_CHARS = list(AA_AMBIGUITY_CODES.keys())
 
-AA_AMBIGUITY_MAP = {
+# This dict provides a set of characters that can all represent the respective amino acids.
+# The values are provided in ASCII ordinals.
+# This map is needed for the computation of proportion of invariant sites since ambiguous or gap characters are
+# considered invariant if they can be resolved to a single character.
+# An exemplary entry of this map is:
+# D: {45, 66, 68}
+# which corresponds to the characters '-', 'B', 'D'
+AA_AMBIGUITY_MAP: dict[bytes, set[int]] = {
     aa: set(
         map(
             ord, [GAP, aa] + [c for c, vals in AA_AMBIGUITY_CODES.items() if aa in vals]
@@ -86,7 +101,7 @@ AA_AMBIGUITY_MAP = {
     for aa in AMINO_ACIDS
 }
 
-AA_CHARS = AMINO_ACIDS + list(AA_AMBIGUITY_CODES.keys()) + GAP_CHARS
+AA_CHARS = AMINO_ACIDS + AA_AMBIGUITY_CHARS + GAP_CHARS
 
 
 def _get_file_format(msa_file: pathlib.Path) -> FileFormat:
@@ -198,7 +213,7 @@ class MSA:
         unique_sequences = np.unique(self.sequences, axis=0)
         return unique_sequences.shape[0] < self.sequences.shape[0]
 
-    @property
+    @cached_property
     def n_patterns(self) -> int:
         """Returns the number of unique patterns in the MSA.
 
@@ -211,7 +226,7 @@ class MSA:
         un = set([c.tobytes() for c in self.sequences.T])
         return len(un) - ((GAP * self.n_taxa) in un)
 
-    @property
+    @cached_property
     def proportion_gaps(self) -> float:
         """Returns the proportion of gap characters in the MSA.
         Note that prior to calculating the percentage, full-gap sites are removed.
@@ -224,7 +239,7 @@ class MSA:
         ]
         return np.sum(full_gap_sites_removed == GAP) / full_gap_sites_removed.size
 
-    @property
+    @cached_property
     def proportion_invariant(self) -> float:
         """Returns the proportion of invariant sites in the MSA.
         A site is considered invariant if all sequences have the same character at that site.
@@ -247,9 +262,11 @@ class MSA:
         non_gap_site_count = 0
         invariant_count = 0
 
+        gap_ord_set = {GAP_ORD}
+
         for site in self.sequences.T:
             site = set(site.tobytes())
-            if site == {GAP_ORD}:
+            if site == gap_ord_set:
                 # full-gap sites are not counted as invariant
                 continue
 
