@@ -301,3 +301,20 @@ def test_predict_difficulty_raxmlng_init_fails(small_msa_file):
             result_prefix=None,
             store_results=False,
         )
+
+
+def test_predict_difficulty_predictor_init_fails(small_msa_file, raxmlng_command):
+    with pytest.raises(
+        PyPythiaException, match="Initializing the difficulty predictor failed"
+    ):
+        with tempfile.NamedTemporaryFile("w") as f:
+            f.write("This is not a valid predictor file.")
+            predict_difficulty(
+                msa_file=small_msa_file,
+                raxmlng=raxmlng_command,
+                deduplicate=False,
+                remove_full_gaps=False,
+                result_prefix=None,
+                store_results=False,
+                model_file=pathlib.Path(f.name),
+            )
