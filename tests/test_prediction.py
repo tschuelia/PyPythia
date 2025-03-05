@@ -231,8 +231,8 @@ def test_predict_difficulty_fewer_than_four_taxa(data_dir, raxmlng_command):
             predict_difficulty(
                 msa_file=data_dir / "DNA" / "3_taxa_msa.fasta",
                 raxmlng=raxmlng_command,
-                deduplicate=True,
-                remove_full_gaps=True,
+                deduplicate=False,
+                remove_full_gaps=False,
                 result_prefix=prefix,
                 store_results=True,
             )
@@ -246,7 +246,8 @@ def test_predict_difficulty_with_deduplication_and_gap_removal_if_reduced_msa_ha
     with pytest.raises(
         PyPythiaException,
         match=re.compile(
-            r"The MSA contains less than 4 sequences.+reduced the input MSA", re.DOTALL
+            r"During preprocessing.+leading to an MSA with less than 4 sequences",
+            re.DOTALL,
         ),
     ):
         with tempfile.TemporaryDirectory() as tmpdir:

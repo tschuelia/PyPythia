@@ -84,7 +84,7 @@ class RAxMLNG:
     """
 
     def __init__(self, exe_path: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE):
-        if not exe_path.exists():
+        if exe_path is None or not exe_path.exists():
             raise FileNotFoundError("RAxML-NG executable not found.")
 
         try:

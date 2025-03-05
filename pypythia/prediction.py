@@ -81,19 +81,23 @@ def collect_features(
         Dataframe containing a single row with all features required for predicting the difficulty of the MSA.
         The columns correspond to the feature names the predictor was trained with.
     """
+    # If the MSA contains less than 4 sequences, RAxML-NG will fail as there is only a single possible
+    # tree topology for this MSA. In this case, any phylogenetic inference is meaningless and we raise a
+    # PyPythia exception to inform the user.
+    if msa.n_taxa < 4:
+        raise PyPythiaException(
+            "The MSA contains less than 4 sequences. "
+            "Phylogenetic inference is not meaningful for such small MSAs as there exists only a single possible tree topology. "
+        )
+
     with TemporaryDirectory() as tmpdir:
-        msa_file = msa_file
-        model = msa.get_raxmlng_model()
-
-        log_info and log_runtime_information("Retrieving num_taxa, num_sites.")
-
         n_pars_trees = 24
         log_info and log_runtime_information(
             f"Inferring {n_pars_trees} parsimony trees with random seed {seed}.",
         )
         trees = raxmlng.infer_parsimony_trees(
             msa_file,
-            model,
+            msa.get_raxmlng_model(),
             pathlib.Path(tmpdir) / "pars",
             redo=None,
             seed=seed,
@@ -131,7 +135,6 @@ def collect_features(
 
 def predict_difficulty(
     msa_file: pathlib.Path,
-    model_file: Optional[pathlib.Path] = DEFAULT_MODEL_FILE,
     raxmlng: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE,
     threads: int = None,
     seed: int = 0,
@@ -142,6 +145,7 @@ def predict_difficulty(
     result_prefix: Optional[pathlib.Path] = None,
     store_results: bool = True,
     plot_shap: bool = False,
+    model_file: pathlib.Path = DEFAULT_MODEL_FILE,
     log_info: bool = False,
 ) -> np.float64:
     """Predict the difficulty of an MSA using the PyPythia difficulty predictor.
@@ -150,8 +154,6 @@ def predict_difficulty(
 
     Args:
         msa_file (pathlib.Path): Path to the MSA file. Note that the MSA file must be in either FASTA or PHYLIP format.
-        model_file (pathlib.Path, optional): Path to the trained difficulty predictor model.
-            Defaults to the latest model shipped with PyPythia.
         raxmlng (pathlib.Path, optional): Path to the RAxML-NG executable.
             If not set, uses the RAxML-NG binary found in the PATH environment variable.
         threads (int, optional): Number of threads to use for parallel parsimony tree inference. If not set, uses the
@@ -172,6 +174,8 @@ def predict_difficulty(
             - The shapley values as waterfall plot in `{result_prefix}.shap.pdf` (if plot_shap=True)
             - The features and predicted difficulty as CSV file in `{result_prefix}.pythia.csv`
         plot_shap (bool, optional): If True, plot the shapley values as waterfall plot. Defaults to False.
+        model_file (pathlib.Path): Path to the trained difficulty predictor model.
+            Defaults to the latest model shipped with PyPythia.
         log_info (bool, optional): If True, log intermediate progress information using the default logger. Defaults to False.
 
     Returns:
@@ -179,6 +183,11 @@ def predict_difficulty(
     """
     if not msa_file.exists():
         raise PyPythiaException(f"The given MSA {msa_file} file does not exist.")
+
+    if raxmlng is None:
+        raise PyPythiaException(
+            "Path to the RAxML-NG executable is required if 'raxml-ng' is not in $PATH."
+        )
 
     result_prefix = pathlib.Path(result_prefix) if result_prefix else msa_file
 
@@ -190,22 +199,17 @@ def predict_difficulty(
     if store_results:
         # If the user wants to keep the results, use the result_prefix
         reduced_msa_file = pathlib.Path(f"{result_prefix}.reduced.phy")
+        _tmpfile = None
     else:
         # Else, use a temporary file
-        reduced_msa_file = pathlib.Path(
-            tempfile.NamedTemporaryFile(mode="w", suffix=".phy").name
-        )
+        _tmpfile = tempfile.NamedTemporaryFile(mode="w", suffix=".phy")
+        reduced_msa_file = pathlib.Path(_tmpfile.name)
 
     log_info and log_runtime_information(
         message=f"Starting prediction for MSA {msa_file}."
     )
 
     # Init RAxML-NG
-    if raxmlng is None:
-        raise PyPythiaException(
-            "Path to the RAxML-NG executable is required if 'raxml-ng' is not in $PATH."
-        )
-
     try:
         raxmlng = RAxMLNG(**{"exe_path": raxmlng} if raxmlng else {})
     except Exception as e:
@@ -213,12 +217,13 @@ def predict_difficulty(
 
     # Init the prediction model
     log_info and log_runtime_information(message=f"Loading predictor {model_file.name}")
-
-    predictor = DifficultyPredictor(model_file=model_file)
+    try:
+        predictor = DifficultyPredictor(model_file=model_file)
+    except Exception as e:
+        raise PyPythiaException("Initializing the difficulty predictor failed.") from e
 
     # Load the MSA
     log_info and log_runtime_information(message="Loading MSA")
-
     msa = parse_msa(msa_file, file_format=file_format, data_type=data_type)
 
     # Deduplicate the MSA if necessary
@@ -230,6 +235,14 @@ def predict_difficulty(
     # Check if the reduced MSA is different from the original MSA
     is_reduced = msa != reduced_msa
     if is_reduced:
+        if reduced_msa.n_taxa < 4:
+            raise PyPythiaException(
+                "During preprocessing, Pythia reduced the input MSA by removing duplicate sequences and/or "
+                "sequences containing only gaps leading to an MSA with less than 4 sequences. "
+                "RAxML-NG refuses to infer trees for such small MSAs as there exists only a single possible tree topology. "
+                "You can rerun the prediction and disable deduplication and gap removal to use the original MSA. "
+            )
+
         # If the reduced MSA is different from the original MSA, proceed with the reduced MSA
         msa = reduced_msa
 
@@ -255,24 +268,8 @@ def predict_difficulty(
     log_info and log_runtime_information(
         "Number of threads not specified, using RAxML-NG autoconfig."
         if threads is None
-        else f"Using {threads} threads for parallel parsimony tree computation."
+        else f"Using {threads} threads for parallel parsimony tree inference."
     )
-
-    # If the MSA/reduced MSA contains less than 4 sequences, RAxML-NG will fail as there is only a single possible
-    # tree topology for this MSA. In this case, any phylogenetic inference is meaningless and we raise a
-    # PyPythia exception to inform the user.
-    if msa.n_taxa < 4:
-        error_msg = (
-            "The MSA contains less than 4 sequences. "
-            "Phylogenetic inference is not meaningful for such small MSAs as there exists only a single possible tree topology. "
-        )
-        if is_reduced:
-            error_msg += (
-                "Note that during preprocessing, Pythia reduced the input MSA by removing duplicate sequences and/or "
-                "sequences containing only gaps leading to an MSA with less than 4 sequences. "
-                "You can rerun the prediction and disable deduplication and gap removal to use the original MSA. "
-            )
-        raise PyPythiaException(error_msg)
 
     msa_features = collect_features(
         msa=msa,
@@ -321,5 +318,9 @@ def predict_difficulty(
             "WARNING: When using shap plots, make sure you understand what shapley values are and how you can interpret"
             " this plot. For details refer to the wiki: https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-values"
         )
+
+    if _tmpfile is not None:
+        # store_results was false, so we stored the reduced MSA in a temporary file, which we need to clean up
+        _tmpfile.close()
 
     return difficulty[0]

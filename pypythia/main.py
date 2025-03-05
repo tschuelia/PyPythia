@@ -94,19 +94,25 @@ def _parse_cli() -> argparse.Namespace:
 
     parser.add_argument(
         "--nofiles",
-        help="Prevent Pythia from writing any files and only print logs/results to the terminal (default: False)."
+        help="Prevent Pythia from writing any files and only print logs/results to the terminal (default: False). "
         "WARNING: in this case and if your MSA contains duplicate/full-gap sequences the reduced MSA will not be stored.",
         action="store_true",
     )
 
-    parser.add_argument("-V", "--version", action="version", version=__version__)
+    parser.add_argument(
+        "-V",
+        "--version",
+        action="version",
+        version=__version__,
+        help="Print the version number and exit.",
+    )
 
     return parser.parse_args()
 
 
 def main():
-    args = _parse_cli()
     logger.info(get_header())
+    args = _parse_cli()
 
     # Format all paths to pathlib.Path objects and set a default value if not provided
     msa_file = pathlib.Path(args.msa)
