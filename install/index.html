@@ -202,6 +202,18 @@
 </div>
     
     
+      <div class="md-header__source">
+        <a href="https://github.com/tschuelia/PyPythia" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tschuelia/PyPythia
+  </div>
+</a>
+      </div>
+    
   </nav>
   
 </header>
@@ -235,6 +247,18 @@
     </a>
     PyPythia
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tschuelia/PyPythia" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tschuelia/PyPythia
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -587,6 +611,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../api/custom_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    custom_errors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api/config/" class="md-nav__link">
         
   
@@ -750,19 +795,24 @@
                 
                   
 
+  
+  
+
 
 <h1 id="installing-pypythia">Installing PyPythia</h1>
 <h2 id="requirements">Requirements</h2>
-<p>In order to use this difficulty prediction, you need RAxML-NG installed somewhere on your system. You can find the install instructions <a href="https://github.com/amkozlov/raxml-ng">here</a>.</p>
+<p>In order to use this difficulty prediction, you need RAxML-NG installed somewhere on your system. You can find the
+installation instructions <a href="https://github.com/amkozlov/raxml-ng">here</a>.</p>
 <h2 id="install-using-conda-recommended">Install using conda (recommended)</h2>
 <p>The easiest (and recommended) way to install PyPythia is by using conda:</p>
 <pre><code>conda install pypythia -c conda-forge -c nodefaults
 </code></pre>
 <h2 id="install-using-pip">Install using pip</h2>
 <p>You can also install Pythia using the python package manager pip:</p>
-<pre><code>pip install git+https://github.com/tschuelia/PyPythia.git
+<pre><code>pip install pythiaphylopredictor
 </code></pre>
-<p>Please note that this can lead to issues with package versions and dependencies when installing in an existing (conda) environment.</p>
+<p>Please note that this can lead to issues with package versions and dependencies when installing in an existing (conda)
+environment.</p>
 <p>Verify the correct installation by running <code>pythia -h</code>.</p>
 <h3 id="installing-a-specific-tagversion">Installing a specific tag/version</h3>
 <p>You can again use pip for this and simply specify the tag you wish to install, e.g. for version <code>0.0.1</code> run:</p>
@@ -777,34 +827,48 @@ pip install .
 </code></pre>
 <p>Verify the correct installation by running <code>pythia -h</code>.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
-<p>Most issues when installing Pythia seem to arise from broken or non-working LightGBM installations. If you encounter any such problem, and none of the following options help, please refer to the LightGBM <a href="https://github.com/microsoft/LightGBM/tree/master/python-package">installation instructions</a> for your operating system and install LightGBM manually <em>before</em> repeating the Pythia installation as described above.</p>
+<p>Most issues when installing Pythia seem to arise from broken or non-working LightGBM installations. If you encounter any
+such problem, and none of the following options help, please refer to the
+LightGBM <a href="https://github.com/microsoft/LightGBM/tree/master/python-package">installation instructions</a> for your
+operating system and install LightGBM manually <em>before</em> repeating the Pythia installation as described above.</p>
 <h3 id="python-version">Python version</h3>
-<p>Since Pythia version 1.1.0 we provide the option to output the Shapley values for your prediction. Currently, the <code>shap</code> package does not support Python Version 3.11. The requirements should take care of the correct Python version, but if you encounter any issues, please first check that the Python version is &lt;3.11. You can do so by typing <code>python --version</code> in your terminal and checking the output.</p>
+<p>Since Pythia version 1.1.0 we provide the option to output the Shapley values for your prediction. Currently, the <code>shap</code>
+package does not support Python Version 3.11. The requirements should take care of the correct Python version, but if
+you encounter any issues, please first check that the Python version is &lt;3.11. You can do so by typing
+<code>python --version</code> in your terminal and checking the output.</p>
 <h3 id="installing-on-m1-chips">Installing on M1 chips</h3>
-<p>Installing on MacBooks with M1 chips caused some trouble for some users that seem to be caused by LightGBM's multiprocessing support. If you encounter any errors with the log pointing to LightGBM, the first thing you could try is to install LightGBM using <a href="https://brew.sh/index">homebrew</a>:</p>
+<p>Installing on MacBooks with M1 chips caused some trouble for some users that seem to be caused by LightGBM's
+multiprocessing support. If you encounter any errors with the log pointing to LightGBM, the first thing you could try is
+to install LightGBM using <a href="https://brew.sh/index">homebrew</a>:</p>
 <pre><code>brew install lightgbm
 </code></pre>
 <p>This might take a few minutes to finish.
 Once this ran successfully you can try to rerun the install instructions above.</p>
-<p>If this does not solve your problem, you can try to install LightGBM manually using pip and disabling the multiprocessing:</p>
+<p>If this does not solve your problem, you can try to install LightGBM manually using pip and disabling the
+multiprocessing:</p>
 <pre><code>pip install lightgbm --install-option=--nomp
 </code></pre>
-<p>and then rerun the installation of PyPythia. Thanks <a href="https://github.com/willbour">@willbour</a> for finding the fix for this!</p>
+<p>and then rerun the installation of PyPythia. Thanks <a href="https://github.com/willbour">@willbour</a> for finding the fix for
+this!</p>
 <h3 id="using-a-clean-conda-environment">Using a clean conda environment</h3>
-<p>When using conda and installing PyPythia using pip in an existing environment, you might encounter dependency or version related issues. To check whether this is the case or you have a general issue with Pythia please try to create a new, clean conda environment:</p>
+<p>When using conda and installing PyPythia using pip in an existing environment, you might encounter dependency or version
+related issues. To check whether this is the case or you have a general issue with Pythia please try to create a new,
+clean conda environment:</p>
 <ol>
 <li>Use the provided environment file <code>etc/environment.yml</code> and create a new conda environment:</li>
 </ol>
 <pre><code>conda env create --file etc/environment.yml
 </code></pre>
-<p>If you want to install a different version of Pythia, you can add the git tag by appending <code>@[version]</code> (e.g. for version 1.1.0 append <code>@1.1.0</code>) after <code>.git</code> in the <code>etc/environment.yml</code> file.</p>
+<p>If you want to install a different version of Pythia, you can add the git tag by appending <code>@[version]</code> (e.g. for
+version 1.1.0 append <code>@1.1.0</code>) after <code>.git</code> in the <code>etc/environment.yml</code> file.</p>
 <ol>
 <li>Activate the conda environment: <code>conda activate pythia</code></li>
 <li>Try to (re)run Pythia.</li>
 </ol>
 <h3 id="running-pythia">Running Pythia</h3>
-<p>If you are having trouble running pythia, you can also replace <code>pythia</code> with <code>python pypythia/prediction.py</code>. For this to work you need to install Pythia from source and you need to be in the PyPythia directory (which you should be after the installation).</p>
-<p>If this does not work either, as of version 1.0.1, PyPythia includes a Python script that allows predictions from code without installing Pythia. See the Usage wiki page for more details.</p>
+<p>If you are having trouble running pythia, you can also replace <code>pythia</code> with <code>python pypythia/main.py</code>. For this
+to work you need to install Pythia from source and you need to be in the PyPythia directory (which you should be after
+the installation).</p>
 
 
 
