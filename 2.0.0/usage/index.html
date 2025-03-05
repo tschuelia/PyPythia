@@ -1,0 +1,1090 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://tschuelia.github.io/PyPythia/latest/usage/">
+      
+      
+        <link rel="prev" href="../install/">
+      
+      
+        <link rel="next" href="../api/msa/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>User Guide - PyPythia</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-pypythia" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="PyPythia" class="md-header__button md-logo" aria-label="PyPythia" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyPythia
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              User Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 2c3.87 0 7 3.13 7 7 0 2.38-1.19 4.47-3 5.74V17c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-2.26C3.19 13.47 2 11.38 2 9c0-3.87 3.13-7 7-7M6 21v-1h6v1c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1M9 4C6.24 4 4 6.24 4 9c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58 0-2.76-2.24-5-5-5m10 9h-2l-3.2 9h1.9l.7-2h3.2l.7 2h1.9zm-2.15 5.65L18 15l1.15 3.65z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tschuelia/PyPythia" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tschuelia/PyPythia
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PyPythia" class="md-nav__button md-logo" aria-label="PyPythia" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PyPythia
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tschuelia/PyPythia" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tschuelia/PyPythia
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Install
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Line Interface
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command Line Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#result-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-file-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported file types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported data types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taxon-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Taxon names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#msas-with-duplicate-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSAs with duplicate sequences
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predictors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predictors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shap-waterfall-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      SHAP Waterfall Plot
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SHAP Waterfall Plot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shapley-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shapley Values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waterfall-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Waterfall plot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      More Details
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/msa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    msa
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/raxmlng/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    raxmlng
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/prediction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    prediction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/predictor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    predictor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/custom_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    custom_types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/custom_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    custom_errors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Line Interface
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command Line Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#result-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-file-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported file types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported data types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taxon-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Taxon names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#msas-with-duplicate-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSAs with duplicate sequences
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predictors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predictors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shap-waterfall-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      SHAP Waterfall Plot
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SHAP Waterfall Plot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shapley-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shapley Values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waterfall-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Waterfall plot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      More Details
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="using-pypythia">Using PyPythia</h1>
+<p>This library can be used in two ways: either directly as command line tool, or the prediction can be called from other
+python code.</p>
+<h2 id="command-line-interface">Command Line Interface</h2>
+<p>If you only want to predict the difficulty for a single MSA, you can query the predictor using the command line
+interface, for example like this:</p>
+<pre><code class="language-commandline">pythia --msa examples/example.phy --raxmlng /path/to/raxml-ng
+</code></pre>
+<p>Note that when you installed PyPythia using conda, you will have to download the <code>example.phy</code> and adjust the path
+accordingly.</p>
+<p>The output will be something like <code>The predicted difficulty for MSA examples/example.phy is: 0.02.</code>, telling us that
+example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak. Depending on the predictor
+version or operating system you are using, the actual value might slightly differ.
+This is expected and nothing to worry about 🙂</p>
+<p><em>Note that Pythia can also handle FASTA input files, see section Input Data below.</em></p>
+<p>The following options are available:</p>
+<pre><code class="language-commandline">PyPythia version 2.0.0 released by The Exelixis Lab
+Developed by: Julia Haag
+Latest version: https://github.com/tschuelia/PyPythia
+Questions/problems/suggestions? Please open an issue on GitHub.
+
+usage: pythia [-h] -m MSA -r RAXMLNG [-t THREADS] [-s SEED] [-p PREFIX]
+              [--predictor PREDICTOR] [--shap] [--forceDuplicates] [--forceFullGaps]
+              [--nofiles] [-V]
+
+Parser for Pythia command line options.
+
+options:
+  -h, --help            show this help message and exit
+  -m MSA, --msa MSA     Multiple Sequence Alignment to predict the difficulty for. Must be
+                        in either phylip or fasta format.
+  -r RAXMLNG, --raxmlng RAXMLNG
+                        Path to the binary of RAxML-NG. For install instructions see
+                        https://github.com/amkozlov/raxml-ng.(default: 'raxml-ng' if in
+                        $PATH, otherwise this option is mandatory).
+  -t THREADS, --threads THREADS
+                        Number of threads to use for parallel parsimony tree inference
+                        (default: RAxML-NG autoconfig).
+  -s SEED, --seed SEED  Seed for the RAxML-NG parsimony tree inference (default: 0).
+  -p PREFIX, --prefix PREFIX
+                        Prefix of the PyPythia log and result file (default: MSA file name).
+  --predictor PREDICTOR
+                        Filepath of the alternative predictor to use (default: latest
+                        Pythia).
+  --shap                If set, computes the shapley values of the prediction as waterfall
+                        plot in '{prefix}.shap.pdf'. When using this option, make sure you
+                        understand what shapley values are and how to interpret this
+                        plot.For details on shapley values refer to the documentation:
+                        https://tschuelia.github.io/PyPythia/latest/usage/#shap-waterfall-
+                        plot (default: False).
+  --forceDuplicates     Per default, Pythia refuses to predict the difficulty for MSAs
+                        containing duplicate sequences,and removes duplicate sequences prior
+                        to predicting the difficulty. Only set this option if you are
+                        absolutely sure that you want to predict the difficulty for this MSA
+                        (default: False).
+  --forceFullGaps       Per default, Pythia refuses to predict the difficulty for MSAs
+                        containing sequences with only gaps,and removes full-gap sequences
+                        prior to predicting the difficulty. Only set this option if you are
+                        absolutely sure that you want to predict the difficulty for this MSA
+                        (default: False).
+  --nofiles             Prevent Pythia from writing any files and only print logs/results to
+                        the terminal (default: False). WARNING: in this case and if your MSA
+                        contains duplicate/full-gap sequences the reduced MSA will not be
+                        stored.
+  -V, --version         Print the version number and exit.
+</code></pre>
+<h3 id="result-files">Result files</h3>
+<p>Pythia will write the following files:
+- A logfile containing the same information as printed to the terminal: <code>{result_prefix}.pythia.log</code>
+- The reduced MSA file in case the input MSA contained duplicate/full-gap sequences (and the reduction was not disabled): <code>{result_prefix}.reduced.phy</code>
+- The inferred parsimony trees in Newick format: <code>{result_prefix}.pythia.trees</code>
+- The shapley values as waterfall plot (if --shap is set): <code>{result_prefix}.shap.pdf</code>
+- The features and predicted difficulty as CSV file: <code>{result_prefix}.pythia.csv</code></p>
+<p>The result_prefix can be set using the <code>--prefix</code> command line option. If not set, Pythia uses the MSA file as prefix. You can prevent Pythia from writing any files via the flag <code>--nofiles</code>.</p>
+<h2 id="from-code">From Code</h2>
+<p>You can also use the library as a regular python library by installing it in your current environment.
+The following code snippet shows how to predict the difficulty for an MSA using PyPythia:</p>
+<pre><code class="language-python">from pypythia.prediction import predict_difficulty
+import pathlib
+
+msa = pathlib.Path(&quot;examples/example.phy&quot;)
+difficulty = predict_difficulty(msa)
+print(f&quot;The predicted difficulty for MSA {msa} is: {round(difficulty, 2)}.&quot;)
+</code></pre>
+<p>And the output will be the same as for the CLI: <code>The predicted difficulty for MSA examples/example.phy is: 0.02.</code>.</p>
+<p>If you want to get all features, or do more specific analyses of your MSA, see the API Reference for further details on
+all available classes and methods.</p>
+<h2 id="input-data">Input data</h2>
+<h3 id="supported-file-types">Supported file types</h3>
+<p>The input for Pythia is an MSA file in either Phylip or FASTA format.</p>
+<h3 id="supported-data-types">Supported  data types</h3>
+<p>Pythia supports DNA, AA, and morphological data.</p>
+<p>Please note that by morphological data we refer to biological data. According to our analyses, the attributes of
+biological morphological data are similar to the attributes of DNA and AA data.
+However, when analyzing language data (cognate, sound-class, and morphosyntactic data) we observed substantially
+distinct attributes and concluded that morphological language data is not
+comparable to DNA, AA, or biological morphological data. Thus, at the moment Pythia is not able to reliably predict the
+difficulty for language alignments.</p>
+<h3 id="taxon-names">Taxon names</h3>
+<p>Make sure that the MSA only contains RAxML-NG compatible taxon names.
+In particular, taxon labels with spaces, tabs, newlines, commas, colons, semicolons and parenthesis are invalid.</p>
+<h3 id="msas-with-duplicate-sequences">MSAs with duplicate sequences</h3>
+<p>Pythia refuses to predict the difficulty for MSAs containing duplicate sequences or MSAs containing sequences containing
+only gaps.
+As of version 2.0.0, Pythia removes duplicates and full-gap sequences per default and predicts the difficulty for this
+reduced MSA.
+If you absolutely want to predict the difficulty for the original MSA, set the command line flags <code>--forceDuplicates</code>
+and <code>--forceFullGaps</code>.</p>
+<p>As of version 1.0.0 Pythia refuses to predict the difficulty for MSAs containing multiple exactly identical sequences (
+duplicate sequences).
+The reason for this is that duplicate sequences can have a substantial impact on the resulting topologies during the
+maximum parsimony tree inference
+and therefore on the topological distance measures.</p>
+<p>If you set the command line option <code>--removeDuplicates</code>, Pythia will create a reduced alignment with all duplicates
+removed and predict the difficulty for this reduced alignment.
+For duplicate sequences, the first occurrence of the sequence is kept.
+WARNING: The resulting predicted difficulty is only applicable to the reduced MSA! We recommend to only use the created
+reduced alignment for your subsequent analyses.</p>
+<h2 id="predictors">Predictors</h2>
+<p>To continuously and automatically improve the prediction accuracy of Pythia, we regularly extend the training data set
+and subsequently retrain the predictor.
+We extend the training data using the anonymized MSAs that we continuously obtain during our RAxML Grove database
+updates.
+Note that these MSAs are only available internally in RAxML Grove and are not publicly available.
+As per default, PyPythia uses the latest predictor <code>predictors/latest.txt</code>. If you want to use an older version of Pythia,
+please install the respective PyPythia version.
+You can also pass a custom predictor file using the <code>--predictor</code> option. However, this will only work if the passed
+file contains a LightGBM Booster model.</p>
+<p>Note that the predictions for the same MSA can be different when using different versions of Pythia.</p>
+<h2 id="shap-waterfall-plot">SHAP Waterfall Plot</h2>
+<p>As of version 1.1.0, Pythia includes an option to plot Shapley values for a prediction. The interpretation of Shapley
+values is not straight-forward, and we emphasize the importance of learning about these values before drawing conclusions
+based on the resulting plot!
+We provide the Shapley values as waterfall plot.
+In the following, we briefly describe what Shapley values are, what a waterfall plot is, and how you can interpret this
+plot.
+It is important to note that Shapley values are not the same as feature importances. Predicting the difficulty of two
+distinct MSAs will lead to two distinct waterfall plots.</p>
+<h3 id="shapley-values">Shapley Values</h3>
+<p>Based on the training data, our difficulty predictor Pythia has learned a base line difficulty. This base line
+difficulty is the expected value for every new prediction. Starting off this base line, Pythia adjusts its prediction
+using the features of the MSA. To determine how much each feature contributes to this change, ultimately leading to the
+final prediction is estimated by Shapley values. Since Pythia is a tree-based regressor, computing the Shapley values
+requires some advanced mathematics that I won't go into detail about here. If you are interested in this check out the
+links in the More Details section below. Due to the calculation of Shapley values, the value for one feature is NOT the
+difference in prediction when removing this feature. The Shapley value for one feature can only be interpreted
+considering all feature values together for a specific set of feature values.</p>
+<h3 id="waterfall-plot">Waterfall plot</h3>
+<p>The following figure shows an exemplary waterfall plot output for the MSA <code>example/example.py</code> and Pythia version 1.1.0.</p>
+<p>The x-axis depicts the difficulty and the y-axis the features alongside the respective feature value. The features are
+sorted by their Shapley value with the most important feature on top. You can read the plot as follows. The baseline
+difficulty that Pythia v1.1.0 learned is 0.35, as indicated by the <code>E[f(x)] = 0.35</code> on the x-axis. The
+<code>proportion_invariant</code> feature contributed to the overall prediction with a shift towards <code>1.0</code> (more difficult) of
+<code>0.01</code>, so <em>in combination with the other features</em>, a <code>proportion_invariant</code> of <code>0.341</code> indicates that the MSA is
+slightly more difficult than the average difficulty in the training set. We emphasize that the <em>combination with the
+other features</em> part, since the same value for <code>proportion_invariant</code> with a different MSA and different feature values
+for the remaining features might lead to a substantially different contribution to the overall prediction.
+The feature with the highest impact for this example is the patterns-over-taxa ratio (<code>num_patterns/num_taxa</code>). The
+overall contribution is 0.23 towards <code>0.0</code>, meaning it shifts the overall prediction towards <code>easy</code>.</p>
+<p><img src="../img/example.phy.shap.pdf" width="700"></p>
+<h3 id="more-details">More Details</h3>
+<p>For further information please refer
+to <a href="https://christophm.github.io/interpretable-ml-book/shapley.html">this great book on interpretable ML</a>,
+the <a href="https://shap.readthedocs.io/en/latest/index.html">documentation of the <code>shap</code> package</a>,
+especially <a href="https://shap.readthedocs.io/en/latest/example_notebooks/overviews/Be%20careful%20when%20interpreting%20predictive%20models%20in%20search%20of%20causal%C2%A0insights.html#Be-careful-when-interpreting-predictive-models-in-search-of-causal%C2%A0insights">their notes on the interpretability of Shapley values</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
