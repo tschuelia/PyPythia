@@ -28,4 +28,4 @@ jobs:
         restore-keys: |
           mkdocs-material-
     - run: pip install mkdocs-material mkdocstrings-python mike markdown-callouts
-    - run: mike deploy --push "${GITHUB_REF##*/}"
+    - run: mike deploy --push ${{ github.ref_name }}
