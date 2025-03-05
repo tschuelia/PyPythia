@@ -31,18 +31,9 @@ Phylogenetic Analyses.** *Molecular Biology and Evolution*, 39(
 > Boosted Tree Regressor.
 > This affects all Pythia versions >= 1. If you use Pythia in your work, please state the correct learning algorithm. If
 > you are unsure, feel free to reach out to me 🙂
+>
+> There will soon be a new pre-print that explains the changes in detail, stay tuned!
 
-### References
-
-* A. M. Kozlov, D. Darriba, T. Flouri, B. Morel, and A. Stamatakis (2019)
-  **RAxML-NG: a fast, scalable and user-friendly tool for maximum likelihood phylogenetic inference**
-  *Bioinformatics*, 35(21): 4453–4455.
-  [https://doi.org/10.1093/bioinformatics/btz305](https://doi.org/10.1093/bioinformatics/btz305)
-
-* D. Höhler, W. Pfeiffer, V. Ioannidis, H. Stockinger, A. Stamatakis (2022)
-  **RAxML Grove: an empirical phylogenetic tree database**
-  *Bioinformatics*, 38(6):1741–1742.
-  [https://doi.org/10.1093/bioinformatics/btab863](https://doi.org/10.1093/bioinformatics/btab863)
 
 ### CPythia
 
