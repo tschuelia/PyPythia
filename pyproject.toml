@@ -1,5 +1,5 @@
 [project]
-name = "PyPythiaPhylo"
+name = "PythiaPhyloPredictor"
 description = "Lightweight python library for predicting the difficulty of alignments in phylogenetics"
 readme = {file = "README.md", content-type = "text/markdown"}
 authors = [{name = "Julia Haag", email = "info@juliaschmid.com"}]
