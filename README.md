@@ -27,7 +27,7 @@ Haag, J., Höhler, D., Bettisworth, B., & Stamatakis, A. (2022). **From Easy to 
 > This affects all Pythia versions >= 1. If you use Pythia in your work, please state the correct learning algorithm. If
 > you are unsure, feel free to reach out to me 🙂
 >
-> we will soon publish a pre-print that explains the changes in detail, stay tuned!
+> We will soon publish a pre-print that explains the changes in detail, stay tuned!
 
 
 ### C Library

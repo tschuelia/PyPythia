@@ -31,7 +31,7 @@ Phylogenetic Analyses.** *Molecular Biology and Evolution*, 39(12). [https://doi
 > This affects all Pythia versions >= 1. If you use Pythia in your work, please state the correct learning algorithm. If
 > you are unsure, feel free to reach out to me 🙂
 >
-> There will soon be a new pre-print that explains the changes in detail, stay tuned!
+> We will soon publish a pre-print that explains the changes in detail, stay tuned!
 
 
 ### CPythia
