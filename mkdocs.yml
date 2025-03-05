@@ -19,12 +19,15 @@ nav:
   - prediction: api/prediction.md
   - predictor: api/predictor.md
   - custom_types: api/custom_types.md
+  - custom_errors: api/custom_errors.md
   - config: api/config.md
 plugins:
 - search
 - mkdocstrings
 - mike:
     canonical_version: latest
+repo_name: tschuelia/PyPythia
+repo_url: https://github.com/tschuelia/PyPythia
 site_name: PyPythia
 site_url: https://tschuelia.github.io/PyPythia/
 theme:

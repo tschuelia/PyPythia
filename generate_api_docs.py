@@ -15,6 +15,7 @@ api_files = {
     "prediction": None,
     "predictor": None,
     "custom_types": None,
+    "custom_errors": None,
     "config": None,
 }
 
@@ -41,36 +42,46 @@ for file_name in api_files:
     with api_file.open("w") as f:
         for cls in classes:
             f.write(
-                textwrap.dedent(f"""
+                textwrap.dedent(
+                    f"""
             ::: pypythia.{file.stem}.{cls}\n
                 options:
                     show_root_heading: true
                     merge_init_into_class: false
                     group_by_category: true
-            """)
+                    modernize_annotations: true
+            """
+                )
             )
 
         for mtd in methods:
             f.write(
-                textwrap.dedent(f"""
+                textwrap.dedent(
+                    f"""
             ::: pypythia.{file.stem}.{mtd}\n
                 options:
                     show_root_heading: true
-            """)
+                    modernize_annotations: true
+            """
+                )
             )
 
     if file_name == "config":
         with api_file.open("a") as f:
             f.write(
-                textwrap.dedent(f"""
+                textwrap.dedent(
+                    f"""
             ::: pypythia.{file.stem}.DEFAULT_MODEL_FILE\n
                 options:
                     show_root_heading: true
+                    modernize_annotations: true
 
             ::: pypythia.{file.stem}.DEFAULT_RAXMLNG_EXE\n
                 options:
                     show_root_heading: true
-            """)
+                    modernize_annotations: true
+            """
+                )
             )
 
 mkdocs_cfg_file = pathlib.Path("mkdocs.yml")

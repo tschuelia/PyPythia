@@ -36,19 +36,24 @@ def _get_value_from_line(line: str, search_string: str) -> float:
     )
 
 
-def _get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[float, float, float]:
-    abs_rfdist = None
+def get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[int, float]:
+    """
+    Method to parse the RAxML-NG log file and extract the number of unique topologies and relative RF-Distance.
+    Args:
+        log_file (pathlib.Path): Filepath pointing to the RAxML-NG log file.
+
+    Returns:
+        num_topos (float): Number of unique topologies of the given set of trees.
+        rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
+
+    """
     rel_rfdist = None
     num_topos = None
 
     for line in log_file.open().readlines():
         line = line.strip()
 
-        if "Average absolute RF distance in this tree set:" in line:
-            abs_rfdist = _get_value_from_line(
-                line, "Average absolute RF distance in this tree set:"
-            )
-        elif "Average relative RF distance in this tree set:" in line:
+        if "Average relative RF distance in this tree set:" in line:
             rel_rfdist = _get_value_from_line(
                 line, "Average relative RF distance in this tree set:"
             )
@@ -57,10 +62,10 @@ def _get_raxmlng_rfdist_results(log_file: pathlib.Path) -> tuple[float, float, f
                 line, "Number of unique topologies in this tree set:"
             )
 
-    if abs_rfdist is None or rel_rfdist is None or num_topos is None:
+    if rel_rfdist is None or num_topos is None:
         raise ValueError("Error parsing raxml-ng log.")
 
-    return num_topos, rel_rfdist, abs_rfdist
+    return int(num_topos), rel_rfdist
 
 
 class RAxMLNG:
@@ -71,9 +76,29 @@ class RAxMLNG:
 
     Attributes:
         exe_path (pathlib.Path): Path to the RAxML-NG executable.
+
+    Raises:
+        FileNotFoundError: If the RAxML-NG executable is not found.
+        RuntimeError: If the RAxML-NG executable is not working or is not a RAxML-NG executable.
+
     """
 
     def __init__(self, exe_path: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE):
+        if exe_path is None or not exe_path.exists():
+            raise FileNotFoundError("RAxML-NG executable not found.")
+
+        try:
+            out = subprocess.check_output([str(exe_path.absolute())], encoding="utf-8")
+        except Exception as e:
+            raise RuntimeError(
+                f"Your RAxML-NG executable does not seem to work. Running `{exe_path}` failed: {e}"
+            ) from e
+
+        if not "RAxML-NG" in out:
+            raise RuntimeError(
+                f"The given executable `{exe_path}` does not seem to be a RAxML-NG executable."
+            )
+
         self.exe_path = exe_path
 
     def _base_cmd(
@@ -96,12 +121,6 @@ class RAxMLNG:
             str(prefix.absolute()),
             *additional_settings,
         ]
-
-    def _run_alignment_parse(
-        self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
-    ) -> None:
-        cmd = self._base_cmd(msa_file, model, prefix, parse=None, **kwargs)
-        run_raxmlng_command(cmd)
 
     def _run_rfdist(
         self, trees_file: pathlib.Path, prefix: pathlib.Path, **kwargs
@@ -154,8 +173,8 @@ class RAxMLNG:
 
     def get_rfdistance_results(
         self, trees_file: pathlib.Path, prefix: pathlib.Path = None, **kwargs
-    ) -> tuple[float, float, float]:
-        """Method that computes the number of unique topologies, relative RF-Distance, and absolute RF-Distance for the given set of trees.
+    ) -> tuple[float, float]:
+        """Method that computes the number of unique topologies and the relative RF-Distance for the given set of trees.
 
         Args:
             trees_file (pathlib.Path): Filepath pointing to the file containing the trees.
@@ -168,7 +187,6 @@ class RAxMLNG:
         Returns:
             num_topos (float): Number of unique topologies of the given set of trees.
             rel_rfdist (float): Relative RF-Distance of the given set of trees. Computed as average over all pairwise RF-Distances. Value between 0.0 and 1.0.
-            abs_rfdist (float): Absolute RF-Distance of the given set of trees.
         """
         with TemporaryDirectory() as tmpdir:
             tmpdir = pathlib.Path(tmpdir)
@@ -176,4 +194,4 @@ class RAxMLNG:
                 prefix = tmpdir / "rfdist"
             self._run_rfdist(trees_file, prefix, **kwargs)
             log_file = pathlib.Path(f"{prefix}.raxml.log")
-            return _get_raxmlng_rfdist_results(log_file)
+            return get_raxmlng_rfdist_results(log_file)

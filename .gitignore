@@ -1,6 +1,22 @@
-**/*.reduced.*
 **/*.log
 **/*.csv
+**/*.shap.pdf
+**/*.pythia.trees
+
+**/*.iqtree.ckp.gz
+**/*.iqtree.iqtree
+**/*.iqtree.trees
+**/*.iqtree.treefile
+
+**/*.raxml.bestModel
+**/*.raxml.bestTree
+**/*.raxml.bestTreeCollapsed
+**/*.raxml.mlTrees
+**/*.raxml.plausibleTrees
+**/*.raxml.rba
+**/*.raxml.startTree
+**/*.rfDistances
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

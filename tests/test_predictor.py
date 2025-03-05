@@ -2,12 +2,22 @@ import matplotlib.figure
 import numpy as np
 import pandas as pd
 import pytest
-from numpy import typing as npt
 
 from pypythia.custom_errors import PyPythiaException
 
 
 class TestPredictor:
+    def test_str_and_repr(self, predictor):
+        expected_str = (
+            "DifficultyPredictor("
+            "model_file=pypythia/predictors/latest.txt, features=['num_patterns/num_taxa', "
+            "'num_sites/num_taxa', 'proportion_gaps', 'proportion_invariant', 'entropy', "
+            "'bollback', 'num_patterns/num_sites', 'pattern_entropy', 'avg_rfdist_parsimony', "
+            "'proportion_unique_topos_parsimony'])"
+        )
+        assert str(predictor) == expected_str
+        assert repr(predictor) == expected_str
+
     def test_predict(self, predictor):
         query = pd.DataFrame(
             {
