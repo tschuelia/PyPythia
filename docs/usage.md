@@ -76,6 +76,17 @@ options:
   -V, --version         Print the version number and exit.
 ```
 
+### Result files
+
+Pythia will write the following files:
+- A logfile containing the same information as printed to the terminal: `{result_prefix}.pythia.log`
+- The reduced MSA file in case the input MSA contained duplicate/full-gap sequences (and the reduction was not disabled): `{result_prefix}.reduced.phy`
+- The inferred parsimony trees in Newick format: `{result_prefix}.pythia.trees`
+- The shapley values as waterfall plot (if --shap is set): `{result_prefix}.shap.pdf`
+- The features and predicted difficulty as CSV file: `{result_prefix}.pythia.csv`
+
+The result_prefix can be set using the `--prefix` command line option. If not set, Pythia uses the MSA file as prefix. You can prevent Pythia from writing any files via the flag `--nofiles`.
+
 ## From Code
 
 You can also use the library as a regular python library by installing it in your current environment.

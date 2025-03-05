@@ -22,8 +22,7 @@ issue [here](https://github.com/tschuelia/PyPythia/issues).
 
 The paper explaining the details of Pythia is published in MBE:
 Haag, J., Höhler, D., Bettisworth, B., & Stamatakis, A. (2022). **From Easy to Hopeless - Predicting the Difficulty of
-Phylogenetic Analyses.** *Molecular Biology and Evolution*, 39(
-12). [https://doi.org/10.1093/molbev/msac254](https://doi.org/10.1093/molbev/msac254)
+Phylogenetic Analyses.** *Molecular Biology and Evolution*, 39(12). [https://doi.org/10.1093/molbev/msac254](https://doi.org/10.1093/molbev/msac254)
 
 > [!WARNING]
 > Since this publication, we made some considerable changes to Pythia.
