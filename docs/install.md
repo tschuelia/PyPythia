@@ -3,7 +3,7 @@
 ## Requirements
 
 In order to use this difficulty prediction, you need RAxML-NG installed somewhere on your system. You can find the
-install instructions [here](https://github.com/amkozlov/raxml-ng).
+installation instructions [here](https://github.com/amkozlov/raxml-ng).
 
 ## Install using conda (recommended)
 
@@ -18,7 +18,7 @@ conda install pypythia -c conda-forge -c nodefaults
 You can also install Pythia using the python package manager pip:
 
 ```
-pip install git+https://github.com/tschuelia/PyPythia.git
+pip install pythiaphylopredictor
 ```
 
 Please note that this can lead to issues with package versions and dependencies when installing in an existing (conda)
@@ -104,9 +104,6 @@ version 1.1.0 append `@1.1.0`) after `.git` in the `etc/environment.yml` file.
 
 ### Running Pythia
 
-If you are having trouble running pythia, you can also replace `pythia` with `python pypythia/prediction.py`. For this
+If you are having trouble running pythia, you can also replace `pythia` with `python pypythia/main.py`. For this
 to work you need to install Pythia from source and you need to be in the PyPythia directory (which you should be after
 the installation).
-
-If this does not work either, as of version 1.0.1, PyPythia includes a Python script that allows predictions from code
-without installing Pythia. See the Usage wiki page for more details.
