@@ -17,7 +17,8 @@ accordingly.
 
 The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.02.`, telling us that
 example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak. Depending on the predictor
-version you are using, the actual value might slightly differ. This is expected and nothing to worry about 🙂
+version or operating system you are using, the actual value might slightly differ.
+This is expected and nothing to worry about 🙂
 
 *Note that Pythia can also handle FASTA input files, see section Input Data below.*
 
@@ -30,52 +31,49 @@ Latest version: https://github.com/tschuelia/PyPythia
 Questions/problems/suggestions? Please open an issue on GitHub.
 
 usage: pythia [-h] -m MSA -r RAXMLNG [-t THREADS] [-s SEED] [-p PREFIX]
-              [--predictor PREDICTOR] [-prec PRECISION] [-sT] [--forceDuplicates]
-              [--forceFullGaps] [--shap] [-v]
+              [--predictor PREDICTOR] [--shap] [--forceDuplicates] [--forceFullGaps]
+              [--nofiles] [-V]
 
 Parser for Pythia command line options.
 
 options:
   -h, --help            show this help message and exit
-  -m MSA, --msa MSA     Multiple Sequence Alignment to predict the difficulty for.
-                        Must be in either phylip or fasta format.
+  -m MSA, --msa MSA     Multiple Sequence Alignment to predict the difficulty for. Must be
+                        in either phylip or fasta format.
   -r RAXMLNG, --raxmlng RAXMLNG
-                        Path to the binary of RAxML-NG. For install instructions
-                        see https://github.com/amkozlov/raxml-ng.(default: 'raxml-
-                        ng' if in $PATH, otherwise this option is mandatory).
+                        Path to the binary of RAxML-NG. For install instructions see
+                        https://github.com/amkozlov/raxml-ng.(default: 'raxml-ng' if in
+                        $PATH, otherwise this option is mandatory).
   -t THREADS, --threads THREADS
-                        Number of threads to use for parallel parsimony tree
-                        inference (default: RAxML-NG autoconfig).
-  -s SEED, --seed SEED  Seed for the RAxML-NG parsimony tree inference (default:
-                        0).
+                        Number of threads to use for parallel parsimony tree inference
+                        (default: RAxML-NG autoconfig).
+  -s SEED, --seed SEED  Seed for the RAxML-NG parsimony tree inference (default: 0).
   -p PREFIX, --prefix PREFIX
-                        Prefix of the PyPythia log and result file (default: MSA
-                        file name).
+                        Prefix of the PyPythia log and result file (default: MSA file name).
   --predictor PREDICTOR
-                        Filepath of the alternative predictor to use (default:
-                        latest Pythia).
-  -prec PRECISION, --precision PRECISION
-                        Set the number of decimals the difficulty should be rounded
-                        to (default: 2).
-  -sT, --storeTrees     If set, stores the parsimony trees as
-                        '{prefix}.pythia.trees' file (default: False).
-  --forceDuplicates     Per default, Pythia refuses to predict the difficulty for
-                        MSAs containing duplicate sequences. Only set this option
-                        if you are absolutely sure that you want to predict the
-                        difficulty for this MSA (default: False).
-  --forceFullGaps       Per default, Pythia refuses to predict the difficulty for
-                        MSAs containing sequences with only gaps. Only set this
-                        option if you are absolutely sure that you want to predict
-                        the difficulty for this MSA (default: False).
-  --shap                If set, computes the shapley values of the prediction as
-                        waterfall plot in '{prefix}.shap.pdf'. When using this
-                        option, make sure you understand what shapley values are
-                        and how to interpret this plot.For details on shapley
-                        values refer to the wiki:
-                        https://github.com/tschuelia/PyPythia/wiki/Usage#shapley-
-                        values (default: False).
-  -v, --verbose         If set, additionally prints the MSA features (default:
-                        False).
+                        Filepath of the alternative predictor to use (default: latest
+                        Pythia).
+  --shap                If set, computes the shapley values of the prediction as waterfall
+                        plot in '{prefix}.shap.pdf'. When using this option, make sure you
+                        understand what shapley values are and how to interpret this
+                        plot.For details on shapley values refer to the documentation:
+                        https://tschuelia.github.io/PyPythia/latest/usage/#shap-waterfall-
+                        plot (default: False).
+  --forceDuplicates     Per default, Pythia refuses to predict the difficulty for MSAs
+                        containing duplicate sequences,and removes duplicate sequences prior
+                        to predicting the difficulty. Only set this option if you are
+                        absolutely sure that you want to predict the difficulty for this MSA
+                        (default: False).
+  --forceFullGaps       Per default, Pythia refuses to predict the difficulty for MSAs
+                        containing sequences with only gaps,and removes full-gap sequences
+                        prior to predicting the difficulty. Only set this option if you are
+                        absolutely sure that you want to predict the difficulty for this MSA
+                        (default: False).
+  --nofiles             Prevent Pythia from writing any files and only print logs/results to
+                        the terminal (default: False). WARNING: in this case and if your MSA
+                        contains duplicate/full-gap sequences the reduced MSA will not be
+                        stored.
+  -V, --version         Print the version number and exit.
 ```
 
 ## From Code
@@ -147,9 +145,10 @@ and subsequently retrain the predictor.
 We extend the training data using the anonymized MSAs that we continuously obtain during our RAxML Grove database
 updates.
 Note that these MSAs are only available internally in RAxML Grove and are not publicly available.
-As per default, PyPythia uses the lastest predictor `predictors/latest.pckl`. Older versions of the trained predictors
-are available in the `predictors` directory and can be passed to Pythia (see Usage instructions above). All predictors
-of versions >= 1.0.0 are trained using DNA, AA, and morphological MSAs.
+As per default, PyPythia uses the latest predictor `predictors/latest.txt`. If you want to use an older version of Pythia,
+please install the respective PyPythia version.
+You can also pass a custom predictor file using the `--predictor` option. However, this will only work if the passed
+file contains a LightGBM Booster model.
 
 Note that the predictions for the same MSA can be different when using different versions of Pythia.
 
@@ -180,7 +179,7 @@ considering all feature values together for a specific set of feature values.
 The following figure shows an exemplary waterfall plot output for the MSA `example/example.py` and Pythia version 1.1.0.
 
 The x-axis depicts the difficulty and the y-axis the features alongside the respective feature value. The features are
-sorted by their Shapley value with the highest contribution on top. You can read the plot as follows. The base line
+sorted by their Shapley value with the most important feature on top. You can read the plot as follows. The baseline
 difficulty that Pythia v1.1.0 learned is 0.35, as indicated by the `E[f(x)] = 0.35` on the x-axis. The
 `proportion_invariant` feature contributed to the overall prediction with a shift towards `1.0` (more difficult) of
 `0.01`, so *in combination with the other features*, a `proportion_invariant` of `0.341` indicates that the MSA is
