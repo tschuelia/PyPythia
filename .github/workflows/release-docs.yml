@@ -14,6 +14,7 @@ jobs:
       run: |
         git config user.name github-actions[bot]
         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+        git config pull.rebase true
     - uses: actions/setup-python@v5
       with:
         python-version: 3.x
@@ -30,5 +31,6 @@ jobs:
           mkdocs-material-
     - run: pip install mkdocs-material mkdocstrings-python mike markdown-callouts
     - run: |
+        git pull
         mike deploy --push --update-aliases ${RELEASE_TAG_VERSION} latest
         mike set-default --push latest
