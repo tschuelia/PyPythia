@@ -10,7 +10,7 @@ installation instructions [here](https://github.com/amkozlov/raxml-ng).
 The easiest (and recommended) way to install PyPythia is by using conda:
 
 ```
-conda install pypythia -c conda-forge -c nodefaults
+conda install pythiaphylopredictor -c conda-forge -c nodefaults
 ```
 
 ## Install using pip
@@ -33,6 +33,9 @@ You can again use pip for this and simply specify the tag you wish to install, e
 ```
 pip install git+https://github.com/tschuelia/PyPythia.git@0.0.1
 ```
+
+To install older versions via conda, you need to search for `pypythia` instead of `pythiaphylopredictor`.
+
 
 ## Installation from source
 
