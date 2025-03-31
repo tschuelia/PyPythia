@@ -24,14 +24,16 @@ The paper explaining the details of Pythia is published in MBE:
 Haag, J., Höhler, D., Bettisworth, B., & Stamatakis, A. (2022). **From Easy to Hopeless - Predicting the Difficulty of
 Phylogenetic Analyses.** *Molecular Biology and Evolution*, 39(12). [https://doi.org/10.1093/molbev/msac254](https://doi.org/10.1093/molbev/msac254)
 
+A preprint of all updates we introduced to Pythia since the publication of the paper is available on BioRxiv:
+Haag, J. & Stamatakis, A. (2025). **Pythia 2.0: New Data, New Prediction Model, New Features.** *BioRxiv*. [https://doi.org/10.1101/2025.03.25.645182](https://doi.org/10.1101/2025.03.25.645182)
+
+
 > [!WARNING]
-> Since this publication, we made some considerable changes to Pythia.
-> The most important change is that we switched from using a Random Forest Regressor to using a LightGBM Gradient
-> Boosted Tree Regressor.
+> Please note that we switched from using a Random Forest Regressor to using a LightGBM Gradient Boosted Tree Regressor.
 > This affects all Pythia versions >= 1. If you use Pythia in your work, please state the correct learning algorithm. If
 > you are unsure, feel free to reach out to me 🙂
 >
-> We will soon publish a pre-print that explains the changes in detail, stay tuned!
+> When using Pythia version >= 1, please cite our latest preprint.
 
 
 ### CPythia
