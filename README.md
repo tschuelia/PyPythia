@@ -9,7 +9,7 @@ Pythia can be used to increase user awareness with respect to the amount of sign
 Pythia supports DNA, AA, and morphological data in Phylip and FASTA format.
 
 ### Documentation
-Install instructions, the CLI and the Python API are documented [here](https://tschuelia.github.io/PyPythia/).
+Install instructions, the CLI and the Python API are documented [here](https://tschuelia.github.io/PyPythia/latest/).
 
 
 ### Support
