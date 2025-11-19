@@ -158,7 +158,7 @@ def main():
 
     if hours > 0:
         logger.info(
-            f"Total runtime: {int(hours):02d}:{int(minutes):02d}:{seconds:02d} hours ({round(total_runtime)} seconds)."
+            f"Total runtime: {int(hours):02d}:{int(minutes):02d}:{int(seconds):02d} hours ({round(total_runtime)} seconds)."
         )
     elif minutes > 0:
         logger.info(
