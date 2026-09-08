@@ -1,0 +1,44 @@
+[workspace]
+channels = ["conda-forge", "bioconda"]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
+requires-pixi = ">=0.76.1"
+
+[dependencies]
+pandas = "*"
+biopython = "*"
+lightgbm = ">=4.4"
+numpy = ">=2.0"
+shap = ">=0.41"
+matplotlib-base = "*"
+loguru = "*"
+raxml-ng = "==2.0.2"
+
+[pypi-dependencies]
+PythiaPhyloPredictor = { path = ".", editable = true }
+
+[feature.py311.dependencies]
+python = "3.11.*"
+
+[feature.py314.dependencies]
+python = "3.14.*"
+
+[feature.test.dependencies]
+pytest = "*"
+pyarrow = "*"
+
+[feature.build.dependencies]
+hatchling = "*"
+pip = "*"
+python-build = "*"
+
+[environments]
+default = { features = ["py314", "test"] }
+py311 = { features = ["py311", "test"] }
+py314 = { features = ["py314", "test"] }
+build = { features = ["py314", "build"] }
+
+[tasks]
+test = "pytest -svx --color=yes"
+test-core = "pytest -svx --color=yes tests/test_msa.py tests/test_predictor.py"
+cli-smoke = "pythia --help"
+build = { cmd = "python -m build", default-environment = "build" }
