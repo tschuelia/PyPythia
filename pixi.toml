@@ -12,6 +12,7 @@ shap = ">=0.41"
 matplotlib-base = "*"
 loguru = "*"
 raxml-ng = "==2.0.2"
+pixi-pycharm = ">=0.0.12,<0.0.13"
 
 [pypi-dependencies]
 PythiaPhyloPredictor = { path = ".", editable = true }
