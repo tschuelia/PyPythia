@@ -3,31 +3,47 @@ name: Dev Docs
 on:
   push:
     branches:
-      - dev
       - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pypythia-docs-gh-pages
+  cancel-in-progress: false
 
 jobs:
   dev-docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Check out repository
+      uses: actions/checkout@v7
       with:
-        fetch-depth: 0
-    - name: Configure Git Credentials and rebasing
+        ref: master
+        fetch-depth: 1
+
+    - name: Set up Pixi
+      uses: prefix-dev/setup-pixi@v0.10.2
+      with:
+        pixi-version: v0.76.1
+        environments: docs
+        cache: true
+        locked: true
+
+    - name: Validate documentation
+      run: pixi run -e docs docs-build
+
+    - name: Configure Git credentials
       run: |
         git config user.name github-actions[bot]
         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-        git config pull.rebase true
-    - uses: actions/setup-python@v5
-      with:
-        python-version: 3.x
-    - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-    - uses: actions/cache@v4
-      with:
-        key: mkdocs-material-${{ env.cache_id }}
-        path: .cache
-        restore-keys: |
-          mkdocs-material-
-    - run: pip install mkdocs-material mkdocstrings-python mike markdown-callouts
-    - run: git pull
-    - run: mike deploy --push ${{ github.ref_name }}
+
+    - name: Fetch published documentation
+      run: git fetch origin gh-pages:gh-pages --depth=1
+
+    - name: Publish master documentation
+      run: |
+        pixi run -e docs mike deploy master
+        pixi run -e docs mike set-default latest
+        git push origin gh-pages

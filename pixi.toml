@@ -1,0 +1,67 @@
+[workspace]
+channels = ["conda-forge", "bioconda"]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
+requires-pixi = ">=0.76.1"
+
+[dependencies]
+pandas = "*"
+biopython = "*"
+lightgbm = ">=4.4"
+numpy = ">=2.0"
+shap = ">=0.41"
+matplotlib-base = "*"
+loguru = "*"
+raxml-ng = "==2.0.2"
+pixi-pycharm = ">=0.0.12,<0.0.13"
+
+[pypi-dependencies]
+PythiaPhyloPredictor = { path = ".", editable = true }
+
+[feature.py311.dependencies]
+python = "3.11.*"
+
+[feature.py314.dependencies]
+python = "3.14.*"
+
+[feature.test.dependencies]
+pytest = "*"
+pyarrow = "*"
+
+[feature.pre-commit.dependencies]
+pre-commit = "*"
+
+[feature.pre-commit.tasks]
+pre-commit-install = "pre-commit install"
+pre-commit-run = "pre-commit run --all-files"
+
+[feature.build.dependencies]
+hatchling = "*"
+pip = "*"
+python-build = "*"
+
+[feature.docs.dependencies]
+python = "3.12.*"
+
+[feature.docs.pypi-dependencies]
+mkdocs-material = "==9.7.7"
+mkdocstrings-python = "==1.18.2"
+mike = "==2.2.0"
+markdown-callouts = "==0.4.0"
+
+[feature.docs.tasks]
+docs-build = "mkdocs build --strict"
+docs-serve = "mkdocs serve"
+
+[environments]
+default = { features = ["py314", "test"] }
+py311 = { features = ["py311", "test"] }
+py314 = { features = ["py314", "test"] }
+build = { features = ["py314", "build"] }
+docs = { features = ["docs"], no-default-feature = true }
+pre-commit = { features = ["pre-commit"], no-default-feature = true }
+
+[tasks]
+test = "pytest -svx --color=yes"
+test-core = "pytest -svx --color=yes tests/test_msa.py tests/test_predictor.py"
+cli-smoke = "pythia --help"
+build = { cmd = "python -m build", default-environment = "build" }
