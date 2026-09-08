@@ -1,6 +1,5 @@
 import pathlib
 import warnings
-from typing import Optional
 
 import lightgbm as lgb
 import numpy as np
@@ -31,7 +30,7 @@ class DifficultyPredictor:
 
     def __init__(
         self,
-        model_file: Optional[pathlib.Path] = DEFAULT_MODEL_FILE,
+        model_file: pathlib.Path | None = DEFAULT_MODEL_FILE,
         features: list[str] = None,
     ) -> None:
         self.model_file = model_file

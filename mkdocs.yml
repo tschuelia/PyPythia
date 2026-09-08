@@ -1,14 +1,23 @@
+site_name: PyPythia
+site_description: Lightweight Python library for predicting the difficulty of phylogenetic alignments
+site_url: https://tschuelia.github.io/PyPythia/
+repo_name: tschuelia/PyPythia
+repo_url: https://github.com/tschuelia/PyPythia
+edit_uri: edit/master/docs/
+docs_dir: docs
+site_dir: site
+remote_name: origin
+remote_branch: gh-pages
+
 extra:
   version:
     provider: mike
-extra_javascript:
-- javascripts/mathjax.js
-- https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+    default: latest
+
 markdown_extensions:
 - def_list
 - github-callouts
-- pymdownx.arithmatex:
-    generic: true
+
 nav:
 - Home: index.md
 - Install: install.md
@@ -23,13 +32,14 @@ nav:
   - config: api/config.md
 plugins:
 - search
-- mkdocstrings
+- mkdocstrings:
+    handlers:
+      python:
+        paths:
+        - .
 - mike:
     canonical_version: latest
-repo_name: tschuelia/PyPythia
-repo_url: https://github.com/tschuelia/PyPythia
-site_name: PyPythia
-site_url: https://tschuelia.github.io/PyPythia/
+
 theme:
   name: material
   palette:
