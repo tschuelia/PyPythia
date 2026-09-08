@@ -1,10 +1,19 @@
 import pathlib
+import re
 import subprocess
 from tempfile import TemporaryDirectory
-from typing import Optional
 
 from pypythia.config import DEFAULT_RAXMLNG_EXE
 from pypythia.custom_errors import RAxMLNGError
+
+
+def _get_raxmlng_major_version(output: str) -> int:
+    """Extract the major version from a RAxML-NG version banner."""
+    version_match = re.search(r"RAxML-NG v\.\s*(\d+)(?:\.|\b)", output)
+    if version_match is None:
+        raise RuntimeError("Could not determine the RAxML-NG version.")
+
+    return int(version_match.group(1))
 
 
 def run_raxmlng_command(cmd: list[str]) -> None:
@@ -83,7 +92,7 @@ class RAxMLNG:
 
     """
 
-    def __init__(self, exe_path: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE):
+    def __init__(self, exe_path: pathlib.Path | None = DEFAULT_RAXMLNG_EXE):
         if exe_path is None or not exe_path.exists():
             raise FileNotFoundError("RAxML-NG executable not found.")
 
@@ -94,12 +103,13 @@ class RAxMLNG:
                 f"Your RAxML-NG executable does not seem to work. Running `{exe_path}` failed: {e}"
             ) from e
 
-        if not "RAxML-NG" in out:
+        if "RAxML-NG" not in out:
             raise RuntimeError(
                 f"The given executable `{exe_path}` does not seem to be a RAxML-NG executable."
             )
 
         self.exe_path = exe_path
+        self._major_version = _get_raxmlng_major_version(out)
 
     def _base_cmd(
         self, msa_file: pathlib.Path, model: str, prefix: pathlib.Path, **kwargs
@@ -147,7 +157,7 @@ class RAxMLNG:
         model: str,
         prefix: pathlib.Path,
         n_trees: int = 24,
-        **kwargs,
+        **kwargs: object,
     ) -> pathlib.Path:
         """Method that infers n_trees using the RAxML-NG implementation of maximum parsimony.
 
@@ -165,6 +175,10 @@ class RAxMLNG:
         Returns:
             Filepath pointing to the inferred maximum parsimony trees.
         """
+        kwargs.pop("adaptive", None)
+        if self._major_version >= 2:
+            kwargs["adaptive"] = "off"
+
         cmd = self._base_cmd(
             msa_file, model, prefix, start=None, tree=f"pars{{{n_trees}}}", **kwargs
         )
@@ -172,7 +186,10 @@ class RAxMLNG:
         return pathlib.Path(f"{prefix}.raxml.startTree")
 
     def get_rfdistance_results(
-        self, trees_file: pathlib.Path, prefix: pathlib.Path = None, **kwargs
+        self,
+        trees_file: pathlib.Path,
+        prefix: pathlib.Path = None,
+        **kwargs: object,
     ) -> tuple[float, float]:
         """Method that computes the number of unique topologies and the relative RF-Distance for the given set of trees.
 
