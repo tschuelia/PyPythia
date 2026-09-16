@@ -1,0 +1,110 @@
+name: PyPythia package
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+    tags: ["*.*.*"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build PyPythia package
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
+        with:
+          pixi-version: v0.77.0
+          environments: build
+          cache: true
+          frozen: true
+      - name: Read and validate package version
+        id: version
+        shell: bash
+        run: |
+          project_version="$(pixi run --frozen --environment build python -c \
+            'import pathlib, tomllib; print(tomllib.loads(pathlib.Path("pyproject.toml").read_text())["project"]["version"])')"
+          if [[ ! "${project_version}" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "expected project.version to use MAJOR.MINOR.PATCH, got ${project_version}" >&2
+            exit 1
+          fi
+          echo "version=${project_version}" >> "${GITHUB_OUTPUT}"
+
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            tag="${GITHUB_REF#refs/tags/}"
+            if [[ ! "${tag}" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+              echo "expected a MAJOR.MINOR.PATCH tag, got ${tag}" >&2
+              exit 1
+            fi
+            if [[ "${tag}" != "${project_version}" ]]; then
+              echo "tag ${tag} does not match project version ${project_version}" >&2
+              exit 1
+            fi
+            if [[ "$(git rev-list -n 1 "${tag}")" != "$(git rev-parse HEAD)" ]]; then
+              echo "tag ${tag} does not resolve to the checked-out commit" >&2
+              exit 1
+            fi
+          fi
+      - name: Build distributions
+        run: pixi run --frozen --environment build python -m build
+      - name: Install wheel
+        run: >-
+          pixi run --frozen --environment build python -m pip install
+          --force-reinstall --no-deps --disable-pip-version-check
+          dist/pythiaphylopredictor-${{ steps.version.outputs.version }}-py3-none-any.whl
+      - name: Check installed requirements
+        run: pixi run --frozen --environment build python -m pip check
+      - name: Verify installed version
+        env:
+          EXPECTED_VERSION: ${{ steps.version.outputs.version }}
+        run: >-
+          pixi run --frozen --environment build python -I -c
+          "import os, pypythia;
+          assert pypythia.__version__ == os.environ['EXPECTED_VERSION'],
+          (pypythia.__version__, os.environ['EXPECTED_VERSION'])"
+      - name: Smoke-test command-line interface
+        run: pixi run --frozen --environment build pythia --help
+      - name: Upload release artifacts
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pypythia-${{ steps.version.outputs.version }}
+          path: |
+            dist/*.tar.gz
+            dist/*.whl
+          if-no-files-found: error
+
+  publish:
+    name: Publish PyPythia to PyPI
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: pypi
+      url: https://pypi.org/p/PythiaPhyloPredictor
+    permissions:
+      id-token: write
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: pypythia-${{ needs.build.outputs.version }}
+          path: dist
+      - name: Publish release to PyPI
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
