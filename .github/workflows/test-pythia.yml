@@ -2,9 +2,11 @@ name: Build and test PyPythia
 run-name: Build and test the PyPythia Python library
 
 on:
+  pull_request:
   push:
-    paths-ignore:
-      - "docs/**"
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   pixi-tests:
@@ -14,12 +16,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        environment: [py311, py314]
+        environment: [py311, py314, legacy-raxml]
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set up Pixi
-        uses: prefix-dev/setup-pixi@v0.10.0
+        uses: prefix-dev/setup-pixi@v0.10.2
         with:
           pixi-version: v0.77.0
           environments: ${{ matrix.environment }}
@@ -28,12 +30,25 @@ jobs:
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'master' }}
       - name: Check the lock file
         run: pixi lock --check
-      - name: Run blocking core tests
-        run: pixi run --frozen --environment ${{ matrix.environment }} test-core
-      # Make this step blocking after PyPythia's RAxML-NG calls support version 2.x.
-      - name: Run full RAxML-NG 2 compatibility suite
-        continue-on-error: true
+      - name: Run full test suite
         run: pixi run --frozen --environment ${{ matrix.environment }} test
+
+  docs-check:
+    name: Documentation build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v7
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0.10.2
+        with:
+          pixi-version: v0.77.0
+          environments: docs
+          frozen: true
+          cache: true
+          cache-write: ${{ github.event_name == 'push' && github.ref_name == 'master' }}
+      - name: Build documentation
+        run: pixi run --frozen --environment docs docs-build
 
   package-smoke:
     name: Python package smoke test (${{ matrix.os }})
@@ -44,9 +59,9 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.14"
       - name: Set up LightGBM requirements

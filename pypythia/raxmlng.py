@@ -85,6 +85,7 @@ class RAxMLNG:
 
     Attributes:
         exe_path (pathlib.Path): Path to the RAxML-NG executable.
+        _major_version (int): Detected RAxML-NG major version.
 
     Raises:
         FileNotFoundError: If the RAxML-NG executable is not found.
@@ -170,6 +171,8 @@ class RAxMLNG:
             **kwargs: Additional arguments to pass to the RAxML-NG command.
                 The name of the kwarg needs to be a valid RAxML-NG flag.
                 For flags with a value pass it like this: "flag=value", for flags without a value pass it like this: "flag=None".
+                The `adaptive` setting is controlled by PyPythia and any caller-provided value is ignored. Adaptive mode
+                is disabled for RAxML-NG 2 and newer to preserve the parsimony-tree inference used by the predictor.
                 See https://github.com/amkozlov/raxml-ng for all options.
 
         Returns:

@@ -81,12 +81,14 @@ Run the test suite through its Pixi task:
 pixi run test
 ```
 
-The default environment uses Python 3.14. The `py311` and `py314` environments reproduce the minimum and maximum
-Python versions tested in CI:
+The default environment uses Python 3.14 and RAxML-NG 2.0.2. The `py311` and `py314` environments reproduce the
+minimum and maximum Python versions tested in CI. The `legacy-raxml` environment verifies compatibility with
+RAxML-NG 1.2.2 on Python 3.11:
 
 ```shell
 pixi run --environment py311 test
 pixi run --environment py314 test
+pixi run --environment legacy-raxml test
 ```
 
 Install the pre-commit hooks once, then run all checks on demand using the dedicated environment:
@@ -122,6 +124,15 @@ from conda-forge.
 
 PyPythia supports Python 3.11 through Python 3.14. For source development, select a locked Pixi environment explicitly
 with `pixi run --environment py311 ...` or `pixi run --environment py314 ...`.
+
+### RAxML-NG compatibility
+
+PyPythia detects the installed RAxML-NG major version and controls its adaptive parsimony-tree search setting to keep
+predictions reproducible. With RAxML-NG 2 and newer, PyPythia explicitly passes `--adaptive off`. With RAxML-NG 1.x,
+it omits the unsupported `--adaptive` option. Any caller-provided `adaptive` value is ignored.
+
+RAxML-NG 2 also rejects alignments containing fully undetermined sequences. PyPythia removes full-gap sequences by
+default, but a prediction can therefore fail if full-gap removal is explicitly disabled.
 
 ### Running PyPythia
 
