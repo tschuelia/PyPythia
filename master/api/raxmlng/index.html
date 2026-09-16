@@ -886,6 +886,17 @@
               </div>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="pypythia.raxmlng.RAxMLNG._major_version">_major_version</span></code></td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Detected RAxML-NG major version.</p>
+              </div>
+            </td>
+          </tr>
       </tbody>
     </table>
 
@@ -1065,7 +1076,10 @@
 <span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
-<span class="normal">214</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">RAxMLNG</span><span class="p">:</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">RAxMLNG</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Class to interact with the RAxML-NG binary.</span>
 
 <span class="sd">    Args:</span>
@@ -1073,6 +1087,7 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        exe_path (pathlib.Path): Path to the RAxML-NG executable.</span>
+<span class="sd">        _major_version (int): Detected RAxML-NG major version.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        FileNotFoundError: If the RAxML-NG executable is not found.</span>
@@ -1158,6 +1173,8 @@
 <span class="sd">            **kwargs: Additional arguments to pass to the RAxML-NG command.</span>
 <span class="sd">                The name of the kwarg needs to be a valid RAxML-NG flag.</span>
 <span class="sd">                For flags with a value pass it like this: "flag=value", for flags without a value pass it like this: "flag=None".</span>
+<span class="sd">                The `adaptive` setting is controlled by PyPythia and any caller-provided value is ignored. Adaptive mode</span>
+<span class="sd">                is disabled for RAxML-NG 2 and newer to preserve the parsimony-tree inference used by the predictor.</span>
 <span class="sd">                See https://github.com/amkozlov/raxml-ng for all options.</span>
 
 <span class="sd">        Returns:</span>
@@ -1331,10 +1348,7 @@ See</p>
 
             <details class="quote">
               <summary>Source code in <code>pypythia/raxmlng.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span>
@@ -1357,7 +1371,10 @@ See</p>
 <span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
-<span class="normal">214</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_rfdistance_results</span><span class="p">(</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_rfdistance_results</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">trees_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">prefix</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1492,6 +1509,8 @@ For example "GTR+G" for DNA data or "LG+G" for protein data.</p>
                 <p>Additional arguments to pass to the RAxML-NG command.
 The name of the kwarg needs to be a valid RAxML-NG flag.
 For flags with a value pass it like this: "flag=value", for flags without a value pass it like this: "flag=None".
+The <code>adaptive</code> setting is controlled by PyPythia and any caller-provided value is ignored. Adaptive mode
+is disabled for RAxML-NG 2 and newer to preserve the parsimony-tree inference used by the predictor.
 See https://github.com/amkozlov/raxml-ng for all options.</p>
               </div>
             </td>
@@ -1528,8 +1547,7 @@ See https://github.com/amkozlov/raxml-ng for all options.</p>
 
             <details class="quote">
               <summary>Source code in <code>pypythia/raxmlng.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
-<span class="normal">155</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
@@ -1560,7 +1578,10 @@ See https://github.com/amkozlov/raxml-ng for all options.</p>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
-<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">infer_parsimony_trees</span><span class="p">(</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">infer_parsimony_trees</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">msa_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -1579,6 +1600,8 @@ See https://github.com/amkozlov/raxml-ng for all options.</p>
 <span class="sd">        **kwargs: Additional arguments to pass to the RAxML-NG command.</span>
 <span class="sd">            The name of the kwarg needs to be a valid RAxML-NG flag.</span>
 <span class="sd">            For flags with a value pass it like this: "flag=value", for flags without a value pass it like this: "flag=None".</span>
+<span class="sd">            The `adaptive` setting is controlled by PyPythia and any caller-provided value is ignored. Adaptive mode</span>
+<span class="sd">            is disabled for RAxML-NG 2 and newer to preserve the parsimony-tree inference used by the predictor.</span>
 <span class="sd">            See https://github.com/amkozlov/raxml-ng for all options.</span>
 
 <span class="sd">    Returns:</span>

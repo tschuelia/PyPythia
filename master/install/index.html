@@ -486,6 +486,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#raxml-ng-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAxML-NG compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#running-pypythia" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -936,6 +947,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#raxml-ng-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAxML-NG compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#running-pypythia" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1019,10 +1041,12 @@ pythia -h
 <p>Run the test suite through its Pixi task:</p>
 <pre><code class="language-shell">pixi run test
 </code></pre>
-<p>The default environment uses Python 3.14. The <code>py311</code> and <code>py314</code> environments reproduce the minimum and maximum
-Python versions tested in CI:</p>
+<p>The default environment uses Python 3.14 and RAxML-NG 2.0.2. The <code>py311</code> and <code>py314</code> environments reproduce the
+minimum and maximum Python versions tested in CI. The <code>legacy-raxml</code> environment verifies compatibility with
+RAxML-NG 1.2.2 on Python 3.11:</p>
 <pre><code class="language-shell">pixi run --environment py311 test
 pixi run --environment py314 test
+pixi run --environment legacy-raxml test
 </code></pre>
 <p>Install the pre-commit hooks once, then run all checks on demand using the dedicated environment:</p>
 <pre><code class="language-shell">pixi run --environment pre-commit pre-commit-install
@@ -1045,6 +1069,12 @@ from conda-forge.</p>
 <h3 id="python-version">Python version</h3>
 <p>PyPythia supports Python 3.11 through Python 3.14. For source development, select a locked Pixi environment explicitly
 with <code>pixi run --environment py311 ...</code> or <code>pixi run --environment py314 ...</code>.</p>
+<h3 id="raxml-ng-compatibility">RAxML-NG compatibility</h3>
+<p>PyPythia detects the installed RAxML-NG major version and controls its adaptive parsimony-tree search setting to keep
+predictions reproducible. With RAxML-NG 2 and newer, PyPythia explicitly passes <code>--adaptive off</code>. With RAxML-NG 1.x,
+it omits the unsupported <code>--adaptive</code> option. Any caller-provided <code>adaptive</code> value is ignored.</p>
+<p>RAxML-NG 2 also rejects alignments containing fully undetermined sequences. PyPythia removes full-gap sequences by
+default, but a prediction can therefore fail if full-gap removal is explicitly disabled.</p>
 <h3 id="running-pypythia">Running PyPythia</h3>
 <p>When working from source, run commands through Pixi, for example <code>pixi run cli-smoke</code>, or start an interactive
 environment with <code>pixi shell</code>. Global Pixi, Conda, and pip installations expose the <code>pythia</code> command directly.</p>
