@@ -3,7 +3,6 @@ import pathlib
 from collections import Counter
 from functools import cached_property
 from io import StringIO
-from typing import Optional
 
 import numpy as np
 import numpy.typing as npt
@@ -374,8 +373,8 @@ class MSA:
 
 def parse_msa(
     msa_file: pathlib.Path,
-    file_format: Optional[FileFormat] = None,
-    data_type: Optional[DataType] = None,
+    file_format: FileFormat | None = None,
+    data_type: DataType | None = None,
 ) -> MSA:
     """Parse a multiple sequence alignment file. Note that the file needs to be in FASTA or PHYLIP format.
 
@@ -422,7 +421,7 @@ def parse_msa(
     return MSA(taxon_names, sequences, data_type, msa_file.name)
 
 
-def remove_full_gap_sequences(msa: MSA, msa_name: Optional[str] = None) -> MSA:
+def remove_full_gap_sequences(msa: MSA, msa_name: str | None = None) -> MSA:
     """Remove full-gap sequences from the MSA.
 
     A full-gap sequence is a sequence where all sites are gaps so the sequence does not contain any information.
@@ -449,7 +448,7 @@ def remove_full_gap_sequences(msa: MSA, msa_name: Optional[str] = None) -> MSA:
     )
 
 
-def deduplicate_sequences(msa: MSA, msa_name: Optional[str] = None) -> MSA:
+def deduplicate_sequences(msa: MSA, msa_name: str | None = None) -> MSA:
     """Remove duplicate sequences from the MSA.
 
     Note that in case of duplicate sequences, the first occurrence (including the first taxon name) is kept

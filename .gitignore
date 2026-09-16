@@ -17,6 +17,9 @@
 **/*.raxml.startTree
 **/*.rfDistances
 
+# Pixi environments
+.pixi/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

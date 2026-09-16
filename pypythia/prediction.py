@@ -2,7 +2,6 @@ import pathlib
 import shutil
 import tempfile
 from tempfile import TemporaryDirectory
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -61,7 +60,7 @@ def collect_features(
     msa: MSA,
     msa_file: pathlib.Path,
     raxmlng: RAxMLNG,
-    pars_trees_file: Optional[pathlib.Path] = None,
+    pars_trees_file: pathlib.Path | None = None,
     log_info: bool = False,
     threads: int = None,
     seed: int = 0,
@@ -135,14 +134,14 @@ def collect_features(
 
 def predict_difficulty(
     msa_file: pathlib.Path,
-    raxmlng: Optional[pathlib.Path] = DEFAULT_RAXMLNG_EXE,
+    raxmlng: pathlib.Path | None = DEFAULT_RAXMLNG_EXE,
     threads: int = None,
     seed: int = 0,
-    file_format: Optional[FileFormat] = None,
-    data_type: Optional[DataType] = None,
+    file_format: FileFormat | None = None,
+    data_type: DataType | None = None,
     deduplicate: bool = True,
     remove_full_gaps: bool = True,
-    result_prefix: Optional[pathlib.Path] = None,
+    result_prefix: pathlib.Path | None = None,
     store_results: bool = True,
     plot_shap: bool = False,
     model_file: pathlib.Path = DEFAULT_MODEL_FILE,

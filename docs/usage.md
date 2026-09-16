@@ -25,7 +25,7 @@ This is expected and nothing to worry about 🙂
 The following options are available:
 
 ```commandline
-PyPythia version 2.0.0 released by The Exelixis Lab
+PyPythia version 2.1.0 released by The Exelixis Lab
 Developed by: Julia Haag
 Latest version: https://github.com/tschuelia/PyPythia
 Questions/problems/suggestions? Please open an issue on GitHub.

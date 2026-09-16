@@ -7,7 +7,7 @@ import pandas as pd
 import pytest
 
 from pypythia import __version__
-from pypythia.custom_errors import PyPythiaException
+from pypythia.custom_errors import PyPythiaException, RAxMLNGError
 from pypythia.msa import parse_msa
 from pypythia.prediction import (
     _handle_duplicates,
@@ -15,6 +15,23 @@ from pypythia.prediction import (
     collect_features,
     predict_difficulty,
 )
+
+
+@pytest.fixture
+def raxmlng_msa_test_data_row(msa_test_data_row, raxmlng, request):
+    if msa_test_data_row.contains_full_gap_sequences and raxmlng._major_version >= 2:
+        request.node.add_marker(
+            pytest.mark.xfail(
+                reason=(
+                    "RAxML-NG >= 2 rejects alignments containing fully "
+                    "undetermined sequences"
+                ),
+                raises=RAxMLNGError,
+                strict=True,
+            )
+        )
+
+    return msa_test_data_row
 
 
 def test_handle_duplicates(msa_test_data_row):
@@ -55,16 +72,16 @@ def test_handle_full_gap_sequences_dont_remove_full_gaps(msa_test_data_row):
     assert reduced_msa == msa
 
 
-def test_collect_features(msa_test_data_row, raxmlng):
-    msa = parse_msa(msa_test_data_row.msa_file)
+def test_collect_features(raxmlng_msa_test_data_row, raxmlng):
+    msa = parse_msa(raxmlng_msa_test_data_row.msa_file)
     features = collect_features(
-        msa=msa, msa_file=msa_test_data_row.msa_file, raxmlng=raxmlng
+        msa=msa, msa_file=raxmlng_msa_test_data_row.msa_file, raxmlng=raxmlng
     )
     assert features.shape[0] == 1
 
     pd.testing.assert_series_equal(
         features.loc[0],
-        msa_test_data_row[features.columns],
+        raxmlng_msa_test_data_row[features.columns],
         check_dtype=False,
         check_names=False,
     )
@@ -89,8 +106,10 @@ def test_collect_features_stores_trees(phylip_msa_file, raxmlng):
 @pytest.mark.parametrize("store_results", [True, False])
 @pytest.mark.parametrize("plot_shap", [True, False])
 def test_predict_difficulty(
-    msa_test_data_row, raxmlng_command, store_results, plot_shap
+    raxmlng_msa_test_data_row, raxmlng_command, store_results, plot_shap
 ):
+    msa_test_data_row = raxmlng_msa_test_data_row
+
     # Check if the Pythia version is identical, if not the expected difficulty parquet file might be outdated
     # In this case, raise a warning
     if msa_test_data_row.pythia_version != __version__:

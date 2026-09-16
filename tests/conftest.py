@@ -1,13 +1,12 @@
 import pathlib
 import platform
+import shutil
 
 import pandas as pd
 import pytest
 
 from pypythia.predictor import DifficultyPredictor
 from pypythia.raxmlng import RAxMLNG
-
-from .test_config import RAXMLNG_COMMAND
 
 # RAxML-NG results (RF-Distance, number of unique topologies) and consequently the predicted difficulties
 # are slightly different on MacOS versus on Linux (due to the RNG in RAxML-NG). Therefore, we need to
@@ -54,7 +53,10 @@ def predictor():
 
 @pytest.fixture
 def raxmlng_command():
-    return pathlib.Path(RAXMLNG_COMMAND)
+    command = shutil.which("raxml-ng")
+    if command is None:
+        pytest.fail("RAxML-NG executable not found in PATH.")
+    return pathlib.Path(command)
 
 
 @pytest.fixture
