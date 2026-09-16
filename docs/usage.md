@@ -116,9 +116,15 @@ all available classes and methods.
 
 The input for Pythia is an MSA file in either Phylip or FASTA format.
 
-### Supported  data types
+### Supported data types
 
 Pythia supports DNA, AA, and morphological data.
+
+Each input alignment must contain a single, homogeneous data type. Concatenated or partitioned alignments that mix DNA
+and amino-acid data are not supported because PyPythia assigns one data type and one RAxML-NG model to the complete
+alignment. Running the partitions separately produces a difficulty prediction for each individual partition, but
+PyPythia does not define a statistically valid way to combine those values into one score for the concatenated
+alignment.
 
 Please note that by morphological data we refer to biological data. According to our analyses, the attributes of
 biological morphological data are similar to the attributes of DNA and AA data.
@@ -168,7 +174,9 @@ please install the respective PyPythia version.
 You can also pass a custom predictor file using the `--predictor` option. However, this will only work if the passed
 file contains a LightGBM Booster model.
 
-Note that the predictions for the same MSA can be different when using different versions of Pythia.
+Predictors shipped with different PyPythia versions can be trained using different algorithms and training data.
+Consequently, predictions for the same MSA from different versions are not directly comparable. Use the same PyPythia
+version and predictor file when reproducing results or comparing multiple alignments.
 
 ## SHAP Waterfall Plot
 

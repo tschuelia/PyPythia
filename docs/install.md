@@ -122,8 +122,9 @@ from conda-forge.
 
 ### Python version
 
-PyPythia supports Python 3.11 through Python 3.14. For source development, select a locked Pixi environment explicitly
-with `pixi run --environment py311 ...` or `pixi run --environment py314 ...`.
+PyPythia 2.1 supports Python 3.11 through Python 3.14. Python 3.10 and older are not supported. For source development,
+select a locked Pixi environment explicitly with `pixi run --environment py311 ...` or
+`pixi run --environment py314 ...`.
 
 ### RAxML-NG compatibility
 
@@ -133,6 +134,12 @@ it omits the unsupported `--adaptive` option. Any caller-provided `adaptive` val
 
 RAxML-NG 2 also rejects alignments containing fully undetermined sequences. PyPythia removes full-gap sequences by
 default, but a prediction can therefore fail if full-gap removal is explicitly disabled.
+
+The locked `legacy-raxml` environment combines Python 3.11, RAxML-NG 1.2.2, and NumPy 2 and is tested on Linux, Intel
+macOS, and Apple Silicon. RAxML-NG 1.2.2 therefore does not require lowering PyPythia's NumPy constraint in a supported
+environment. If Conda reports a conflict, avoid mixing the `defaults` and `conda-forge` package stacks: use the
+`conda-forge`/`nodefaults` command shown above and install the RAxML-NG executable separately, or use the locked Pixi
+environment for source development.
 
 ### Running PyPythia
 
