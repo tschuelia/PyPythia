@@ -6,6 +6,8 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Lightweight Python library for predicting the difficulty of phylogenetic alignments">
+      
       
       
         <link rel="canonical" href="https://tschuelia.github.io/PyPythia/latest/install/">
@@ -21,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -372,10 +374,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-using-conda-recommended" class="md-nav__link">
+  <a href="#pixi-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install using conda (recommended)
+        Pixi (recommended)
       
     </span>
   </a>
@@ -383,15 +385,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-using-pip" class="md-nav__link">
+  <a href="#conda-alternative" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install using pip
+        Conda (alternative)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install using pip">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pip-alternative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pip (alternative)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pip (alternative)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -411,13 +424,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation-from-source" class="md-nav__link">
+  <a href="#local-development-from-source" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation from source
+        Local development from source
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Local development from source">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reproducing-and-updating-the-development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducing and updating the development environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -434,6 +464,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#lightgbm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LightGBM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#python-version" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -445,32 +486,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#installing-on-m1-chips" class="md-nav__link">
+  <a href="#running-pypythia" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installing on M1 chips
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-a-clean-conda-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using a clean conda environment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-pythia" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running Pythia
+        Running PyPythia
       
     </span>
   </a>
@@ -805,10 +824,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-using-conda-recommended" class="md-nav__link">
+  <a href="#pixi-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install using conda (recommended)
+        Pixi (recommended)
       
     </span>
   </a>
@@ -816,15 +835,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-using-pip" class="md-nav__link">
+  <a href="#conda-alternative" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install using pip
+        Conda (alternative)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install using pip">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pip-alternative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pip (alternative)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pip (alternative)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -844,13 +874,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation-from-source" class="md-nav__link">
+  <a href="#local-development-from-source" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation from source
+        Local development from source
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Local development from source">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reproducing-and-updating-the-development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducing and updating the development environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -867,6 +914,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#lightgbm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LightGBM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#python-version" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -878,32 +936,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#installing-on-m1-chips" class="md-nav__link">
+  <a href="#running-pypythia" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installing on M1 chips
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-a-clean-conda-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using a clean conda environment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-pythia" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running Pythia
+        Running PyPythia
       
     </span>
   </a>
@@ -937,75 +973,81 @@
 
 <h1 id="installing-pypythia">Installing PyPythia</h1>
 <h2 id="requirements">Requirements</h2>
-<p>In order to use this difficulty prediction, you need RAxML-NG installed somewhere on your system. You can find the
-installation instructions <a href="https://github.com/amkozlov/raxml-ng">here</a>.</p>
-<h2 id="install-using-conda-recommended">Install using conda (recommended)</h2>
-<p>The easiest (and recommended) way to install PyPythia is by using conda:</p>
-<pre><code>conda install pythiaphylopredictor -c conda-forge -c nodefaults
+<p>PyPythia uses RAxML-NG to calculate alignment features. Installations of a released PyPythia package with global
+Pixi, Conda, or pip therefore require a working RAxML-NG executable on the system; see the upstream
+<a href="https://github.com/amkozlov/raxml-ng">RAxML-NG installation instructions</a>.</p>
+<h2 id="pixi-recommended">Pixi (recommended)</h2>
+<p>First <a href="https://pixi.prefix.dev/latest/installation/">install Pixi</a>, then install PyPythia globally from conda-forge
+and verify that its command-line interface is available:</p>
+<pre><code class="language-shell">pixi global install pythiaphylopredictor --channel conda-forge
+pythia -h
 </code></pre>
-<h2 id="install-using-pip">Install using pip</h2>
-<p>You can also install Pythia using the python package manager pip:</p>
-<pre><code>pip install pythiaphylopredictor
+<p>Remember to install RAxML-NG separately, as described in <a href="#requirements">Requirements</a>.</p>
+<h2 id="conda-alternative">Conda (alternative)</h2>
+<p>PyPythia is also available from conda-forge:</p>
+<pre><code class="language-shell">conda install pythiaphylopredictor -c conda-forge -c nodefaults
+pythia -h
 </code></pre>
-<p>Please note that this can lead to issues with package versions and dependencies when installing in an existing (conda)
-environment.</p>
-<p>Verify the correct installation by running <code>pythia -h</code>.</p>
+<p>Remember to install RAxML-NG separately, as described in <a href="#requirements">Requirements</a>.</p>
+<h2 id="pip-alternative">pip (alternative)</h2>
+<p>PyPythia is available from PyPI:</p>
+<pre><code class="language-shell">pip install pythiaphylopredictor
+pythia -h
+</code></pre>
+<p>Installing with pip into an existing environment can lead to dependency conflicts. Remember to install RAxML-NG
+separately, as described in <a href="#requirements">Requirements</a>.</p>
 <h3 id="installing-a-specific-tagversion">Installing a specific tag/version</h3>
-<p>You can again use pip for this and simply specify the tag you wish to install, e.g. for version <code>0.0.1</code> run:</p>
-<pre><code>pip install git+https://github.com/tschuelia/PyPythia.git@0.0.1
+<p>Install a tagged source version by including the tag in the Git URL, for example:</p>
+<pre><code class="language-shell">pip install git+https://github.com/tschuelia/PyPythia.git@0.0.1
 </code></pre>
-<p>To install older versions via conda, you need to search for <code>pypythia</code> instead of <code>pythiaphylopredictor</code>.</p>
-<h2 id="installation-from-source">Installation from source</h2>
-<p>You can install Pythia from source if you want to explore the code or get the lastest development version.
-To do so run the following steps:</p>
-<pre><code>git clone https://github.com/tschuelia/PyPythia.git
+<p>For older conda releases, search for <code>pypythia</code> instead of <code>pythiaphylopredictor</code>.</p>
+<h2 id="local-development-from-source">Local development from source</h2>
+<p>Pixi is the supported way to create a development environment. It installs the Python dependencies, development
+tools, and the pinned RAxML-NG version into project-local, reproducible environments.</p>
+<p>Clone the repository, install the default environment, and verify the CLI:</p>
+<pre><code class="language-shell">git clone https://github.com/tschuelia/PyPythia.git
 cd PyPythia
-pip install .
+pixi install
+pixi run cli-smoke
 </code></pre>
-<p>Verify the correct installation by running <code>pythia -h</code>.</p>
+<p>To work in the environment interactively, start a Pixi shell. Commands such as <code>pythia</code> and <code>pytest</code> are then
+available directly:</p>
+<pre><code class="language-shell">pixi shell
+pythia -h
+</code></pre>
+<p>Alternatively, you can prepend every command with <code>pixi run</code>. For example <code>pixi run pythia -h</code>.</p>
+<p>Run the test suite through its Pixi task:</p>
+<pre><code class="language-shell">pixi run test
+</code></pre>
+<p>The default environment uses Python 3.14. The <code>py311</code> and <code>py314</code> environments reproduce the minimum and maximum
+Python versions tested in CI:</p>
+<pre><code class="language-shell">pixi run --environment py311 test
+pixi run --environment py314 test
+</code></pre>
+<p>Install the pre-commit hooks once, then run all checks on demand using the dedicated environment:</p>
+<pre><code class="language-shell">pixi run --environment pre-commit pre-commit-install
+pixi run --environment pre-commit pre-commit-run
+</code></pre>
+<p>Build or serve the documentation using the documentation environment:</p>
+<pre><code class="language-shell">pixi run --environment docs docs-build
+pixi run --environment docs docs-serve
+</code></pre>
+<h3 id="reproducing-and-updating-the-development-environment">Reproducing and updating the development environment</h3>
+<p>The committed <code>pixi.lock</code> contains resolved dependencies for Linux, Intel macOS, and Apple Silicon macOS. Run
+<code>pixi install --frozen</code> to reproduce it without changing dependency versions. Use <code>pixi update</code> deliberately when the
+lock file should be refreshed, and commit the resulting lock-file change together with the manifest change.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
-<p>Most issues when installing Pythia seem to arise from broken or non-working LightGBM installations. If you encounter any
-such problem, and none of the following options help, please refer to the
-LightGBM <a href="https://github.com/microsoft/LightGBM/tree/master/python-package">installation instructions</a> for your
-operating system and install LightGBM manually <em>before</em> repeating the Pythia installation as described above.</p>
+<h3 id="lightgbm">LightGBM</h3>
+<p>Many pip installation problems are caused by a broken LightGBM installation. Refer to the
+<a href="https://github.com/microsoft/LightGBM/tree/master/python-package">LightGBM installation instructions</a> and install its
+system prerequisites before retrying PyPythia. Pixi and conda installations obtain LightGBM and its native dependencies
+from conda-forge.</p>
 <h3 id="python-version">Python version</h3>
-<p>Since Pythia version 1.1.0 we provide the option to output the Shapley values for your prediction. Currently, the <code>shap</code>
-package does not support Python Version 3.11. The requirements should take care of the correct Python version, but if
-you encounter any issues, please first check that the Python version is &lt;3.11. You can do so by typing
-<code>python --version</code> in your terminal and checking the output.</p>
-<h3 id="installing-on-m1-chips">Installing on M1 chips</h3>
-<p>Installing on MacBooks with M1 chips caused some trouble for some users that seem to be caused by LightGBM's
-multiprocessing support. If you encounter any errors with the log pointing to LightGBM, the first thing you could try is
-to install LightGBM using <a href="https://brew.sh/index">homebrew</a>:</p>
-<pre><code>brew install lightgbm
-</code></pre>
-<p>This might take a few minutes to finish.
-Once this ran successfully you can try to rerun the install instructions above.</p>
-<p>If this does not solve your problem, you can try to install LightGBM manually using pip and disabling the
-multiprocessing:</p>
-<pre><code>pip install lightgbm --install-option=--nomp
-</code></pre>
-<p>and then rerun the installation of PyPythia. Thanks <a href="https://github.com/willbour">@willbour</a> for finding the fix for
-this!</p>
-<h3 id="using-a-clean-conda-environment">Using a clean conda environment</h3>
-<p>When using conda and installing PyPythia using pip in an existing environment, you might encounter dependency or version
-related issues. To check whether this is the case or you have a general issue with Pythia please try to create a new,
-clean conda environment:</p>
-<ol>
-<li>Use the provided environment file <code>etc/environment.yml</code> and create a new conda environment:</li>
-</ol>
-<pre><code>conda env create --file etc/environment.yml
-</code></pre>
-<p>If you want to install a different version of Pythia, you can add the git tag by appending <code>@[version]</code> (e.g. for
-version 1.1.0 append <code>@1.1.0</code>) after <code>.git</code> in the <code>etc/environment.yml</code> file.</p>
-<ol>
-<li>Activate the conda environment: <code>conda activate pythia</code></li>
-<li>Try to (re)run Pythia.</li>
-</ol>
-<h3 id="running-pythia">Running Pythia</h3>
-<p>If you are having trouble running pythia, you can also replace <code>pythia</code> with <code>python pypythia/main.py</code>. For this
-to work you need to install Pythia from source and you need to be in the PyPythia directory (which you should be after
-the installation).</p>
+<p>PyPythia supports Python 3.11 through Python 3.14. For source development, select a locked Pixi environment explicitly
+with <code>pixi run --environment py311 ...</code> or <code>pixi run --environment py314 ...</code>.</p>
+<h3 id="running-pypythia">Running PyPythia</h3>
+<p>When working from source, run commands through Pixi, for example <code>pixi run cli-smoke</code>, or start an interactive
+environment with <code>pixi shell</code>. Global Pixi, Conda, and pip installations expose the <code>pythia</code> command directly.</p>
 
 
 
@@ -1055,14 +1097,10 @@ the installation).</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
-      
-        <script src="../javascripts/mathjax.js"></script>
-      
-        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

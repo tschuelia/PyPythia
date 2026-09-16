@@ -6,6 +6,8 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Lightweight Python library for predicting the difficulty of phylogenetic alignments">
+      
       
       
         <link rel="canonical" href="https://tschuelia.github.io/PyPythia/latest/api/custom_types/">
@@ -21,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -749,7 +751,6 @@
               Bases: <code><span title="enum.Enum">Enum</span></code></p>
 
 
-
         <p>Data type for MSAs.
 - DNA = DNA data
 - AA = Protein data
@@ -762,7 +763,7 @@
 
 
 
-              <details class="mkdocstrings-source">
+              <details class="quote">
                 <summary>Source code in <code>pypythia/custom_types.py</code></summary>
                 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 4</span>
 <span class="normal"> 5</span>
@@ -774,21 +775,21 @@
 <span class="normal">11</span>
 <span class="normal">12</span>
 <span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">DataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data type for MSAs.</span>
+<span class="w">    </span><span class="sd">"""Data type for MSAs.</span>
 <span class="sd">    - DNA = DNA data</span>
 <span class="sd">    - AA = Protein data</span>
 <span class="sd">    - MORPH = morphological data</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">DNA</span> <span class="o">=</span> <span class="s2">&quot;DNA&quot;</span>
-    <span class="n">AA</span> <span class="o">=</span> <span class="s2">&quot;AA&quot;</span>
-    <span class="n">MORPH</span> <span class="o">=</span> <span class="s2">&quot;MORPH&quot;</span>
+    <span class="n">DNA</span> <span class="o">=</span> <span class="s2">"DNA"</span>
+    <span class="n">AA</span> <span class="o">=</span> <span class="s2">"AA"</span>
+    <span class="n">MORPH</span> <span class="o">=</span> <span class="s2">"MORPH"</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
 
 
-<div class="doc doc-children">
+  <div class="doc doc-children">
 
 
 
@@ -823,7 +824,6 @@
               Bases: <code><span title="enum.Enum">Enum</span></code></p>
 
 
-
         <p>File formats for MSAs
 - PHYLIP = phylip-relaxed
 - FASTA = fasta</p>
@@ -835,7 +835,7 @@
 
 
 
-              <details class="mkdocstrings-source">
+              <details class="quote">
                 <summary>Source code in <code>pypythia/custom_types.py</code></summary>
                 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
 <span class="normal">17</span>
@@ -845,19 +845,19 @@
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FileFormat</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;File formats for MSAs</span>
+<span class="w">    </span><span class="sd">"""File formats for MSAs</span>
 <span class="sd">    - PHYLIP = phylip-relaxed</span>
 <span class="sd">    - FASTA = fasta</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">PHYLIP</span> <span class="o">=</span> <span class="s2">&quot;phylip-relaxed&quot;</span>
-    <span class="n">FASTA</span> <span class="o">=</span> <span class="s2">&quot;fasta&quot;</span>
+    <span class="n">PHYLIP</span> <span class="o">=</span> <span class="s2">"phylip-relaxed"</span>
+    <span class="n">FASTA</span> <span class="o">=</span> <span class="s2">"fasta"</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
 
 
-<div class="doc doc-children">
+  <div class="doc doc-children">
 
 
 
@@ -924,14 +924,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
-      
-        <script src="../../javascripts/mathjax.js"></script>
-      
-        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

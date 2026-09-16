@@ -6,6 +6,8 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Lightweight Python library for predicting the difficulty of phylogenetic alignments">
+      
       
       
         <link rel="canonical" href="https://tschuelia.github.io/PyPythia/latest/api/predictor/">
@@ -21,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -781,7 +783,6 @@
     <div class="doc doc-contents first">
 
 
-
         <p>Class structure for the trained difficulty predictor.</p>
 <p>This class provides methods for predicting the difficulty and plot the shapley values for an MSA.</p>
 
@@ -882,9 +883,10 @@ Defaults to None. In this case, the features are inferred from the model file.</
 
 
 
-              <details class="mkdocstrings-source">
+              <details class="quote">
                 <summary>Source code in <code>pypythia/predictor.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 15</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 14</span>
+<span class="normal"> 15</span>
 <span class="normal"> 16</span>
 <span class="normal"> 17</span>
 <span class="normal"> 18</span>
@@ -974,9 +976,8 @@ Defaults to None. In this case, the features are inferred from the model file.</
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">DifficultyPredictor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class structure for the trained difficulty predictor.</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">DifficultyPredictor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Class structure for the trained difficulty predictor.</span>
 
 <span class="sd">    This class provides methods for predicting the difficulty and plot the shapley values for an MSA.</span>
 
@@ -990,11 +991,11 @@ Defaults to None. In this case, the features are inferred from the model file.</
 <span class="sd">    Attributes:</span>
 <span class="sd">        predictor (lgb.Booster): The trained LightGBM model used for predicting the difficulty.</span>
 <span class="sd">        features (list[str]): Names of the features the predictor was trained with.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">model_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_MODEL_FILE</span><span class="p">,</span>
+        <span class="n">model_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">DEFAULT_MODEL_FILE</span><span class="p">,</span>
         <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_file</span> <span class="o">=</span> <span class="n">model_file</span>
@@ -1002,7 +1003,7 @@ Defaults to None. In this case, the features are inferred from the model file.</
         <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predictor</span><span class="o">.</span><span class="n">feature_name</span><span class="p">()</span> <span class="k">if</span> <span class="n">features</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">features</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;DifficultyPredictor(model_file=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_file</span><span class="si">}</span><span class="s2">, features=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"DifficultyPredictor(model_file=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_file</span><span class="si">}</span><span class="s2">, features=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="si">}</span><span class="s2">)"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
@@ -1011,12 +1012,12 @@ Defaults to None. In this case, the features are inferred from the model file.</
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
             <span class="n">missing_features</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">PyPythiaException</span><span class="p">(</span>
-                <span class="s2">&quot;The provided query does not contain all features the predictor was trained with. &quot;</span>
-                <span class="s2">&quot;Missing features: &quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_features</span><span class="p">)</span>
+                <span class="s2">"The provided query does not contain all features the predictor was trained with. "</span>
+                <span class="s2">"Missing features: "</span> <span class="o">+</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_features</span><span class="p">)</span>
             <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict the difficulty for a set of MSAs defined by rows in the given query dataframe.</span>
+<span class="w">        </span><span class="sd">"""Predict the difficulty for a set of MSAs defined by rows in the given query dataframe.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            query (pd.DataFrame): DataFrame containing the features for which to predict the difficulty.</span>
@@ -1026,7 +1027,7 @@ Defaults to None. In this case, the features are inferred from the model file.</
 <span class="sd">            A numpy array of predicted difficulties for the provided set of MSAs in float64 format.</span>
 <span class="sd">            The difficulties are values in the range [0, 1] where higher values indicate higher difficulty.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -1035,11 +1036,11 @@ Defaults to None. In this case, the features are inferred from the model file.</
             <span class="k">return</span> <span class="n">prediction</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PyPythiaException</span><span class="p">(</span>
-                <span class="s2">&quot;An error occurred predicting the difficulty for the provided set of MSA features.&quot;</span>
+                <span class="s2">"An error occurred predicting the difficulty for the provided set of MSA features."</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_shapley_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the shapley values for the **first** MSA in the given query dataframe.</span>
+<span class="w">        </span><span class="sd">"""Plot the shapley values for the **first** MSA in the given query dataframe.</span>
 
 <span class="sd">        Please read our notes on SHAP values in the documentation to understand the plot.</span>
 
@@ -1048,9 +1049,9 @@ Defaults to None. In this case, the features are inferred from the model file.</
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A matplotlib Figure object containing the waterfall plot of the shapley values for the first MSA in the query.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">shap</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
@@ -1072,7 +1073,7 @@ Defaults to None. In this case, the features are inferred from the model file.</
 
 
 
-<div class="doc doc-children">
+  <div class="doc doc-children">
 
 
 
@@ -1152,9 +1153,10 @@ Defaults to None. In this case, the features are inferred from the model file.</
     </table>
 
 
-            <details class="mkdocstrings-source">
+            <details class="quote">
               <summary>Source code in <code>pypythia/predictor.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 77</span>
+<span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -1181,9 +1183,8 @@ Defaults to None. In this case, the features are inferred from the model file.</
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_shapley_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the shapley values for the **first** MSA in the given query dataframe.</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_shapley_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Plot the shapley values for the **first** MSA in the given query dataframe.</span>
 
 <span class="sd">    Please read our notes on SHAP values in the documentation to understand the plot.</span>
 
@@ -1192,9 +1193,9 @@ Defaults to None. In this case, the features are inferred from the model file.</
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A matplotlib Figure object containing the waterfall plot of the shapley values for the first MSA in the query.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">shap</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_check_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
@@ -1296,9 +1297,10 @@ Each row in the DataFrame corresponds to a single MSA and the columns correspond
     </table>
 
 
-            <details class="mkdocstrings-source">
+            <details class="quote">
               <summary>Source code in <code>pypythia/predictor.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
+<span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
@@ -1318,9 +1320,8 @@ Each row in the DataFrame corresponds to a single MSA and the columns correspond
 <span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict the difficulty for a set of MSAs defined by rows in the given query dataframe.</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Predict the difficulty for a set of MSAs defined by rows in the given query dataframe.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        query (pd.DataFrame): DataFrame containing the features for which to predict the difficulty.</span>
@@ -1330,7 +1331,7 @@ Each row in the DataFrame corresponds to a single MSA and the columns correspond
 <span class="sd">        A numpy array of predicted difficulties for the provided set of MSAs in float64 format.</span>
 <span class="sd">        The difficulties are values in the range [0, 1] where higher values indicate higher difficulty.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_check_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -1339,7 +1340,7 @@ Each row in the DataFrame corresponds to a single MSA and the columns correspond
         <span class="k">return</span> <span class="n">prediction</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">PyPythiaException</span><span class="p">(</span>
-            <span class="s2">&quot;An error occurred predicting the difficulty for the provided set of MSA features.&quot;</span>
+            <span class="s2">"An error occurred predicting the difficulty for the provided set of MSA features."</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -1403,14 +1404,10 @@ Each row in the DataFrame corresponds to a single MSA and the columns correspond
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
-      
-        <script src="../../javascripts/mathjax.js"></script>
-      
-        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
