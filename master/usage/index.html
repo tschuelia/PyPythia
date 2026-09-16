@@ -1108,8 +1108,13 @@ all available classes and methods.</p>
 <h2 id="input-data">Input data</h2>
 <h3 id="supported-file-types">Supported file types</h3>
 <p>The input for Pythia is an MSA file in either Phylip or FASTA format.</p>
-<h3 id="supported-data-types">Supported  data types</h3>
+<h3 id="supported-data-types">Supported data types</h3>
 <p>Pythia supports DNA, AA, and morphological data.</p>
+<p>Each input alignment must contain a single, homogeneous data type. Concatenated or partitioned alignments that mix DNA
+and amino-acid data are not supported because PyPythia assigns one data type and one RAxML-NG model to the complete
+alignment. Running the partitions separately produces a difficulty prediction for each individual partition, but
+PyPythia does not define a statistically valid way to combine those values into one score for the concatenated
+alignment.</p>
 <p>Please note that by morphological data we refer to biological data. According to our analyses, the attributes of
 biological morphological data are similar to the attributes of DNA and AA data.
 However, when analyzing language data (cognate, sound-class, and morphosyntactic data) we observed substantially
@@ -1148,7 +1153,9 @@ As per default, PyPythia uses the latest predictor <code>predictors/latest.txt</
 please install the respective PyPythia version.
 You can also pass a custom predictor file using the <code>--predictor</code> option. However, this will only work if the passed
 file contains a LightGBM Booster model.</p>
-<p>Note that the predictions for the same MSA can be different when using different versions of Pythia.</p>
+<p>Predictors shipped with different PyPythia versions can be trained using different algorithms and training data.
+Consequently, predictions for the same MSA from different versions are not directly comparable. Use the same PyPythia
+version and predictor file when reproducing results or comparing multiple alignments.</p>
 <h2 id="shap-waterfall-plot">SHAP Waterfall Plot</h2>
 <p>As of version 1.1.0, Pythia includes an option to plot Shapley values for a prediction. The interpretation of Shapley
 values is not straight-forward, and we emphasize the importance of learning about these values before drawing conclusions

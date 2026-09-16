@@ -1067,14 +1067,20 @@ lock file should be refreshed, and commit the resulting lock-file change togethe
 system prerequisites before retrying PyPythia. Pixi and conda installations obtain LightGBM and its native dependencies
 from conda-forge.</p>
 <h3 id="python-version">Python version</h3>
-<p>PyPythia supports Python 3.11 through Python 3.14. For source development, select a locked Pixi environment explicitly
-with <code>pixi run --environment py311 ...</code> or <code>pixi run --environment py314 ...</code>.</p>
+<p>PyPythia 2.1 supports Python 3.11 through Python 3.14. Python 3.10 and older are not supported. For source development,
+select a locked Pixi environment explicitly with <code>pixi run --environment py311 ...</code> or
+<code>pixi run --environment py314 ...</code>.</p>
 <h3 id="raxml-ng-compatibility">RAxML-NG compatibility</h3>
 <p>PyPythia detects the installed RAxML-NG major version and controls its adaptive parsimony-tree search setting to keep
 predictions reproducible. With RAxML-NG 2 and newer, PyPythia explicitly passes <code>--adaptive off</code>. With RAxML-NG 1.x,
 it omits the unsupported <code>--adaptive</code> option. Any caller-provided <code>adaptive</code> value is ignored.</p>
 <p>RAxML-NG 2 also rejects alignments containing fully undetermined sequences. PyPythia removes full-gap sequences by
 default, but a prediction can therefore fail if full-gap removal is explicitly disabled.</p>
+<p>The locked <code>legacy-raxml</code> environment combines Python 3.11, RAxML-NG 1.2.2, and NumPy 2 and is tested on Linux, Intel
+macOS, and Apple Silicon. RAxML-NG 1.2.2 therefore does not require lowering PyPythia's NumPy constraint in a supported
+environment. If Conda reports a conflict, avoid mixing the <code>defaults</code> and <code>conda-forge</code> package stacks: use the
+<code>conda-forge</code>/<code>nodefaults</code> command shown above and install the RAxML-NG executable separately, or use the locked Pixi
+environment for source development.</p>
 <h3 id="running-pypythia">Running PyPythia</h3>
 <p>When working from source, run commands through Pixi, for example <code>pixi run cli-smoke</code>, or start an interactive
 environment with <code>pixi shell</code>. Global Pixi, Conda, and pip installations expose the <code>pythia</code> command directly.</p>
