@@ -15,6 +15,10 @@ pythia --msa examples/example.phy --raxmlng /path/to/raxml-ng
 Note that when you installed PyPythia using conda, you will have to download the `example.phy` and adjust the path
 accordingly.
 
+PyPythia detects the installed RAxML-NG major version before inference. With RAxML-NG 2 and newer, it explicitly
+passes `--adaptive off`; with RAxML-NG 1.x, it omits the unsupported `--adaptive` option. Any `adaptive` value supplied
+through the Python API is ignored.
+
 The output will be something like `The predicted difficulty for MSA examples/example.phy is: 0.02.`, telling us that
 example.phy is an easy dataset. In fact, this dataset exhibits a single likelihood peak. Depending on the predictor
 version or operating system you are using, the actual value might slightly differ.
@@ -136,6 +140,9 @@ As of version 2.0.0, Pythia removes duplicates and full-gap sequences per defaul
 reduced MSA.
 If you absolutely want to predict the difficulty for the original MSA, set the command line flags `--forceDuplicates`
 and `--forceFullGaps`.
+
+RAxML-NG 2 rejects alignments containing fully undetermined sequences. Consequently, using `--forceFullGaps` with
+RAxML-NG 2 can cause the prediction to fail with a RAxML-NG error. Keeping the default full-gap removal is recommended.
 
 As of version 1.0.0 Pythia refuses to predict the difficulty for MSAs containing multiple exactly identical sequences (
 duplicate sequences).

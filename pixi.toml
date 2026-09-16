@@ -11,8 +11,6 @@ numpy = ">=2.0"
 shap = ">=0.41"
 matplotlib-base = "*"
 loguru = "*"
-raxml-ng = "==2.0.2"
-pixi-pycharm = ">=0.0.12,<0.0.13"
 
 [pypi-dependencies]
 PythiaPhyloPredictor = { path = ".", editable = true }
@@ -26,6 +24,12 @@ python = "3.14.*"
 [feature.test.dependencies]
 pytest = "*"
 pyarrow = "*"
+
+[feature.raxml1.dependencies]
+raxml-ng = "==1.2.2"
+
+[feature.raxml2.dependencies]
+raxml-ng = "==2.0.2"
 
 [feature.pre-commit.dependencies]
 pre-commit = "*"
@@ -53,9 +57,10 @@ docs-build = "mkdocs build --strict"
 docs-serve = "mkdocs serve"
 
 [environments]
-default = { features = ["py314", "test"] }
-py311 = { features = ["py311", "test"] }
-py314 = { features = ["py314", "test"] }
+default = { features = ["py314", "raxml2", "test"] }
+py311 = { features = ["py311", "raxml2", "test"] }
+py314 = { features = ["py314", "raxml2", "test"] }
+legacy-raxml = { features = ["py311", "raxml1", "test"] }
 build = { features = ["py314", "build"] }
 docs = { features = ["docs"], no-default-feature = true }
 pre-commit = { features = ["pre-commit"], no-default-feature = true }
